@@ -1,0 +1,89 @@
+package com.minoapp.ui.activity;
+
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+
+import com.minoapp.R;
+import com.minoapp.adapter.ViewPagerAdapter;
+import com.minoapp.base.BaseActivity;
+import com.minoapp.common.Constant;
+import com.minoapp.data.bean.FragmentInfo;
+import com.minoapp.ui.fragment.HeatMeterFragment;
+import com.minoapp.ui.fragment.ResidentsFragment;
+import com.minoapp.ui.fragment.TempFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+
+public class ObjectDetaileActivity extends BaseActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    String objectName ="";
+
+    @Override
+    protected String getTAG() {
+        return ObjectDetaileActivity.class.getSimpleName();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_object_detaile;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null) {
+            objectName = bundle.getString(Constant.OBJECT_NAME);
+            toolbar.setTitle(objectName);
+        }
+        setSupportActionBar(toolbar);
+        initTablayout();
+    }
+
+    private List<FragmentInfo> initFragments() {
+
+        List<FragmentInfo> mFragments = new ArrayList<>(3);
+
+        mFragments.add(new FragmentInfo("住户", ResidentsFragment.class));
+        mFragments.add(new FragmentInfo("热量表", HeatMeterFragment.class));
+        mFragments.add(new FragmentInfo("测温设备", TempFragment.class));
+        return mFragments;
+
+    }
+
+    public void initTablayout() {
+        PagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), initFragments());
+        viewPager.setOffscreenPageLimit(adapter.getCount());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showError(String msg) {
+
+    }
+
+    @Override
+    public void dismissLoading() {
+
+    }
+}

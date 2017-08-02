@@ -1,0 +1,145 @@
+package com.minoapp.api;
+
+
+import com.minoapp.base.BaseResponse;
+import com.minoapp.data.bean.BuildMeterReadingBean;
+import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.HCABean;
+import com.minoapp.data.bean.HCAReading;
+import com.minoapp.data.bean.HeatMeterBean;
+import com.minoapp.data.bean.MeterBean;
+import com.minoapp.data.bean.ObjectBean;
+import com.minoapp.data.bean.PageBean;
+import com.minoapp.data.bean.ReadingBean;
+import com.minoapp.data.bean.ResidentBean;
+import com.minoapp.data.bean.UserBean;
+
+import java.util.List;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+
+/**
+ * Created by Devin on 2017/6/21.
+ */
+
+public interface ApiService {
+    public static final String Base_URL="http://192.168.5.117:8011/api/";
+    /**
+     * 根据用户名和密码获取登录信息
+     * @param name
+     * @param password
+     * @return
+     */
+    @GET("login/{name}/{pwd}")
+    Observable<BaseResponse<UserBean>> getUserInfo(@Path("name") String name, @Path("pwd") String password);
+
+    @GET("object/getcustomersbyobjectid/{objectIds}")
+    Observable<BaseResponse<List<Customer>>> getAllCustomers(@Path("objectIds") String objectIds);
+
+    //根据用户ID获取热力公司
+    @GET("object/getcustomersbyuserid/{userID}")
+    Observable<BaseResponse<List<Customer>>> getAllCustomersByUserID(@Path("userID") String userID);
+
+
+
+    /**
+     * 根据用户ID和热力公司ID获取当前热力公司下面的项目信息
+     * @param userID 用户ID
+     * @param customerID 热力公司ID
+     * @param pageIndex 页码
+     * @param pageSize 每页数据量
+     * @return
+     */
+    @GET("object/getobjectsbyuseridandcustomerid/{userID}/{customerID}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<ObjectBean>>> getAllObjects(@Path("userID") int userID,
+                                                                 @Path("customerID") int customerID,
+                                                                 @Path("pageIndex") int pageIndex,
+                                                                 @Path("pageSize") int pageSize);
+
+    /**
+     * 获取当前项目下的住户信息
+     * @param objectID
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("object/getResidentByObjectID/{objectID}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<ResidentBean>>> getResidents(@Path("objectID") int objectID,
+                                                                  @Path("pageIndex") int pageIndex,
+                                                                  @Path("pageSize") int pageSize);
+    /**
+     * 获取当前项目下的热量表信息
+     * @param objectID
+     * @return
+     */
+    @GET("meter/getbuildmetersbyobjectid/{objectID}")
+    Observable<BaseResponse<List<HeatMeterBean>>> getHeatMetersByObjectId(@Path("objectID") int objectID);
+
+    /**
+     * 获取当前项目下的测温设备信息
+     * @param objectID
+     * @return
+     */
+    @GET("meter/gettempbyobjectid/{objectID}")
+    Observable<BaseResponse<List<MeterBean>>> getTempByObjectId(@Path("objectID") int objectID);
+
+    /**
+     * 获取当前房间下的热分配计信息
+     * @param localityId
+     * @return
+     */
+    @GET("meter/gethcabylocalityid/{localityId}")
+    Observable<BaseResponse<List<HCABean>>> getHCAByLocalityId(@Path("localityId") int localityId);
+
+    /**
+     * 获取当前房间下的某个时间段的热分配计读数
+     * @param localityId 房间号
+     * @param startDate 开始日期
+     * @param endDate 结束日期
+     * @param pageIndex 当前页码
+     * @param pageSize 每页数量
+     * @return
+     */
+    @GET("readings/gethcareadingsbylocalityld/{localityId}/{startDate}/{endDate}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<HCAReading>>> getHCAReadings(@Path("localityId") int localityId,
+                                                                  @Path("startDate") String startDate,
+                                                                  @Path("endDate") String endDate,
+                                                                  @Path("pageIndex") int pageIndex,
+                                                                  @Path("pageSize") int pageSize);
+
+    /**
+     * 获取当前时间段内当前热量表的读数
+     * @param meterId
+     * @param startDate
+     * @param endDate
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("readings/getbuildmetereadingsbymeterid/{meterId}/{startDate}/{endDate}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(@Path("meterId") int meterId,
+                                                                                    @Path("startDate") String startDate,
+                                                                                    @Path("endDate") String endDate,
+                                                                                    @Path("pageIndex") int pageIndex,
+                                                                                    @Path("pageSize") int pageSize);
+    /**
+     * 获取当前时间段内当前测温设备的读数
+     * @param meterId
+     * @param startDate
+     * @param endDate
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("readings/gettempreadingsbymeterid/{meterId}/{startDate}/{endDate}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(@Path("meterId") int meterId,
+                                                                    @Path("startDate") String startDate,
+                                                                    @Path("endDate") String endDate,
+                                                                    @Path("pageIndex") int pageIndex,
+                                                                    @Path("pageSize") int pageSize);
+
+
+
+}
