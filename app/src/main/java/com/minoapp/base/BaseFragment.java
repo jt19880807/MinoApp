@@ -41,21 +41,6 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         }
     }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void showError(String msg) {
-
-    }
-
-    @Override
-    public void dismissLoading() {
-
-    }
-
     protected abstract int getLayoutId();
 
     protected void openActivity(Class<?> cls){

@@ -11,4 +11,7 @@ public class Constant {
     public static final String OBJECT_NAME="ObjectName";
     public static final String LOCALITY_NUMBER="LocalityNumber";
     public static final String LOCALITY_ID="LocalityID";
+    public static final String METER_TYPE="MeterType";
+    public static final String METER_ID="MeterId";
+
 }

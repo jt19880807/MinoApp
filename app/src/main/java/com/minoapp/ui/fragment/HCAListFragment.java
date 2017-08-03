@@ -1,6 +1,7 @@
 package com.minoapp.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ public class HCAListFragment extends BaseFragment implements MeterContract.HeatM
     MeterPresenter presenter;
     MeterListAdapter<HCABean> adapter;
 
+    ProgressDialog progressDialog;
     int localityID=0;
     public HCAListFragment() {
         // Required empty public constructor
@@ -45,6 +47,7 @@ public class HCAListFragment extends BaseFragment implements MeterContract.HeatM
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        progressDialog=new ProgressDialog(getActivity());
         showHCA();
         IMeterModel model=new MeterModel();
         presenter=new MeterPresenter(model,this);
@@ -91,5 +94,20 @@ public class HCAListFragment extends BaseFragment implements MeterContract.HeatM
     }
 
 
+    @Override
+    public void showLoading() {
+        progressDialog.show();
+    }
 
+    @Override
+    public void showError(String msg) {
+        dismissLoading();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
 }

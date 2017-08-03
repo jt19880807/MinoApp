@@ -1,6 +1,7 @@
 package com.minoapp.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +41,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
     private int pageIndex=1;
     private int pageSize=20;
     private ResidentsAdapter adapter;
-
+    ProgressDialog progressDialog;
     public ResidentsFragment() {
         // Required empty public constructor
     }
@@ -49,6 +50,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        progressDialog=new ProgressDialog(getActivity());
         List<ResidentBean> beanList=new ArrayList<>();
         showResidents(beanList);
         ResidentModel model=new ResidentModel();
@@ -101,5 +103,22 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
         //Toast.makeText(getActivity(), "下一页", Toast.LENGTH_SHORT).show();
         //mAdapter.setEnableLoadMore(true);
         presenter.getResidents(1341,pageIndex ,pageSize);
+    }
+
+    @Override
+    public void showLoading() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void showError(String msg) {
+        dismissLoading();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }

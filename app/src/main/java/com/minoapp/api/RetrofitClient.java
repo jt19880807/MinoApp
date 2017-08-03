@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     //超时时间
-    private static final int DEFAULT_TIMEOUT=5;
+    private static final int DEFAULT_TIMEOUT=20;
     private static ApiService apiService;
     private OkHttpClient okHttpClient;
     public static String baseUrl=ApiService.Base_URL;

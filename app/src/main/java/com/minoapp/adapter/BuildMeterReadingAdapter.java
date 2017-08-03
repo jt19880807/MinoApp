@@ -30,12 +30,12 @@ public class BuildMeterReadingAdapter extends BaseQuickAdapter<BuildMeterReading
     @Override
     protected void convert(BaseViewHolder helper, BuildMeterReadingBean item) {
         helper.setText(R.id.tv_br_reading_bh,item.getMeterNumber())
-                .setText(R.id.tv_br_reading_date,item.getDate())
+                .setText(R.id.tv_br_reading_date,item.getDate().replace('T',' '))
                 .setText(R.id.tv_br_reading_ljrl,item.getValue()+"Mwh")
                 .setText(R.id.tv_br_reading_ssrl,item.getInstantaneousHeat()+"KW")
                 .setText(R.id.tv_br_reading_ljll,item.getAccumulationFlow()+"m³")
                 .setText(R.id.tv_br_reading_ssll,item.getInstantaneousFlow()+"m³/h")
-                .setTag(R.id.tv_br_reading_gswd,item.getSupplyWaterTemperature()+"℃")
+                .setText(R.id.tv_br_reading_gswd,item.getSupplyWaterTemperature()+"℃")
                 .setText(R.id.tv_br_reading_hswd,item.getReturnWaterTemperature()+"℃")
                 .setText(R.id.tv_br_reading_ljgzsj,item.getAccumulationWorkingTime()+"h");
 

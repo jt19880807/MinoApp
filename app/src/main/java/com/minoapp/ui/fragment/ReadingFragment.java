@@ -1,6 +1,7 @@
 package com.minoapp.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.minoapp.R;
 import com.minoapp.adapter.HCAReadingAdapter;
 import com.minoapp.base.BaseFragment;
+import com.minoapp.data.bean.BuildMeterReadingBean;
 import com.minoapp.data.bean.HCAReading;
 import com.minoapp.data.bean.HCAReadingSectionEntity;
 import com.minoapp.data.bean.PageBean;
@@ -58,7 +60,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     String startDate = "";
     String endDate = "";
     private CustomDatePicker customSDatePicker, customEDatePicker;
-
+    ProgressDialog progressDialog;
 
     public ReadingFragment() {
         // Required empty public constructor
@@ -67,7 +69,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        progressDialog=new ProgressDialog(getActivity());
         initDatePicker();
         List<HCAReadingSectionEntity> hcaReadingSectionEntities = new ArrayList<>();
         init(hcaReadingSectionEntities);
@@ -82,10 +84,10 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         Calendar calendar=Calendar.getInstance();
-       // tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
+        tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
         calendar.add(Calendar.MONTH,-1);
         String now = sdf2.format(new Date());
-        //tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
+        tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
 
 
         customSDatePicker = new CustomDatePicker(getActivity(), new CustomDatePicker.ResultHandler() {
@@ -114,9 +116,10 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
         startDate=tvHcaReadingStartdate.getText().toString();
         endDate= tvHcaReadingEnddate.getText().toString();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        adapter = new HCAReadingAdapter(R.layout.hca_reading_item, R.layout.hca_reading_header, hcaReadingSectionEntities);
-        adapter.setOnLoadMoreListener(this);
         recycReading.setLayoutManager(layoutManager);
+        adapter = new HCAReadingAdapter(R.layout.hca_reading_item, R.layout.hca_reading_header, hcaReadingSectionEntities);
+        adapter.setOnLoadMoreListener(this,recycReading);
+        adapter.setEmptyView(R.layout.emptyview,recycReading);
         recycReading.setAdapter(adapter);
         tvHcaReadingSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +148,19 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
         }
         adapter.setEnableLoadMore(pageBean.isHasMore());
     }
+
+    @Override
+    public void showBReadings(PageBean<BuildMeterReadingBean> pageBean) {
+
+    }
+
+    @Override
+    public void showTempReading(PageBean<ReadingBean> pageBean) {
+
+    }
+
+
+
 
     @Override
     public void onLoadMoreComplete() {
@@ -198,5 +214,23 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
                 customEDatePicker.show(tvHcaReadingEnddate.getText().toString());
                 break;
         }
+    }
+
+
+    @Override
+    public void showLoading() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void showError(String msg) {
+        dismissLoading();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void dismissLoading() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 }
