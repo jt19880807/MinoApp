@@ -24,6 +24,7 @@ import com.minoapp.presenter.ReadingPresenter;
 import com.minoapp.presenter.contract.IReadingModel;
 import com.minoapp.presenter.contract.ReadingContract;
 import com.minoapp.ui.widget.CustomDatePicker;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,7 +57,9 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     String startDate = "";
     String endDate = "";
     CustomDatePicker customSDatePicker, customEDatePicker;
-    String meterName="";
+    String meterName = "";
+    @BindView(R.id.rotateloading)
+    RotateLoading rotateloading;
 
     @Override
     protected String getTAG() {
@@ -77,12 +80,12 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
             meterType = bundle.getString(Constant.METER_TYPE);
             meterId = bundle.getInt(Constant.METER_ID);
             if (meterType.equals("1")) {
-                meterName="热量表";
+                meterName = "热量表";
             } else if (meterType.equals("3")) {
-                meterName="测温设备";
+                meterName = "测温设备";
             }
         }
-        toolbar.setTitle(meterName+"读数");
+        toolbar.setTitle(meterName + "读数");
         setSupportActionBar(toolbar);
         initAdapter();
         initDatePicker();
@@ -96,10 +99,10 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recycReading.setLayoutManager(linearLayoutManager);
         buildMeterReadingAdapter = new BuildMeterReadingAdapter(R.layout.buildmeter_reading_item);
-        buildMeterReadingAdapter.setOnLoadMoreListener(this,recycReading);
+        buildMeterReadingAdapter.setOnLoadMoreListener(this, recycReading);
         buildMeterReadingAdapter.setEmptyView(R.layout.emptyview);
         tempReadingAdapter = new TempReadingAdapter(R.layout.temp_reading_item);
-        tempReadingAdapter.setOnLoadMoreListener(this,recycReading);
+        tempReadingAdapter.setOnLoadMoreListener(this, recycReading);
         tempReadingAdapter.setEmptyView(R.layout.emptyview);
 
 
@@ -146,7 +149,8 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void showLoading() {
-        progressDialog.show();
+        //progressDialog.show();
+        rotateloading.start();
     }
 
     @Override
@@ -156,8 +160,10 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void dismissLoading() {
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
+//        if (progressDialog.isShowing())
+//            progressDialog.dismiss();
+        if(rotateloading.isStart())
+            rotateloading.stop();
     }
 
     @Override

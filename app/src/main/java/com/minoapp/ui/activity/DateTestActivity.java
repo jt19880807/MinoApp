@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.minoapp.R;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.Calendar;
 
@@ -23,6 +24,8 @@ public class DateTestActivity extends AppCompatActivity {
     @BindView(R.id.dateChoose)
     Button dateChoose;
     final int DATE_DIALOG = 1;
+    @BindView(R.id.rotateloading)
+    RotateLoading rotateloading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class DateTestActivity extends AppCompatActivity {
         mYear = ca.get(Calendar.YEAR);
         mMonth = ca.get(Calendar.MONTH);
         mDay = ca.get(Calendar.DAY_OF_MONTH);
+        rotateloading.start();
     }
 
     @Override

@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.minoapp.presenter.ReadingPresenter;
 import com.minoapp.presenter.contract.ReadingContract;
 import com.minoapp.ui.activity.ResidentDetailActivity;
 import com.minoapp.ui.widget.CustomDatePicker;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,11 +38,13 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReadingFragment extends BaseFragment implements ReadingContract.ReadingView, BaseQuickAdapter.RequestLoadMoreListener,View.OnClickListener {
+public class ReadingFragment extends BaseFragment implements ReadingContract.ReadingView, BaseQuickAdapter.RequestLoadMoreListener, View.OnClickListener {
 
 
     @BindView(R.id.recyc_reading)
@@ -59,6 +64,8 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     String lastDate = "";
     String startDate = "";
     String endDate = "";
+    @BindView(R.id.rotateloading)
+    RotateLoading rotateloading;
     private CustomDatePicker customSDatePicker, customEDatePicker;
     ProgressDialog progressDialog;
 
@@ -69,7 +76,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        progressDialog=new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(getActivity());
         initDatePicker();
         List<HCAReadingSectionEntity> hcaReadingSectionEntities = new ArrayList<>();
         init(hcaReadingSectionEntities);
@@ -80,12 +87,12 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
         presenter.getHCAReadings(localityID, startDate, endDate, pageIndex, pageSize);
     }
 
-    private void initDatePicker(){
+    private void initDatePicker() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
-        calendar.add(Calendar.MONTH,-1);
+        calendar.add(Calendar.MONTH, -1);
         String now = sdf2.format(new Date());
         tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
 
@@ -113,20 +120,20 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     }
 
     private void init(List<HCAReadingSectionEntity> hcaReadingSectionEntities) {
-        startDate=tvHcaReadingStartdate.getText().toString();
-        endDate= tvHcaReadingEnddate.getText().toString();
+        startDate = tvHcaReadingStartdate.getText().toString();
+        endDate = tvHcaReadingEnddate.getText().toString();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycReading.setLayoutManager(layoutManager);
         adapter = new HCAReadingAdapter(R.layout.hca_reading_item, R.layout.hca_reading_header, hcaReadingSectionEntities);
-        adapter.setOnLoadMoreListener(this,recycReading);
-        adapter.setEmptyView(R.layout.emptyview,recycReading);
+        adapter.setOnLoadMoreListener(this, recycReading);
+        adapter.setEmptyView(R.layout.emptyview, recycReading);
         recycReading.setAdapter(adapter);
         tvHcaReadingSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastDate="";
-                startDate=tvHcaReadingStartdate.getText().toString();
-                endDate= tvHcaReadingEnddate.getText().toString();
+                lastDate = "";
+                startDate = tvHcaReadingStartdate.getText().toString();
+                endDate = tvHcaReadingEnddate.getText().toString();
                 adapter.getData().clear();
                 adapter.notifyDataSetChanged();
                 presenter.getHCAReadings(localityID, startDate, endDate, pageIndex, pageSize);
@@ -158,8 +165,6 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     public void showTempReading(PageBean<ReadingBean> pageBean) {
 
     }
-
-
 
 
     @Override
@@ -219,7 +224,8 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
 
     @Override
     public void showLoading() {
-        progressDialog.show();
+        //progressDialog.show();
+        rotateloading.start();
     }
 
     @Override
@@ -230,7 +236,11 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
 
     @Override
     public void dismissLoading() {
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
+//        if (progressDialog.isShowing())
+//            progressDialog.dismiss();
+        if (rotateloading.isStart())
+            rotateloading.stop();
     }
+
+
 }

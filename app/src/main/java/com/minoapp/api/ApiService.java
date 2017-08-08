@@ -2,6 +2,7 @@ package com.minoapp.api;
 
 
 import com.minoapp.base.BaseResponse;
+import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.BuildMeterReadingBean;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.HCABean;
@@ -139,6 +140,16 @@ public interface ApiService {
                                                                     @Path("endDate") String endDate,
                                                                     @Path("pageIndex") int pageIndex,
                                                                     @Path("pageSize") int pageSize);
+
+    /**
+     * 获取制定住户的指定供暖季的账单信息
+     * @param localityId
+     * @param date
+     * @return
+     */
+    @GET("readings/gettempreadingsbymeterid/{localityId}/{date}")
+    Observable<BaseResponse<BillingInfoBean>> getBillingByLocalityId(@Path("localityId") int localityId,
+                                                                     @Path("date") String date);
 
 
 
