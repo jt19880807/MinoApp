@@ -6,6 +6,8 @@ import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.presenter.contract.BillingContract;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -14,7 +16,7 @@ import io.reactivex.Observable;
 
 public class BillingInfoModel implements BillingContract.IBillingModel {
     @Override
-    public Observable<BaseResponse<BillingInfoBean>> getBillingByLocalityId(int localityId, String date) {
+    public Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(int localityId, String date) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getBillingByLocalityId(localityId,date);
     }

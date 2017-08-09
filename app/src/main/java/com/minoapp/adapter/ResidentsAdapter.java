@@ -40,11 +40,11 @@ public class ResidentsAdapter extends BaseMultiItemQuickAdapter<ResidentBean,Bas
                 .setText(R.id.tv_ytempcount,item.getTempCount()+"");
                 break;
             case ResidentBean.WEIGAIZAO:
-                helper.setText(R.id.tv_ynumber,item.getNumber())
-                        .setText(R.id.tv_yusername,item.getName())
-                        .setText(R.id.tv_yarea,item.getArea()+"")
-                        .setText(R.id.tv_ytel,item.getTelephoneNo())
-                        .setText(R.id.tv_yusearea,item.getAreaUseHeat()+"");
+                helper.setText(R.id.tv_wnumber,item.getNumber())
+                        .setText(R.id.tv_wusername,item.getName())
+                        .setText(R.id.tv_warea,item.getArea()+"")
+                        .setText(R.id.tv_wtel,item.getTelephoneNo())
+                        .setText(R.id.tv_wusearea,item.getAreaUseHeat()+"");
                 break;
         }
     }

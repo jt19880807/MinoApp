@@ -113,7 +113,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
             }
         }, "2010-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
         customEDatePicker.showSpecificTime(false); // 显示时和分
-        customEDatePicker.setIsLoop(true); // 允许循环滚动
+        customEDatePicker.setIsLoop(false); // 允许循环滚动
 
         tvHcaReadingStartdate.setOnClickListener(this);
         tvHcaReadingEnddate.setOnClickListener(this);

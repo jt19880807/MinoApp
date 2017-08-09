@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/title"
+            android:text="供暖季"
             android:textColor="@color/text1"
             android:textSize="20sp" />
 
@@ -84,63 +84,7 @@
                 android:layout_height="160dp"
                 android:layout_weight="2" />
 
-            <TextView
-                android:id="@+id/month_tv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/month"
-                android:textColor="@color/text2"
-                android:textSize="18sp" />
 
-            <com.minoapp.ui.widget.DatePickerView
-                android:id="@+id/day_pv"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="2" />
-
-            <TextView
-                android:id="@+id/day_tv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/day"
-                android:textColor="@color/text2"
-                android:textSize="18sp" />
-
-            <com.minoapp.ui.widget.DatePickerView
-                android:id="@+id/hour_pv"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="2" />
-
-            <TextView
-                android:id="@+id/hour_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/hour"
-                android:textColor="@color/text2"
-                android:textSize="18sp" />
-
-            <com.minoapp.ui.widget.DatePickerView
-                android:id="@+id/minute_pv"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="2" />
-
-            <TextView
-                android:id="@+id/minute_text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/minute"
-                android:textColor="@color/text2"
-                android:textSize="18sp" />
 
         </LinearLayout>
 

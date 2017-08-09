@@ -4,6 +4,8 @@ import com.minoapp.base.BaseResponse;
 import com.minoapp.base.BaseView;
 import com.minoapp.data.bean.BillingInfoBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -12,9 +14,9 @@ import io.reactivex.Observable;
 
 public interface BillingContract {
     interface BillingView extends BaseView{
-        void showBilling(BillingInfoBean bean);
+        void showBilling(List<BillingInfoBean> bean);
     }
     interface IBillingModel{
-        Observable<BaseResponse<BillingInfoBean>> getBillingByLocalityId(int localityId, String date);
+        Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(int localityId, String date);
     }
 }

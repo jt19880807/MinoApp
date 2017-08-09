@@ -147,8 +147,8 @@ public interface ApiService {
      * @param date
      * @return
      */
-    @GET("readings/gettempreadingsbymeterid/{localityId}/{date}")
-    Observable<BaseResponse<BillingInfoBean>> getBillingByLocalityId(@Path("localityId") int localityId,
+    @GET("billing/getbillingbylocalityid/{localityId}/{date}")
+    Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(@Path("localityId") int localityId,
                                                                      @Path("date") String date);
 
 

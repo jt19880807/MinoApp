@@ -56,7 +56,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
         ResidentModel model=new ResidentModel();
         presenter=new ResidentsPresenter(model,this);
         //暂时写死
-        presenter.getResidents(1341,pageIndex,pageSize);
+        presenter.getResidents(1489,pageIndex,pageSize);
     }
 
     @Override
@@ -92,6 +92,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
                 Bundle bundle=new Bundle();
                 bundle.putInt(Constant.LOCALITY_ID,residentBean.getId());
                 bundle.putString(Constant.LOCALITY_NUMBER,residentBean.getNumber());
+                bundle.putInt(Constant.ISGAOZAO,residentBean.getHCACount()>0?1:0);
                 openActivity(ResidentDetailActivity.class,bundle);
             }
         });

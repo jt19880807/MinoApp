@@ -52,11 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/seeuser"
-                    />
                 <TextView
                     android:layout_marginLeft="3dp"
                     android:layout_width="wrap_content"
@@ -65,7 +60,7 @@
                     android:textColor="@color/colorObjectText"
                     />
                 <TextView
-                    android:id="@+id/tv_yusername"
+                    android:id="@+id/tv_musername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -122,6 +117,34 @@
                     android:textColor="@color/colorObjectText"
                     android:text="50"/>
             </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginRight="3dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="起止日期："
+                    android:textColor="@color/colorObjectText"
+                    />
+                <TextView
+                    android:id="@+id/tv_msedate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorObjectText"
+                    android:text="2016-11-15至2017-03-15"/>
+            </LinearLayout>
+
+
 
         </RelativeLayout>
 

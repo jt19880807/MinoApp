@@ -33,6 +33,7 @@ public class ResidentDetailActivity extends BaseActivity {
     ViewPager viewPager;
     String roomNum="";
     int localityID=0;
+    int isGAIZAO=1;
 
 
     @Override
@@ -51,6 +52,7 @@ public class ResidentDetailActivity extends BaseActivity {
         Bundle bundle=getIntent().getExtras();
         roomNum=bundle.getString(Constant.LOCALITY_NUMBER);
         localityID=bundle.getInt(Constant.LOCALITY_ID);
+        isGAIZAO=bundle.getInt(Constant.ISGAOZAO);
         toolbar.setTitle(roomNum);
         setSupportActionBar(toolbar);
         initTablayout();
@@ -58,10 +60,15 @@ public class ResidentDetailActivity extends BaseActivity {
     private List<FragmentInfo> initFragments() {
 
         List<FragmentInfo> mFragments = new ArrayList<>(3);
+        if (isGAIZAO==1) {
+            mFragments.add(new FragmentInfo("热分配计", HCAListFragment.class));
+            mFragments.add(new FragmentInfo("读数信息", ReadingFragment.class));
+            mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
+        }
+        if (isGAIZAO==0){
+            mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
 
-        mFragments.add(new FragmentInfo("热分配计", HCAListFragment.class));
-        mFragments.add(new FragmentInfo("读数信息", ReadingFragment.class));
-        mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
+        }
         return mFragments;
 
     }

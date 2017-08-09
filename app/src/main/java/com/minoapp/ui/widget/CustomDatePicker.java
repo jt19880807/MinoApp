@@ -518,6 +518,34 @@ public class CustomDatePicker {
     }
 
     /**
+     * 只显示年
+     * @param show
+     */
+    public void showYear(boolean show){
+        if (canAccess) {
+            if (show) {
+                disScrollUnit(SCROLL_TYPE.HOUR, SCROLL_TYPE.MINUTE);
+                month_pv.setVisibility(View.GONE);
+                day_pv.setVisibility(View.GONE);
+                hour_pv.setVisibility(View.GONE);
+                hour_text.setVisibility(View.GONE);
+                minute_pv.setVisibility(View.GONE);
+                minute_text.setVisibility(View.GONE);
+            } else {
+                disScrollUnit();
+                month_pv.setVisibility(View.VISIBLE);
+                day_pv.setVisibility(View.VISIBLE);
+                hour_pv.setVisibility(View.VISIBLE);
+                hour_text.setVisibility(View.VISIBLE);
+                minute_pv.setVisibility(View.VISIBLE);
+                minute_text.setVisibility(View.VISIBLE);
+
+            }
+        }
+
+    }
+
+    /**
      * 设置日期控件是否可以循环滚动
      */
     public void setIsLoop(boolean isLoop) {

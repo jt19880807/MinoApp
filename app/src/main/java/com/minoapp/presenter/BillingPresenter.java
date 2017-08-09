@@ -23,15 +23,15 @@ public class BillingPresenter extends BasePresenter<BillingContract.IBillingMode
 
     public void getBillingByLocalityId(int localityId, String date){
 
-        Observer observer=new ProgressSubcriber<BillingInfoBean>(context, view) {
+        Observer observer=new ProgressSubcriber<List<BillingInfoBean>>(context, view) {
             @Override
-            public void onNext(@NonNull BillingInfoBean bean) {
+            public void onNext(@NonNull List<BillingInfoBean> bean) {
                 view.showBilling(bean);
             }
         };
 
         model.getBillingByLocalityId(localityId,date)
-                .compose(RxHttpReponseCompat.<BillingInfoBean>compatResult())
+                .compose(RxHttpReponseCompat.<List<BillingInfoBean>>compatResult())
                 .subscribe(observer);
     }
 }
