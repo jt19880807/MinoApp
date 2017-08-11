@@ -5,6 +5,7 @@ import com.minoapp.common.rx.RxHttpReponseCompat;
 import com.minoapp.common.rx.subscriber.ProgressSubcriber;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.HeatMeterBean;
+import com.minoapp.data.bean.HeatSeasonBean;
 import com.minoapp.presenter.contract.BillingContract;
 
 import java.util.List;
@@ -34,4 +35,19 @@ public class BillingPresenter extends BasePresenter<BillingContract.IBillingMode
                 .compose(RxHttpReponseCompat.<List<BillingInfoBean>>compatResult())
                 .subscribe(observer);
     }
+
+    public void getHeatSeason(int localityId){
+        Observer observer=new ProgressSubcriber<List<HeatSeasonBean>>(context, view) {
+            @Override
+            public void onNext(@NonNull List<HeatSeasonBean> bean) {
+                view.showHeatSeason(bean);
+            }
+        };
+
+        model.getHeatSeason(localityId)
+                .compose(RxHttpReponseCompat.<List<HeatSeasonBean>>compatResult())
+                .subscribe(observer);
+    }
+
 }
+

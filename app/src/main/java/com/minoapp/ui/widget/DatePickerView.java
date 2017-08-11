@@ -195,7 +195,7 @@ public class DatePickerView extends View {
         float y = (float) (mViewHeight / 2.0 + mMoveLen);
         Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
         float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
-
+        String tex=mDataList.get(mCurrentSelected);
         canvas.drawText(mDataList.get(mCurrentSelected), x, baseline, mPaint);
         // 绘制上方data
         for (int i = 1; (mCurrentSelected - i) >= 0; i++) {

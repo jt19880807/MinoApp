@@ -8,6 +8,8 @@ import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.HCABean;
 import com.minoapp.data.bean.HCAReading;
 import com.minoapp.data.bean.HeatMeterBean;
+import com.minoapp.data.bean.HeatSeasonBean;
+import com.minoapp.data.bean.IncidentBean;
 import com.minoapp.data.bean.MeterBean;
 import com.minoapp.data.bean.ObjectBean;
 import com.minoapp.data.bean.PageBean;
@@ -142,6 +144,13 @@ public interface ApiService {
                                                                     @Path("pageSize") int pageSize);
 
     /**
+     * 获取指定房间的供暖季信息
+     * @param localityId
+     * @return
+     */
+    @GET("billing/getbillingseasion/{localityId}")
+    Observable<BaseResponse<List<HeatSeasonBean>>> getBillingSeason(@Path("localityId") int localityId);
+    /**
      * 获取制定住户的指定供暖季的账单信息
      * @param localityId
      * @param date
@@ -151,6 +160,16 @@ public interface ApiService {
     Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(@Path("localityId") int localityId,
                                                                      @Path("date") String date);
 
-
+    /**
+     * 获取当前项目下的报警信息
+     * @param objectId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("object/getincidentsbyobjectid/{objectId}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<IncidentBean>>> getIncidentsByObjectId(@Path("objectId") int objectId,
+                                                                            @Path("pageIndex") int pageIndex,
+                                                                            @Path("pageSize") int pageSize);
 
 }

@@ -26,6 +26,15 @@ public class ObjectBean implements Serializable {
     private int HeatMeterCount;
     private int HCACount;
     private int TempMeterCount;
+    private int IncedentsCount;
+
+    public int getIncedentsCount() {
+        return IncedentsCount;
+    }
+
+    public void setIncedentsCount(int incedentsCount) {
+        IncedentsCount = incedentsCount;
+    }
 
     public ObjectBean(int ID, String name, int residentsCount, int transResidentsCount, int heatMeterCount, int HCACount, int tempMeterCount) {
         this.ID = ID;

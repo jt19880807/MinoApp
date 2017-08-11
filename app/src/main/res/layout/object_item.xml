@@ -173,7 +173,31 @@
                     />
             </LinearLayout>
 
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginRight="3dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/incidents" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="报警信息："
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/colorObjectText"
+                    />
+                <TextView
+                    android:id="@+id/tv_incidents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"
+                    android:textColor="@color/colorObjectText"/>
+            </LinearLayout>
         </RelativeLayout>
 
 

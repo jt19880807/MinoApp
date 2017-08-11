@@ -41,7 +41,7 @@ public class CustomYearPicker {
 
         public int value;
     }
-    private int scrollUnits = CustomDatePicker.SCROLL_TYPE.HOUR.value + CustomDatePicker.SCROLL_TYPE.MINUTE.value;
+    private int scrollUnits = CustomYearPicker.SCROLL_TYPE.HOUR.value + CustomYearPicker.SCROLL_TYPE.MINUTE.value;
     private ResultHandler handler;
     private Context context;
     private boolean canAccess = false;
@@ -72,7 +72,7 @@ public class CustomYearPicker {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
             try {
                 startCalendar.setTime(sdf.parse(startDate));
-                endCalendar.setTime(sdf.parse("2017-08-09"));
+                endCalendar.setTime(sdf.parse("2017-08-10"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -120,7 +120,7 @@ public class CustomYearPicker {
         tv_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.CHINA);
                 handler.handle(sdf.format(selectedCalender.getTime()));
                 datePickerDialog.dismiss();
             }
@@ -389,11 +389,11 @@ public class CustomYearPicker {
 //        minute_pv.setCanScroll(minute.size() > 1 && (scrollUnits & CustomDatePicker.SCROLL_TYPE.MINUTE.value) == CustomDatePicker.SCROLL_TYPE.MINUTE.value);
     }
 
-    private int disScrollUnit(CustomDatePicker.SCROLL_TYPE... scroll_types) {
+    private int disScrollUnit(CustomYearPicker.SCROLL_TYPE... scroll_types) {
         if (scroll_types == null || scroll_types.length == 0) {
-            scrollUnits = CustomDatePicker.SCROLL_TYPE.HOUR.value + CustomDatePicker.SCROLL_TYPE.MINUTE.value;
+            scrollUnits = CustomYearPicker.SCROLL_TYPE.HOUR.value + CustomYearPicker.SCROLL_TYPE.MINUTE.value;
         } else {
-            for (CustomDatePicker.SCROLL_TYPE scroll_type : scroll_types) {
+            for (CustomYearPicker.SCROLL_TYPE scroll_type : scroll_types) {
                 scrollUnits ^= scroll_type.value;
             }
         }

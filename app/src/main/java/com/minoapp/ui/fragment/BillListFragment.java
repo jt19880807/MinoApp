@@ -18,6 +18,7 @@ import com.minoapp.R;
 import com.minoapp.adapter.BillingInfoAdapter;
 import com.minoapp.base.BaseFragment;
 import com.minoapp.data.bean.BillingInfoBean;
+import com.minoapp.data.bean.HeatSeasonBean;
 import com.minoapp.data.model.BillingInfoModel;
 import com.minoapp.presenter.BillingPresenter;
 import com.minoapp.presenter.contract.BillingContract;
@@ -26,6 +27,7 @@ import com.minoapp.ui.widget.CustomDatePicker;
 import com.minoapp.ui.widget.CustomYearPicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +56,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @BindView(R.id.tv_billing_search)
     TextView tvBillingSearch;
     private CustomYearPicker customYearPicker;
-
+    List<HeatSeasonBean> seasonBeens=new ArrayList<>();
     public BillListFragment() {
 
     }
@@ -63,11 +65,12 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initDatePicker();
+        //initDatePicker();
         progressDialog = new ProgressDialog(getActivity());
         showBillingInfo();
         BillingContract.IBillingModel model = new BillingInfoModel();
         presenter = new BillingPresenter(model, this);
+        presenter.getHeatSeason(localityID);
         presenter.getBillingByLocalityId(localityID, date);
     }
 
@@ -78,13 +81,8 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     }
 
 
-    private void initDatePicker() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        Calendar calendar = Calendar.getInstance();
-        tvBillingDate.setText(sdf.format(calendar.getTime()));
-        calendar.add(Calendar.MONTH, -1);
-        String now = sdf2.format(new Date());
+    private void initDatePicker(ArrayList<String> seasons) {
+
         //tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
 
 
@@ -93,7 +91,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
             public void handle(String time) { // 回调接口，获得选中的时间
                 tvBillingDate.setText(time.split(" ")[0]);
             }
-        }, "2010-01-01 00:00", null); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        }, "2010-01-01 00:00", seasons); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
         //customYearPicker.showYear(true); // 不显示时和分
         customYearPicker.setIsLoop(false); // 不允许循环滚动
 
@@ -134,8 +132,23 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void showBilling(List<BillingInfoBean> bean) {
         billingInfoAdapter.addData(bean);
+
     }
 
+    @Override
+    public void showHeatSeason(List<HeatSeasonBean> beanList) {
+        seasonBeens=beanList;
+        ArrayList<String> seasons=formatDate(seasonBeens);
+
+    }
+
+    private ArrayList<String> formatDate(List<HeatSeasonBean> heatSeasonBeens){
+        ArrayList<String> result=new ArrayList<>();
+        for (HeatSeasonBean h:heatSeasonBeens) {
+            result.add(h.getSeasion().split("-")[0]);
+        }
+        return result;
+    }
 
     @Override
     public void onClick(View v) {

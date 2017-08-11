@@ -36,7 +36,8 @@ public class ObjectsAdapter extends BaseQuickAdapter<ObjectBean,BaseViewHolder> 
                 .setText(R.id.tv_gzuser,item.getTransResidentsCount()+"")
                 .setText(R.id.tv_heatmeter,item.getHeatMeterCount()+"")
                 .setText(R.id.tv_hca,item.getHCACount()+"")
-                .setText(R.id.tv_temp,item.getTempMeterCount()+"");
+                .setText(R.id.tv_temp,item.getTempMeterCount()+"")
+                .setText(R.id.tv_incidents,item.getIncedentsCount());
     }
 
     @Override

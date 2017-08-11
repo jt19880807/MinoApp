@@ -75,6 +75,12 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
         recyclerObject.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Bundle bundle=getIntent().getExtras();
+                ObjectBean objectBean=(ObjectBean) adapter.getItem(position);
+                bundle.putInt(Constant.OBJECT_ID,objectBean.getID());
+                bundle.putString(Constant.OBJECT_NAME,objectBean.getName());
+                bundle.putInt(Constant.INCIDENT_COUNT,objectBean.getIncedentsCount());
+
                 openActivity(ObjectDetaileActivity.class);
             }
         });

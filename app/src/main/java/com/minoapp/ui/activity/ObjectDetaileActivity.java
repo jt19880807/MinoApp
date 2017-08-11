@@ -12,6 +12,7 @@ import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
 import com.minoapp.data.bean.FragmentInfo;
 import com.minoapp.ui.fragment.HeatMeterFragment;
+import com.minoapp.ui.fragment.IncidentFragment;
 import com.minoapp.ui.fragment.ResidentsFragment;
 import com.minoapp.ui.fragment.TempFragment;
 
@@ -29,7 +30,8 @@ public class ObjectDetaileActivity extends BaseActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     String objectName ="";
-
+    int objectId=1340;
+    int incidentCount=10;
     @Override
     protected String getTAG() {
         return ObjectDetaileActivity.class.getSimpleName();
@@ -46,6 +48,8 @@ public class ObjectDetaileActivity extends BaseActivity {
         Bundle bundle=getIntent().getExtras();
         if (bundle!=null) {
             objectName = bundle.getString(Constant.OBJECT_NAME);
+            incidentCount=bundle.getInt(Constant.INCIDENT_COUNT);
+            objectId=bundle.getInt(Constant.OBJECT_ID);
             toolbar.setTitle(objectName);
         }
         setSupportActionBar(toolbar);
@@ -59,6 +63,9 @@ public class ObjectDetaileActivity extends BaseActivity {
         mFragments.add(new FragmentInfo("住户", ResidentsFragment.class));
         mFragments.add(new FragmentInfo("热量表", HeatMeterFragment.class));
         mFragments.add(new FragmentInfo("测温设备", TempFragment.class));
+        if (incidentCount>0){
+            mFragments.add(new FragmentInfo("报警信息", IncidentFragment.class));
+        }
         return mFragments;
 
     }
@@ -85,5 +92,9 @@ public class ObjectDetaileActivity extends BaseActivity {
     @Override
     public void dismissLoading() {
 
+    }
+
+    public int setObjectId(){
+        return objectId;
     }
 }
