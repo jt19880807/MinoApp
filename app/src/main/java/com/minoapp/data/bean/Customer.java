@@ -1,61 +1,28 @@
 package com.minoapp.data.bean;
 
-import com.minoapp.base.BaseEntity;
+import java.util.List;
 
 /**
- * Created by Devin on 2017/6/27.
+ * Created by Administrator on 2017/8/13.
  */
 
-public class Customer extends BaseEntity {
-    private int ID;
-    private String Name;
-    private String Province;
-    private String City;
-    private String Area;
+public class Customer  {
+    private String Address;
+    private List<CustomerBean> Datas;
 
-    public String getProvince() {
-        return Province;
+    public String getAddress() {
+        return Address;
     }
 
-    public void setProvince(String province) {
-        Province = province;
+    public void setAddress(String address) {
+        Address = address;
     }
 
-    public String getCity() {
-        return City;
+    public List<CustomerBean> getDatas() {
+        return Datas;
     }
 
-    public void setCity(String city) {
-        City = city;
+    public void setDatas(List<CustomerBean> datas) {
+        Datas = datas;
     }
-
-    public String getArea() {
-        return Area;
-    }
-
-    public void setArea(String area) {
-        Area = area;
-    }
-
-    public Customer(int id, String name, int addressId) {
-        ID = id;
-        Name = name;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int Id) {
-        this.ID = Id;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
 }

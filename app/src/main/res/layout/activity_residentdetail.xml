@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="@string/customer"
+        android:title="@string/customerBean"
         app:navigationIcon="@mipmap/back">
 
     </android.support.v7.widget.Toolbar>

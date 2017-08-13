@@ -65,7 +65,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //initDatePicker();
+        //initDatePicker(null);
         progressDialog = new ProgressDialog(getActivity());
         showBillingInfo();
         BillingContract.IBillingModel model = new BillingInfoModel();
@@ -139,13 +139,26 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     public void showHeatSeason(List<HeatSeasonBean> beanList) {
         seasonBeens=beanList;
         ArrayList<String> seasons=formatDate(seasonBeens);
-
+        initDatePicker(seasons);
+        if (seasons.size()>0){
+            tvBillingDate.setText(seasonBeens.get(0).getSeasion());
+        }else {
+            tvBillingDate.setText("无");
+        }
     }
 
     private ArrayList<String> formatDate(List<HeatSeasonBean> heatSeasonBeens){
         ArrayList<String> result=new ArrayList<>();
-        for (HeatSeasonBean h:heatSeasonBeens) {
-            result.add(h.getSeasion().split("-")[0]);
+        if (heatSeasonBeens.isEmpty()){
+//            result.add("2017");
+//            result.add("2016");
+//            result.add("2015");
+//            result.add("2014");
+        }
+        else {
+            for (HeatSeasonBean h : heatSeasonBeens) {
+                result.add(h.getSeasion().split("-")[0]);
+            }
         }
         return result;
     }
@@ -153,7 +166,27 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.tv_billing_date){
+            //Toast.makeText(getActivity(), "弹出日期", Toast.LENGTH_SHORT).show();
             customYearPicker.show(tvBillingDate.getText().toString());
         }
+    }
+
+    private void searchBilling(String date){
+
+        String searDate="";
+        if (seasonBeens.size()>0){
+            for (HeatSeasonBean h : seasonBeens) {
+                if (h.getSeasion().split("-")[0].equals(date)){
+                    searDate=h.getSeasion();
+                    break;
+                }
+            }
+
+        }
+        else {
+
+        }
+
+        presenter.getBillingByLocalityId(localityID,searDate);
     }
 }

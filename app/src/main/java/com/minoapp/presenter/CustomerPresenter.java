@@ -6,6 +6,7 @@ import com.minoapp.base.BasePresenter;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.common.rx.RxHttpReponseCompat;
 import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.presenter.contract.CustomerContract;
 
 import java.util.List;
@@ -24,10 +25,10 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
         super(iCustomerModel, customerView);
     }
 
-    public void getAllCustomers(){
-        Observable<BaseResponse<List<Customer>>> observable=model.getCustomers();
+    public void getAllCustomers(String userId){
+        Observable<BaseResponse<List<Customer>>> observable=model.getCustomers(userId);
 
-        //model.getCustomers().compose(RxHttpReponseCompat.<List<Customer>>compatResult())
+        //model.getCustomers().compose(RxHttpReponseCompat.<List<CustomerBean>>compatResult())
         observable.compose(RxHttpReponseCompat.<List<Customer>>compatResult())
                 .subscribe(new Observer<List<Customer>>() {
                     @Override
@@ -35,8 +36,8 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
                         view.showLoading();
                     }
                     @Override
-                    public void onNext(@NonNull List<Customer> customers) {
-                        view.showData(customers);
+                    public void onNext(@NonNull List<Customer> customerBeen) {
+                        view.showData(customerBeen);
 
                     }
                     @Override

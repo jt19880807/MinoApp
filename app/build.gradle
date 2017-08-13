@@ -40,4 +40,5 @@ dependencies {
     compile 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.victor:lib:1.0.4'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.promeg:tinypinyin:1.0.0' // ~80KB
 }

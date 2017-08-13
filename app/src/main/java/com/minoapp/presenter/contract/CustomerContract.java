@@ -4,6 +4,7 @@ package com.minoapp.presenter.contract;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.base.BaseView;
 import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.CustomerBean;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ import io.reactivex.Observable;
 
 public interface CustomerContract {
     public interface CustomerView extends BaseView {
-        public void showData(List<Customer> customers);
+        public void showData(List<Customer> customerBeen);
     }
     public interface ICustomerModel{
-        Observable<BaseResponse<List<Customer>>> getCustomers();
+        Observable<BaseResponse<List<Customer>>> getCustomers(String userId);
     }
 }

@@ -14,10 +14,13 @@ import com.minoapp.api.RetrofitClient;
 import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
 import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.CustomerBean;
+import com.minoapp.data.bean.CustomerSectionEntity;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
 import com.minoapp.presenter.contract.CustomerContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +35,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     private CustomerPresenter presenter;
 
     private ProgressDialog progressDialog;
+    CustomerListAdapter adapter;
 
     @Override
     protected String getTAG() {
@@ -52,24 +56,25 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         CustomerContract.ICustomerModel model=new CustomerModel(apiservice);
         presenter=new CustomerPresenter(model,this);
-        presenter.getAllCustomers();
+        presenter.getAllCustomers("1");
     }
 
-    public void showCustomers(List<Customer> customers) {
+    public void showCustomers(List<CustomerSectionEntity> customerBeen) {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        CustomerListAdapter adapter=new CustomerListAdapter(customers,CustomerActivity.this);
+        adapter=new CustomerListAdapter(R.layout.hca_reading_header,
+                R.layout.activity_customer,customerBeen);
         //为RecyclerView子项设置点击事件
-        adapter.setOnItemClickListener(new CustomerListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, Object item) {
-                Customer c=(Customer)item;
-                Bundle bundle=new Bundle();
-                bundle.putInt(Constant.Customer_ID,c.getID());
-                bundle.putString(Constant.Customer_Name,c.getName());
-                openActivity(ObjectActivity.class,bundle);
-                //Toast.makeText(CustomerActivity.this, c.getID()+"", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        adapter.setOnItemClickListener(new CustomerListAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position, Object item) {
+//                CustomerBean c=(CustomerBean)item;
+//                Bundle bundle=new Bundle();
+//                bundle.putInt(Constant.Customer_ID,c.getID());
+//                bundle.putString(Constant.Customer_Name,c.getName());
+//                openActivity(ObjectActivity.class,bundle);
+//                //Toast.makeText(CustomerActivity.this, c.getID()+"", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         vwCustomer.setLayoutManager(layoutManager);
         vwCustomer.setAdapter(adapter);
     }
@@ -92,7 +97,25 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     }
 
     @Override
-    public void showData(List<Customer> customers) {
-        showCustomers(customers);
+    public void showData(List<Customer> customerBeen) {
+        showCustomers(getCustomerSectionEntitys(customerBeen));
+    }
+
+    private List<CustomerSectionEntity> getCustomerSectionEntitys(List<Customer> customerBeen){
+        List<CustomerSectionEntity> customerSectionEntities=new ArrayList<>();
+        CustomerSectionEntity customerSectionEntity;
+        if (customerBeen.size()>0){
+            for (Customer c :customerBeen) {
+                customerSectionEntity=new CustomerSectionEntity(true,c.getAddress());
+                customerSectionEntities.add(customerSectionEntity);
+                if (c.getDatas().size()>0){
+                    for (CustomerBean cb :c.getDatas()) {
+                        customerSectionEntity=new CustomerSectionEntity(cb);
+                        customerSectionEntities.add(customerSectionEntity);
+                    }
+                }
+            }
+        }
+        return customerSectionEntities;
     }
 }

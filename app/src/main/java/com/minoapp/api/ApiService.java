@@ -5,6 +5,7 @@ import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.BuildMeterReadingBean;
 import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.HCABean;
 import com.minoapp.data.bean.HCAReading;
 import com.minoapp.data.bean.HeatMeterBean;
@@ -28,7 +29,9 @@ import retrofit2.http.Path;
  */
 
 public interface ApiService {
-    public static final String Base_URL="http://192.168.5.117:8011/api/";
+    //public static final String Base_URL="http://192.168.5.117:8011/api/";
+    public static final String Base_URL="http://192.168.1.107/api/";
+
     /**
      * 根据用户名和密码获取登录信息
      * @param name
@@ -39,7 +42,7 @@ public interface ApiService {
     Observable<BaseResponse<UserBean>> getUserInfo(@Path("name") String name, @Path("pwd") String password);
 
     @GET("object/getcustomersbyobjectid/{objectIds}")
-    Observable<BaseResponse<List<Customer>>> getAllCustomers(@Path("objectIds") String objectIds);
+    Observable<BaseResponse<List<CustomerBean>>> getAllCustomers(@Path("objectIds") String objectIds);
 
     //根据用户ID获取热力公司
     @GET("object/getcustomersbyuserid/{userID}")

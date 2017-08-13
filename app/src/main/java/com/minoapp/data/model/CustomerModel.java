@@ -3,6 +3,7 @@ package com.minoapp.data.model;
 import com.minoapp.api.ApiService;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.Customer;
+import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.presenter.contract.CustomerContract;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class CustomerModel implements CustomerContract.ICustomerModel{
     }
 
     @Override
-    public Observable<BaseResponse<List<Customer>>> getCustomers() {
+    public Observable<BaseResponse<List<Customer>>> getCustomers(String userId) {
 
         //暂时写死
-        return apiService.getAllCustomersByUserID("1");
+        return apiService.getAllCustomersByUserID(userId);
     }
 }
 

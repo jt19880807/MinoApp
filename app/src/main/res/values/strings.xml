@@ -26,7 +26,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_project">ProjectActivity</string>
-    <string name="customer">热力公司</string>
+    <string name="customerBean">热力公司</string>
 
     <string name="error_unkown">未知错误</string>
     <string name="error_http">网络连接错误</string>
