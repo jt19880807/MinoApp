@@ -2,6 +2,7 @@ package com.minoapp.ui.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import com.minoapp.presenter.MeterPresenter;
 import com.minoapp.presenter.contract.MeterContract;
 import com.minoapp.presenter.contract.IMeterModel;
 import com.minoapp.ui.activity.MeterReadingActivity;
+import com.minoapp.ui.activity.ObjectDetaileActivity;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
     MeterPresenter presenter;
     MeterListAdapter<MeterBean> adapter;
     ProgressDialog progressDialog;
+    int objectId = 0;
     public TempFragment() {
         // Required empty public constructor
     }
@@ -54,7 +57,7 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
         IMeterModel model=new MeterModel();
         presenter=new MeterPresenter(model,this);
         //暂时写死
-        presenter.getTempByObjectId(1341);
+        presenter.getTempByObjectId(objectId);
     }
 
     @Override
@@ -65,6 +68,12 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
     @Override
     public void showHeatMeter(List<HeatMeterBean> beanList) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        objectId = ((ObjectDetaileActivity) context).setObjectId();
     }
 
     @Override

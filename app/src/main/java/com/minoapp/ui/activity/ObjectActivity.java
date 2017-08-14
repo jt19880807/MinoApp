@@ -81,7 +81,7 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
                 bundle.putString(Constant.OBJECT_NAME,objectBean.getName());
                 bundle.putInt(Constant.INCIDENT_COUNT,objectBean.getIncedentsCount());
 
-                openActivity(ObjectDetaileActivity.class);
+                openActivity(ObjectDetaileActivity.class,bundle);
             }
         });
 

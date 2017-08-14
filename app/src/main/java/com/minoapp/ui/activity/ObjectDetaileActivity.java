@@ -30,8 +30,8 @@ public class ObjectDetaileActivity extends BaseActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     String objectName ="";
-    int objectId=1340;
-    int incidentCount=10;
+    int objectId=0;
+    int incidentCount=0;
     @Override
     protected String getTAG() {
         return ObjectDetaileActivity.class.getSimpleName();
@@ -52,6 +52,7 @@ public class ObjectDetaileActivity extends BaseActivity {
             objectId=bundle.getInt(Constant.OBJECT_ID);
             toolbar.setTitle(objectName);
         }
+        toolbar.setTitle(objectName);
         setSupportActionBar(toolbar);
         initTablayout();
     }

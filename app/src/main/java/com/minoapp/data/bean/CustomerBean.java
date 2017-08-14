@@ -42,6 +42,9 @@ public class CustomerBean extends BaseEntity {
         Name = name;
     }
 
+    public CustomerBean() {
+    }
+
     public int getID() {
         return ID;
     }

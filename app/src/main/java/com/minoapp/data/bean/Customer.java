@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Customer  {
     private String Address;
-    private List<CustomerBean> Datas;
+    private List<CustomerBean> Data;
 
     public String getAddress() {
         return Address;
@@ -18,11 +18,11 @@ public class Customer  {
         Address = address;
     }
 
-    public List<CustomerBean> getDatas() {
-        return Datas;
+    public List<CustomerBean> getData() {
+        return Data;
     }
 
-    public void setDatas(List<CustomerBean> datas) {
-        Datas = datas;
+    public void setData(List<CustomerBean> data) {
+        Data = data;
     }
 }

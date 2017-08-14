@@ -2,6 +2,7 @@ package com.minoapp.ui.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.minoapp.data.model.ResidentModel;
 import com.minoapp.presenter.ResidentsPresenter;
 import com.minoapp.presenter.contract.ResidentsContract;
 import com.minoapp.ui.activity.ObjectActivity;
+import com.minoapp.ui.activity.ObjectDetaileActivity;
 import com.minoapp.ui.activity.ResidentDetailActivity;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
     private int pageSize=20;
     private ResidentsAdapter adapter;
     ProgressDialog progressDialog;
+    int objectId = 0;
     public ResidentsFragment() {
         // Required empty public constructor
     }
@@ -56,9 +59,13 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
         ResidentModel model=new ResidentModel();
         presenter=new ResidentsPresenter(model,this);
         //暂时写死
-        presenter.getResidents(1489,pageIndex,pageSize);
+        presenter.getResidents(objectId,pageIndex,pageSize);
     }
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        objectId = ((ObjectDetaileActivity) context).setObjectId();
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_residents;

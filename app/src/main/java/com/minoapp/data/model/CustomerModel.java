@@ -1,6 +1,7 @@
 package com.minoapp.data.model;
 
 import com.minoapp.api.ApiService;
+import com.minoapp.api.RetrofitClient;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
@@ -16,17 +17,21 @@ import io.reactivex.Observable;
 
 public class CustomerModel implements CustomerContract.ICustomerModel{
 
-    private ApiService apiService;
 
-    public CustomerModel(ApiService apiService) {
-        this.apiService = apiService;
+    public CustomerModel() {
+
     }
 
     @Override
     public Observable<BaseResponse<List<Customer>>> getCustomers(String userId) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getAllCustomersByUserID(userId);
+    }
 
-        //暂时写死
-        return apiService.getAllCustomersByUserID(userId);
+    @Override
+    public Observable<BaseResponse<List<CustomerBean>>> getCustomerBeans(String userId) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getAllCustomerBeanByUserID(userId);
     }
 }
 

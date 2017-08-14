@@ -2,6 +2,7 @@ package com.minoapp.ui.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.minoapp.presenter.MeterPresenter;
 import com.minoapp.presenter.contract.MeterContract;
 import com.minoapp.presenter.contract.IMeterModel;
 import com.minoapp.ui.activity.MeterReadingActivity;
+import com.minoapp.ui.activity.ObjectDetaileActivity;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class HeatMeterFragment extends BaseFragment implements MeterContract.Hea
     RecyclerView recycHeatmeter;
 
     ProgressDialog progressDialog;
-
+    int objectId=0;
     public HeatMeterFragment() {
         // Required empty public constructor
     }
@@ -55,11 +57,16 @@ public class HeatMeterFragment extends BaseFragment implements MeterContract.Hea
         IMeterModel model = new MeterModel();
         presenter = new MeterPresenter(model, this);
         //暂时写死
-        presenter.getHeatMetersByObjectId(1341);
+        presenter.getHeatMetersByObjectId(objectId);
 
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        objectId = ((ObjectDetaileActivity) context).setObjectId();
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_heat_meter;

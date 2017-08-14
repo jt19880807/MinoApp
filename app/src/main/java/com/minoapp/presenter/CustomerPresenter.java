@@ -5,8 +5,10 @@ import android.util.Log;
 import com.minoapp.base.BasePresenter;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.common.rx.RxHttpReponseCompat;
+import com.minoapp.common.rx.subscriber.ProgressSubcriber;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
+import com.minoapp.data.bean.HeatMeterBean;
 import com.minoapp.presenter.contract.CustomerContract;
 
 import java.util.List;
@@ -26,28 +28,26 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
     }
 
     public void getAllCustomers(String userId){
-        Observable<BaseResponse<List<Customer>>> observable=model.getCustomers(userId);
+        Observer observer=new ProgressSubcriber<List<Customer>>(context, view) {
+            @Override
+            public void onNext(@NonNull List<Customer> beanList) {
+                view.showData(beanList);
+            }
+        };
+        model.getCustomers(userId)
+                .compose(RxHttpReponseCompat.<List<Customer>>compatResult())
+                .subscribe(observer);
+    }
 
-        //model.getCustomers().compose(RxHttpReponseCompat.<List<CustomerBean>>compatResult())
-        observable.compose(RxHttpReponseCompat.<List<Customer>>compatResult())
-                .subscribe(new Observer<List<Customer>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        view.showLoading();
-                    }
-                    @Override
-                    public void onNext(@NonNull List<Customer> customerBeen) {
-                        view.showData(customerBeen);
-
-                    }
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("ErrorHandlerSubscriber",e.getMessage());
-                    }
-                    @Override
-                    public void onComplete() {
-                        view.dismissLoading();
-                    }
-                });
+    public void getAllCustomerBeans(String userId){
+        Observer observer=new ProgressSubcriber<List<CustomerBean>>(context, view) {
+            @Override
+            public void onNext(@NonNull List<CustomerBean> beanList) {
+                view.setCustomerBeans(beanList);
+            }
+        };
+        model.getCustomerBeans(userId)
+                .compose(RxHttpReponseCompat.<List<CustomerBean>>compatResult())
+                .subscribe(observer);
     }
 }

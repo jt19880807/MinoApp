@@ -16,9 +16,11 @@ import io.reactivex.Observable;
 
 public interface CustomerContract {
     public interface CustomerView extends BaseView {
-        public void showData(List<Customer> customerBeen);
+        void showData(List<Customer> customerBeen);
+        void setCustomerBeans(List<CustomerBean> customerBeen);
     }
     public interface ICustomerModel{
         Observable<BaseResponse<List<Customer>>> getCustomers(String userId);
+        Observable<BaseResponse<List<CustomerBean>>> getCustomerBeans(String userId);
     }
 }

@@ -1,12 +1,17 @@
 package com.minoapp.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.minoapp.R;
 import com.minoapp.adapter.CustomerListAdapter;
 import com.minoapp.api.ApiService;
@@ -50,33 +55,52 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar.setTitle("热力公司");
-        setSupportActionBar(toolbar);
+        initToolbar();
+
+        //setSupportActionBar(toolbar);
         progressDialog=new ProgressDialog(this);
-        ApiService apiservice= RetrofitClient.getInstance().getApiService();
-        CustomerContract.ICustomerModel model=new CustomerModel(apiservice);
+        CustomerContract.ICustomerModel model=new CustomerModel();
         presenter=new CustomerPresenter(model,this);
         presenter.getAllCustomers("1");
     }
 
+    private void initToolbar(){
+        toolbar.setTitle("热力公司");
+        toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.action_search){
+                    startActivity(new Intent(CustomerActivity.this,SearchActivity.class));
+                }
+                return true;
+            }
+        });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
     public void showCustomers(List<CustomerSectionEntity> customerBeen) {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        adapter=new CustomerListAdapter(R.layout.hca_reading_header,
-                R.layout.activity_customer,customerBeen);
-        //为RecyclerView子项设置点击事件
-//        adapter.setOnItemClickListener(new CustomerListAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position, Object item) {
-//                CustomerBean c=(CustomerBean)item;
-//                Bundle bundle=new Bundle();
-//                bundle.putInt(Constant.Customer_ID,c.getID());
-//                bundle.putString(Constant.Customer_Name,c.getName());
-//                openActivity(ObjectActivity.class,bundle);
-//                //Toast.makeText(CustomerActivity.this, c.getID()+"", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,customerBeen);
         vwCustomer.setLayoutManager(layoutManager);
         vwCustomer.setAdapter(adapter);
+        vwCustomer.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CustomerSectionEntity c=(CustomerSectionEntity)adapter.getItem(position);
+                if (!c.isHeader) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constant.Customer_ID, c.customerBean.getID());
+                    bundle.putString(Constant.Customer_Name, c.customerBean.getName());
+                    openActivity(ObjectActivity.class, bundle);
+                }
+            }
+        });
     }
 
 
@@ -101,6 +125,11 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
         showCustomers(getCustomerSectionEntitys(customerBeen));
     }
 
+    @Override
+    public void setCustomerBeans(List<CustomerBean> customerBeen) {
+
+    }
+
     private List<CustomerSectionEntity> getCustomerSectionEntitys(List<Customer> customerBeen){
         List<CustomerSectionEntity> customerSectionEntities=new ArrayList<>();
         CustomerSectionEntity customerSectionEntity;
@@ -108,8 +137,8 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
             for (Customer c :customerBeen) {
                 customerSectionEntity=new CustomerSectionEntity(true,c.getAddress());
                 customerSectionEntities.add(customerSectionEntity);
-                if (c.getDatas().size()>0){
-                    for (CustomerBean cb :c.getDatas()) {
+                if (c.getData().size()>0){
+                    for (CustomerBean cb :c.getData()) {
                         customerSectionEntity=new CustomerSectionEntity(cb);
                         customerSectionEntities.add(customerSectionEntity);
                     }

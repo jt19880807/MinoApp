@@ -50,7 +50,6 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     BillingInfoAdapter billingInfoAdapter;
     ProgressDialog progressDialog;
     int localityID = 0;
-    String date = "2016-11-15";
     @BindView(R.id.tv_billing_date)
     TextView tvBillingDate;
     @BindView(R.id.tv_billing_search)
@@ -65,13 +64,13 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //initDatePicker(null);
         progressDialog = new ProgressDialog(getActivity());
         showBillingInfo();
+        tvBillingSearch.setOnClickListener(this);
         BillingContract.IBillingModel model = new BillingInfoModel();
         presenter = new BillingPresenter(model, this);
         presenter.getHeatSeason(localityID);
-        presenter.getBillingByLocalityId(localityID, date);
+
     }
 
     @Override
@@ -82,23 +81,14 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
 
 
     private void initDatePicker(ArrayList<String> seasons) {
-
-        //tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
-
-
         customYearPicker = new CustomYearPicker(getActivity(), new CustomYearPicker.ResultHandler() {
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
                 tvBillingDate.setText(time.split(" ")[0]);
             }
         }, "2010-01-01 00:00", seasons); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        //customYearPicker.showYear(true); // 不显示时和分
         customYearPicker.setIsLoop(false); // 不允许循环滚动
-
-
-
         tvBillingDate.setOnClickListener(this);
-        //tvHcaReadingEnddate.setOnClickListener(this);
     }
 
     private void showBillingInfo() {
@@ -131,6 +121,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
 
     @Override
     public void showBilling(List<BillingInfoBean> bean) {
+        billingInfoAdapter.getData().clear();
         billingInfoAdapter.addData(bean);
 
     }
@@ -141,19 +132,16 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
         ArrayList<String> seasons=formatDate(seasonBeens);
         initDatePicker(seasons);
         if (seasons.size()>0){
-            tvBillingDate.setText(seasonBeens.get(0).getSeasion());
+            tvBillingDate.setText(seasonBeens.get(0).getSeasion().split("-")[0]);
         }else {
             tvBillingDate.setText("无");
         }
+        searchBilling();
     }
 
     private ArrayList<String> formatDate(List<HeatSeasonBean> heatSeasonBeens){
         ArrayList<String> result=new ArrayList<>();
         if (heatSeasonBeens.isEmpty()){
-//            result.add("2017");
-//            result.add("2016");
-//            result.add("2015");
-//            result.add("2014");
         }
         else {
             for (HeatSeasonBean h : heatSeasonBeens) {
@@ -166,27 +154,31 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.tv_billing_date){
-            //Toast.makeText(getActivity(), "弹出日期", Toast.LENGTH_SHORT).show();
             customYearPicker.show(tvBillingDate.getText().toString());
         }
+        else if (v.getId()==R.id.tv_billing_search){
+            searchBilling();
+        }
+
     }
 
-    private void searchBilling(String date){
-
+    private void searchBilling(){
+        String date=tvBillingDate.getText().toString();
         String searDate="";
         if (seasonBeens.size()>0){
             for (HeatSeasonBean h : seasonBeens) {
                 if (h.getSeasion().split("-")[0].equals(date)){
-                    searDate=h.getSeasion();
+                    searDate=h.getSeasion().split("T")[0];
                     break;
                 }
             }
 
+            presenter.getBillingByLocalityId(localityID,searDate);
         }
         else {
 
         }
 
-        presenter.getBillingByLocalityId(localityID,searDate);
+
     }
 }
