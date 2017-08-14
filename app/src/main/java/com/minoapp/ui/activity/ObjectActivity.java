@@ -54,6 +54,12 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
         customerID=bundle.getInt(Constant.Customer_ID);
         customerName=bundle.getString(Constant.Customer_Name);
         toolbar.setTitle(customerName);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         setSupportActionBar(toolbar);
 
         progressDialog=new ProgressDialog(this);

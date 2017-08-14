@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.minoapp.R;
 import com.minoapp.adapter.ViewPagerAdapter;
@@ -53,6 +54,12 @@ public class ObjectDetaileActivity extends BaseActivity {
             toolbar.setTitle(objectName);
         }
         toolbar.setTitle(objectName);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         setSupportActionBar(toolbar);
         initTablayout();
     }
