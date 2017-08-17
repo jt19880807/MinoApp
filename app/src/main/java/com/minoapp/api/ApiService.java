@@ -182,6 +182,11 @@ public interface ApiService {
     @GET("billing/getbillingbylocalityid/{localityId}/{date}")
     Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(@Path("localityId") int localityId,
                                                                      @Path("date") String date);
+    @GET("billing/getbillingbyobjectid/{objectId}/{date}/{pageIndex}/{pageSize")
+    Observable<BaseResponse<PageBean<BillingInfoBean>>> getBillingByObjectId(@Path("objectId") int objectId,
+                                                                           @Path("date") String date,
+                                                                         @Path("pageIndex") int pageIndex,
+                                                                         @Path("pageSize") int pageSize);
 
     /**
      * 获取当前项目下的报警信息
