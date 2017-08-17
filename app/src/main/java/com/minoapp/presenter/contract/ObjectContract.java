@@ -17,14 +17,15 @@ import io.reactivex.Observable;
 public interface ObjectContract {
 
     public interface ObjectView extends BaseView{
-        void showData(PageBean<ObjectBean> pageBean);
-        void onLoadMoreComplete();
+        void showData(List<ObjectBean> objectBeanList);
+        //void onLoadMoreComplete();
     }
 
     public interface IObjectModel{
 
         Observable<BaseResponse<PageBean<ObjectBean>>> getAllObjects(int userId, int customerId,int pageIndex,int pageSize);
 
+        Observable<BaseResponse<List<ObjectBean>>> getAllObjectsByArea(int userId, String area);
     }
 
 }

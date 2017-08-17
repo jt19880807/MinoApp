@@ -2,6 +2,7 @@ package com.minoapp.api;
 
 
 import com.minoapp.base.BaseResponse;
+import com.minoapp.data.bean.AreaBean;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.BuildMeterReadingBean;
 import com.minoapp.data.bean.Customer;
@@ -47,10 +48,17 @@ public interface ApiService {
     //根据用户ID获取热力公司
     @GET("object/getcustomersbyuserid/{userID}")
     Observable<BaseResponse<List<Customer>>> getAllCustomersByUserID(@Path("userID") String userID);
+    //根据用户ID获取热力公司(不分组)
     @GET("object/getcustomersbeanbyuserid/{userID}")
     Observable<BaseResponse<List<CustomerBean>>> getAllCustomerBeanByUserID(@Path("userID") String userID);
 
-
+    /**
+     * 获取当前热力公司下的小区信息
+     * @param customerId
+     * @return
+     */
+    @GET("object/getareasbycustomerid/{customerId}")
+    Observable<BaseResponse<List<AreaBean>>> getAreasByCustomerId(@Path("customerId") int customerId);
 
     /**
      * 根据用户ID和热力公司ID获取当前热力公司下面的项目信息
@@ -65,6 +73,16 @@ public interface ApiService {
                                                                  @Path("customerID") int customerID,
                                                                  @Path("pageIndex") int pageIndex,
                                                                  @Path("pageSize") int pageSize);
+
+    /**
+     * 根据用户ID和热力公司ID获取当前小区下面的项目信息
+     * @param userID
+     * @param area
+     * @return
+     */
+    @GET("object/getobjectsbyuseridandarea/{userID}/{area}")
+    Observable<BaseResponse<List<ObjectBean>>> getAllObjectsByArea(@Path("userID") int userID,
+                                                             @Path("area") String area);
 
     /**
      * 获取当前项目下的住户信息

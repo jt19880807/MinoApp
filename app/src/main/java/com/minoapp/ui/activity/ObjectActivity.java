@@ -20,23 +20,23 @@ import com.minoapp.data.model.ObjectModel;
 import com.minoapp.presenter.ObjectPresenter;
 import com.minoapp.presenter.contract.ObjectContract;
 
+import java.util.List;
+
 import butterknife.BindView;
 
-public class ObjectActivity extends BaseActivity implements ObjectContract.ObjectView,BaseQuickAdapter.RequestLoadMoreListener {
+public class ObjectActivity extends BaseActivity implements ObjectContract.ObjectView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_object)
     RecyclerView recyclerObject;
 
-    private int pageIndex=1;
-    private int pageSize=10;
     private ObjectsAdapter mAdapter;
     private ObjectPresenter presenter;
     private ProgressDialog progressDialog;
-    private int customerID=0;
-    private String customerName="";
-
+//    private int customerID=0;
+//    private String customerName="";
+    private String area="";
     @Override
     protected String getTAG() {
         return ObjectActivity.class.getSimpleName();
@@ -51,16 +51,17 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle=getIntent().getExtras();
-        customerID=bundle.getInt(Constant.Customer_ID);
-        customerName=bundle.getString(Constant.Customer_Name);
-        toolbar.setTitle(customerName);
+//        customerID=bundle.getInt(Constant.Customer_ID);
+//        customerName=bundle.getString(Constant.Customer_Name);
+        area=bundle.getString(Constant.AREA_NAME);
+        toolbar.setTitle(area);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         progressDialog=new ProgressDialog(this);
         showObjects();
@@ -69,13 +70,12 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
 
         presenter=new ObjectPresenter(model,this);
 
-        presenter.getObjects(1,customerID,pageIndex ,pageSize);
+        presenter.getObjects(1,area);
     }
     private void showObjects(){
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         mAdapter =new ObjectsAdapter(R.layout.object_item);
-        mAdapter.setOnLoadMoreListener(this);
         recyclerObject.setLayoutManager(layoutManager);
         recyclerObject.setAdapter(mAdapter);
         recyclerObject.addOnItemTouchListener(new OnItemClickListener() {
@@ -111,23 +111,13 @@ public class ObjectActivity extends BaseActivity implements ObjectContract.Objec
     }
 
     @Override
-    public void showData(PageBean<ObjectBean> pageBean) {
-        mAdapter.addData(pageBean.getDatas());
-        if (pageBean.isHasMore()) {
-            pageIndex++;
-        }
-        mAdapter.setEnableLoadMore(pageBean.isHasMore());
+    public void showData(List<ObjectBean> pageBean) {
+        mAdapter.addData(pageBean);
+//        if (pageBean.isHasMore()) {
+//            pageIndex++;
+//        }
+//        mAdapter.setEnableLoadMore(pageBean.isHasMore());
     }
 
-    @Override
-    public void onLoadMoreComplete() {
-        mAdapter.loadMoreComplete();
-    }
 
-    @Override
-    public void onLoadMoreRequested() {
-        Toast.makeText(ObjectActivity.this, "下一页", Toast.LENGTH_SHORT).show();
-        //mAdapter.setEnableLoadMore(true);
-        presenter.getObjects(1,customerID,pageIndex ,pageSize);
-    }
 }

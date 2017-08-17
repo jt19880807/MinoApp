@@ -97,7 +97,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constant.Customer_ID, c.customerBean.getID());
                     bundle.putString(Constant.Customer_Name, c.customerBean.getName());
-                    openActivity(ObjectActivity.class, bundle);
+                    openActivity(AreaActivity.class, bundle);
                 }
             }
         });

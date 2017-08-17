@@ -16,5 +16,5 @@ public class Constant {
     public static final String METER_ID="MeterId";
     public static final String ISGAOZAO="IsGaiZao";
     public static final String INCIDENT_COUNT="IncidentCount";
-
+    public static final String AREA_NAME="AreaName";
 }

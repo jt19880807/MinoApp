@@ -7,6 +7,9 @@ import com.minoapp.common.rx.subscriber.ProgressSubcriber;
 import com.minoapp.data.bean.ObjectBean;
 import com.minoapp.data.bean.PageBean;
 import com.minoapp.presenter.contract.ObjectContract;
+
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 
@@ -25,7 +28,7 @@ public class ObjectPresenter extends BasePresenter<ObjectContract.IObjectModel,O
             observer=new ProgressSubcriber<PageBean<ObjectBean>>(context, view) {
                 @Override
                 public void onNext(@NonNull PageBean<ObjectBean> pageBean) {
-                    view.showData(pageBean);
+                   // view.showData(pageBean);
                 }
             };
         }
@@ -34,18 +37,32 @@ public class ObjectPresenter extends BasePresenter<ObjectContract.IObjectModel,O
             observer= new ErrorHandlerSubscriber<PageBean<ObjectBean>>(context) {
                 @Override
                 public void onNext(@NonNull PageBean<ObjectBean> pageBean) {
-                    view.showData(pageBean);
+                    //view.showData(pageBean);
                 }
 
                 @Override
                 public void onComplete() {
-                    view.onLoadMoreComplete();
+
                 }
             };
         }
 
         model.getAllObjects(userID,customerID,pageIndex,pageSize)
                 .compose(RxHttpReponseCompat.<PageBean<ObjectBean>>compatResult())
+                .subscribe(observer);
+
+    }
+    public void getObjects(int userID, String area) {
+        Observer observer=new ProgressSubcriber<List<ObjectBean>>(context, view) {
+                @Override
+                public void onNext(@NonNull List<ObjectBean> pageBean) {
+                    view.showData(pageBean);
+                }
+            };
+
+
+        model.getAllObjectsByArea(userID,area)
+                .compose(RxHttpReponseCompat.<List<ObjectBean>>compatResult())
                 .subscribe(observer);
 
     }
