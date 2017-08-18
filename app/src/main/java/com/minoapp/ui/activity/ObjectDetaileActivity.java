@@ -12,6 +12,7 @@ import com.minoapp.adapter.ViewPagerAdapter;
 import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
 import com.minoapp.data.bean.FragmentInfo;
+import com.minoapp.ui.fragment.BillListFragment;
 import com.minoapp.ui.fragment.HeatMeterFragment;
 import com.minoapp.ui.fragment.IncidentFragment;
 import com.minoapp.ui.fragment.ResidentsFragment;
@@ -71,6 +72,7 @@ public class ObjectDetaileActivity extends BaseActivity {
         mFragments.add(new FragmentInfo("住户", ResidentsFragment.class));
         mFragments.add(new FragmentInfo("热量表", HeatMeterFragment.class));
         mFragments.add(new FragmentInfo("测温设备", TempFragment.class));
+        mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
         if (incidentCount>0){
             mFragments.add(new FragmentInfo("报警信息", IncidentFragment.class));
         }

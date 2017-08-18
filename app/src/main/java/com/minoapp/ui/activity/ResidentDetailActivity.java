@@ -70,7 +70,7 @@ public class ResidentDetailActivity extends BaseActivity {
         if (isGAIZAO==1) {
             mFragments.add(new FragmentInfo("热分配计", HCAListFragment.class));
             mFragments.add(new FragmentInfo("读数信息", ReadingFragment.class));
-            mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
+           //a mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
         }
         if (isGAIZAO==0){
             mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));

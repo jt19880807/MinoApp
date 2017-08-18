@@ -173,6 +173,14 @@ public interface ApiService {
      */
     @GET("billing/getbillingseasion/{localityId}")
     Observable<BaseResponse<List<HeatSeasonBean>>> getBillingSeason(@Path("localityId") int localityId);
+
+    /**
+     * 获取指定房间的供暖季信息
+     * @param objectId
+     * @return
+     */
+    @GET("billing/getbillingseasionbyobjectid/{objectId}")
+    Observable<BaseResponse<List<HeatSeasonBean>>> getBillingSeasonByObjectId(@Path("objectId") int objectId);
     /**
      * 获取制定住户的指定供暖季的账单信息
      * @param localityId
@@ -182,7 +190,7 @@ public interface ApiService {
     @GET("billing/getbillingbylocalityid/{localityId}/{date}")
     Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(@Path("localityId") int localityId,
                                                                      @Path("date") String date);
-    @GET("billing/getbillingbyobjectid/{objectId}/{date}/{pageIndex}/{pageSize")
+    @GET("billing/getbillingbyobjectid/{objectId}/{date}/{pageIndex}/{pageSize}")
     Observable<BaseResponse<PageBean<BillingInfoBean>>> getBillingByObjectId(@Path("objectId") int objectId,
                                                                            @Path("date") String date,
                                                                          @Path("pageIndex") int pageIndex,

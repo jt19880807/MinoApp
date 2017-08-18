@@ -16,12 +16,14 @@ import io.reactivex.Observable;
 
 public interface BillingContract {
     interface BillingView extends BaseView{
-        void showBilling(List<BillingInfoBean> bean);
+        void showLocatityBilling(List<BillingInfoBean> bean);
+        void showObjectBilling(PageBean<BillingInfoBean> pageBean);
         void showHeatSeason(List<HeatSeasonBean> beanList);
+        void onLoadMoreComplete();
     }
     interface IBillingModel{
         Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(int localityId, String date);
         Observable<BaseResponse<PageBean<BillingInfoBean>>> getBillingByObjectId(int objectId,String date,int pageIndex,int pageSize);
-        Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int localityId);
+        Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int id,String type);
     }
 }

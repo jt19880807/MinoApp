@@ -83,7 +83,6 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
 
         ReadingModel readingModel = new ReadingModel();
         presenter = new ReadingPresenter(readingModel, this);
-        //暂时写死
         presenter.getHCAReadings(localityID, startDate, endDate, pageIndex, pageSize);
     }
 
@@ -224,22 +223,22 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
 
     @Override
     public void showLoading() {
-        //progressDialog.show();
-        rotateloading.start();
+        progressDialog.show();
+       // rotateloading.start();
     }
 
     @Override
     public void showError(String msg) {
         dismissLoading();
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void dismissLoading() {
-//        if (progressDialog.isShowing())
-//            progressDialog.dismiss();
-        if (rotateloading.isStart())
-            rotateloading.stop();
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
+//        if (rotateloading.isStart())
+//            rotateloading.stop();
     }
 
 

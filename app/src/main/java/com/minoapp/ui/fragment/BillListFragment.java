@@ -14,14 +14,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.minoapp.R;
 import com.minoapp.adapter.BillingInfoAdapter;
 import com.minoapp.base.BaseFragment;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.HeatSeasonBean;
+import com.minoapp.data.bean.PageBean;
 import com.minoapp.data.model.BillingInfoModel;
 import com.minoapp.presenter.BillingPresenter;
 import com.minoapp.presenter.contract.BillingContract;
+import com.minoapp.ui.activity.ObjectDetaileActivity;
 import com.minoapp.ui.activity.ResidentDetailActivity;
 import com.minoapp.ui.widget.CustomDatePicker;
 import com.minoapp.ui.widget.CustomYearPicker;
@@ -40,20 +43,25 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BillListFragment extends BaseFragment implements BillingContract.BillingView,View.OnClickListener {
+public class BillListFragment extends BaseFragment implements BillingContract.BillingView,View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener  {
 
 
     @BindView(R.id.recy_billing)
     RecyclerView recyBilling;
+    @BindView(R.id.tv_billing_date)
+    TextView tvBillingDate;
+    @BindView(R.id.tv_billing_search)
+    TextView tvBillingSearch;
 
     BillingPresenter presenter;
     BillingInfoAdapter billingInfoAdapter;
     ProgressDialog progressDialog;
     int localityID = 0;
-    @BindView(R.id.tv_billing_date)
-    TextView tvBillingDate;
-    @BindView(R.id.tv_billing_search)
-    TextView tvBillingSearch;
+    int objectId=0;
+    int pageIndex=1;
+    int pageSize=10;
+    String searDate="";
+
     private CustomYearPicker customYearPicker;
     List<HeatSeasonBean> seasonBeens=new ArrayList<>();
     public BillListFragment() {
@@ -69,14 +77,15 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
         tvBillingSearch.setOnClickListener(this);
         BillingContract.IBillingModel model = new BillingInfoModel();
         presenter = new BillingPresenter(model, this);
-        presenter.getHeatSeason(localityID);
+        presenter.getHeatSeason(objectId,"o");
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        localityID = ((ResidentDetailActivity) context).setLocalityID();
+        //localityID = ((ResidentDetailActivity) context).setLocalityID();
+        objectId=((ObjectDetaileActivity)context).setObjectId();
     }
 
 
@@ -94,6 +103,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     private void showBillingInfo() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         billingInfoAdapter = new BillingInfoAdapter(null);
+        billingInfoAdapter.setOnLoadMoreListener(this,recyBilling);
         recyBilling.setLayoutManager(layoutManager);
         recyBilling.setAdapter(billingInfoAdapter);
     }
@@ -120,10 +130,19 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     }
 
     @Override
-    public void showBilling(List<BillingInfoBean> bean) {
+    public void showLocatityBilling(List<BillingInfoBean> bean) {
         billingInfoAdapter.getData().clear();
         billingInfoAdapter.addData(bean);
 
+    }
+
+    @Override
+    public void showObjectBilling(PageBean<BillingInfoBean> pageBean) {
+
+        billingInfoAdapter.addData(pageBean.getDatas());
+        if (pageBean.isHasMore())
+            pageIndex++;
+        billingInfoAdapter.setEnableLoadMore(pageBean.isHasMore());
     }
 
     @Override
@@ -137,6 +156,11 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
             tvBillingDate.setText("无");
         }
         searchBilling();
+    }
+
+    @Override
+    public void onLoadMoreComplete() {
+        billingInfoAdapter.loadMoreComplete();
     }
 
     private ArrayList<String> formatDate(List<HeatSeasonBean> heatSeasonBeens){
@@ -157,14 +181,16 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
             customYearPicker.show(tvBillingDate.getText().toString());
         }
         else if (v.getId()==R.id.tv_billing_search){
+            pageIndex=1;
+
             searchBilling();
         }
 
     }
 
     private void searchBilling(){
+        billingInfoAdapter.getData().clear();
         String date=tvBillingDate.getText().toString();
-        String searDate="";
         if (seasonBeens.size()>0){
             for (HeatSeasonBean h : seasonBeens) {
                 if (h.getSeasion().split("-")[0].equals(date)){
@@ -173,12 +199,17 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
                 }
             }
 
-            presenter.getBillingByLocalityId(localityID,searDate);
+            presenter.getBillingByObjectId(objectId,searDate,pageIndex,pageSize);
         }
         else {
 
         }
 
 
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        presenter.getBillingByObjectId(objectId,searDate,pageIndex,pageSize);
     }
 }
