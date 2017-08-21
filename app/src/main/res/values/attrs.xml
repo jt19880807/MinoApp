@@ -4,5 +4,6 @@
     <declare-styleable name="SideBar">
         <attr name="textSize"/>
         <attr name="pressBackground" format="color"/>
+        <attr name="textColor" format="color"/>
     </declare-styleable>
 </resources>

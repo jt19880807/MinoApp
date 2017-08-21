@@ -30,8 +30,8 @@ import retrofit2.http.Path;
  */
 
 public interface ApiService {
-    public static final String Base_URL="http://192.168.5.117:8011/api/";
-    //public static final String Base_URL="http://192.168.1.107/api/";
+    //public static final String Base_URL="http://192.168.5.117:8011/api/";
+    public static final String Base_URL="http://192.168.1.107/api/";
 
     /**
      * 根据用户名和密码获取登录信息

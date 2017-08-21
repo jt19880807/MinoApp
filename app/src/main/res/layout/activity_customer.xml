@@ -36,7 +36,7 @@
             android:layout_gravity="right"
             app:pressBackground="@color/partranslucent"
             app:textSize="16sp"
-            />
+            app:textColor="@color/colorWhite" />
 
         <TextView
             android:id="@+id/tvSideBarHint"

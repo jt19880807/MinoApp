@@ -47,7 +47,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     private CustomerPresenter presenter;
     private ProgressDialog progressDialog;
     CustomerListAdapter adapter;
-    LinearLayoutManager layoutManager;
+    LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
     @Override
     protected String getTAG() {
         return CustomerActivity.class.getSimpleName();
@@ -63,11 +63,10 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
         super.onCreate(savedInstanceState);
         initToolbar();
         initSideBar();
-        //setSupportActionBar(toolbar);
         progressDialog=new ProgressDialog(this);
         CustomerContract.ICustomerModel model=new CustomerModel();
         presenter=new CustomerPresenter(model,this);
-        presenter.getAllCustomers("1");
+        //presenter.getAllCustomers("1");
     }
 
     private void initSideBar() {
@@ -105,7 +104,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     }
 
     public void showCustomers(List<CustomerSectionEntity> customerBeen) {
-        layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
         adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,customerBeen);
         vwCustomer.setLayoutManager(layoutManager);
         vwCustomer.setAdapter(adapter);
@@ -131,6 +130,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
 
     @Override
     public void showError(String msg) {
+        dismissLoading();
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 

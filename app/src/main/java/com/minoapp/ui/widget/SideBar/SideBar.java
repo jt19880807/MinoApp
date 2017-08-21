@@ -39,6 +39,7 @@ public class SideBar extends View {
     private int mGapHeight;//每个index区域的高度
     private Paint mPaint;//画笔
     private int mPressedBackground;//手指按下时的背景色
+    private int mTextColor;//文字颜色
     //以下边变量是外部set进来的
     private TextView mPressedShowTextView;//用于特写显示正在被触摸的index值
     private List<? extends BaseIndexPinyinBean> mSourceDatas;//Adapter的数据源
@@ -61,7 +62,7 @@ public class SideBar extends View {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         int textSize= (int)TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,16,getResources().getDisplayMetrics());//默认textSize大小
-        mPressedBackground= Color.BLACK;
+        mPressedBackground= Color.WHITE;
         TypedArray typedArray=context.getTheme().obtainStyledAttributes(attrs, R.styleable.SideBar,defStyleAttr,0);
         int n=typedArray.getIndexCount();
         for (int i=0;i<n;i++){
@@ -73,6 +74,8 @@ public class SideBar extends View {
                 case R.styleable.SideBar_pressBackground:
                     mPressedBackground=typedArray.getColor(index,mPressedBackground);
                     break;
+                case R.styleable.SideBar_textColor:
+                    mTextColor=typedArray.getColor(index,mTextColor);
 
             }
         }
@@ -84,13 +87,14 @@ public class SideBar extends View {
         mPaint=new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(textSize);
-        mPaint.setColor(mPressedBackground);
+        mPaint.setColor(mTextColor);
         //设置index触摸监听器
         setmOnIndexPressedListener(new onIndexPressedListener() {
             @Override
             public void onIndexPressed(int index, String text) {
                 if (mPressedShowTextView != null) { //显示hintTexView
                     mPressedShowTextView.setVisibility(View.VISIBLE);
+
                     mPressedShowTextView.setText(text);
                 }
                 //滑动Rv
