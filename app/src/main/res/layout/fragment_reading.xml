@@ -42,7 +42,7 @@
                 android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="2017-03-31"
+                android:text=""
                 android:textColor="@color/color5"
                 android:textSize="15sp"/>
             <TextView
@@ -60,7 +60,7 @@
                 android:textColor="@color/color5"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="2017-08-01"
+                android:text=""
                 android:textSize="15sp"/>
 
         </LinearLayout>

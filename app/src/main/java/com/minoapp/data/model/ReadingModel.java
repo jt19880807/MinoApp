@@ -23,14 +23,40 @@ public class ReadingModel implements IReadingModel {
     }
 
     @Override
-    public Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId, String startDate, String endDate, int pageIndex, int pageSize) {
+    public Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId,
+                                                                                           String startDate,
+                                                                                           String endDate,
+                                                                                           int pageIndex,
+                                                                                           int pageSize) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getBuildMeterReadings(meterId,startDate,endDate,pageIndex,pageSize);
     }
 
     @Override
-    public Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId, String startDate, String endDate, int pageIndex, int pageSize) {
+    public Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId,
+                                                                           String startDate,
+                                                                           String endDate,
+                                                                           int pageIndex,
+                                                                           int pageSize) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getTempReadings(meterId,startDate,endDate,pageIndex,pageSize);
+    }
+
+    @Override
+    public Observable<BaseResponse<PageBean<HCAReading>>> getHCAReadings(int localityId) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getHCALastReadings(localityId);
+    }
+
+    @Override
+    public Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId, int pageIndex, int pageSize) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getBuildMeterLastReadings(meterId,pageIndex,pageSize);
+    }
+
+    @Override
+    public Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId, int pageIndex, int pageSize) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getTempLastReadings(meterId,pageIndex,pageSize);
     }
 }

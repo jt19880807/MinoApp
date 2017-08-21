@@ -13,8 +13,11 @@ import com.minoapp.data.bean.ReadingBean;
 public interface ReadingContract {
     public interface ReadingView extends BaseView{
         void showHCAReadings(PageBean<HCAReading> pageBean);
+        void showHCALastReadings(PageBean<HCAReading> pageBean);
         void showBReadings(PageBean<BuildMeterReadingBean> pageBean);
+        void showBLastReadings(PageBean<BuildMeterReadingBean> pageBean);
         void showTempReading(PageBean<ReadingBean> pageBean);
+        void showTempLastReading(PageBean<ReadingBean> pageBean);
         void onLoadMoreComplete();
     }
 }

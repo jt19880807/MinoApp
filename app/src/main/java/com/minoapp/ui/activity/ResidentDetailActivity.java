@@ -61,7 +61,7 @@ public class ResidentDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         initTablayout();
     }
     private List<FragmentInfo> initFragments() {

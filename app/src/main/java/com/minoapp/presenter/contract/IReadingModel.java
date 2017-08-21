@@ -25,8 +25,25 @@ public interface IReadingModel {
      */
     Observable<BaseResponse<PageBean<HCAReading>>> getHCAReadings(int localityId,String startDate, String endDate, int pageIndex, int pageSize);
 
-    Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId, String startDate, String endDate, int pageIndex, int pageSize);
+    Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId,
+                                                                                    String startDate,
+                                                                                    String endDate,
+                                                                                    int pageIndex,
+                                                                                    int pageSize);
 
-    Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId, String startDate, String endDate, int pageIndex, int pageSize);
+    Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId,
+                                                                    String startDate,
+                                                                    String endDate,
+                                                                    int pageIndex,
+                                                                    int pageSize);
+    Observable<BaseResponse<PageBean<HCAReading>>> getHCAReadings(int localityId);
+
+    Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterReadings(int meterId,
+                                                                                    int pageIndex,
+                                                                                    int pageSize);
+
+    Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(int meterId,
+                                                                    int pageIndex,
+                                                                    int pageSize);
 
 }

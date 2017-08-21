@@ -136,6 +136,14 @@ public interface ApiService {
                                                                   @Path("pageSize") int pageSize);
 
     /**
+     * 获取当前房间下热分配计最新读数
+     * @param localityId 房间号
+     * @return
+     */
+    @GET("readings/gethcalastreading/{localityId}")
+    Observable<BaseResponse<PageBean<HCAReading>>> getHCALastReadings(@Path("localityId") int localityId);
+
+    /**
      * 获取当前时间段内当前热量表的读数
      * @param meterId
      * @param startDate
@@ -151,6 +159,17 @@ public interface ApiService {
                                                                                     @Path("pageIndex") int pageIndex,
                                                                                     @Path("pageSize") int pageSize);
     /**
+     * 获取当前热量表的最新读数
+     * @param meterId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("readings/getbuildmeterlastreading/{meterId}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<BuildMeterReadingBean>>> getBuildMeterLastReadings(@Path("meterId") int meterId,
+                                                                                    @Path("pageIndex") int pageIndex,
+                                                                                    @Path("pageSize") int pageSize);
+    /**
      * 获取当前时间段内当前测温设备的读数
      * @param meterId
      * @param startDate
@@ -163,6 +182,18 @@ public interface ApiService {
     Observable<BaseResponse<PageBean<ReadingBean>>> getTempReadings(@Path("meterId") int meterId,
                                                                     @Path("startDate") String startDate,
                                                                     @Path("endDate") String endDate,
+                                                                    @Path("pageIndex") int pageIndex,
+                                                                    @Path("pageSize") int pageSize);
+
+    /**
+     * 获取当前测温设备的最新读数
+     * @param meterId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    @GET("readings/gettemplastreading/{meterId}/{pageIndex}/{pageSize}")
+    Observable<BaseResponse<PageBean<ReadingBean>>> getTempLastReadings(@Path("meterId") int meterId,
                                                                     @Path("pageIndex") int pageIndex,
                                                                     @Path("pageSize") int pageSize);
 
@@ -190,6 +221,15 @@ public interface ApiService {
     @GET("billing/getbillingbylocalityid/{localityId}/{date}")
     Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(@Path("localityId") int localityId,
                                                                      @Path("date") String date);
+
+    /**
+     * 获取指定的项目的所有住户的账单
+     * @param objectId
+     * @param date
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @GET("billing/getbillingbyobjectid/{objectId}/{date}/{pageIndex}/{pageSize}")
     Observable<BaseResponse<PageBean<BillingInfoBean>>> getBillingByObjectId(@Path("objectId") int objectId,
                                                                            @Path("date") String date,

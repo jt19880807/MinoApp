@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,6 +25,8 @@ import com.minoapp.data.bean.CustomerSectionEntity;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
 import com.minoapp.presenter.contract.CustomerContract;
+import com.minoapp.ui.widget.SideBar.BaseIndexPinyinBean;
+import com.minoapp.ui.widget.SideBar.CityBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +39,15 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     Toolbar toolbar;
     @BindView(R.id.vw_customer)
     RecyclerView vwCustomer;
+    @BindView(R.id.indexBar)
+    com.minoapp.ui.widget.SideBar.SideBar indexBar;
+    @BindView(R.id.tvSideBarHint)
+    TextView tvSideBarHint;
 
     private CustomerPresenter presenter;
-
     private ProgressDialog progressDialog;
     CustomerListAdapter adapter;
-
+    LinearLayoutManager layoutManager;
     @Override
     protected String getTAG() {
         return CustomerActivity.class.getSimpleName();
@@ -56,12 +62,26 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolbar();
-
+        initSideBar();
         //setSupportActionBar(toolbar);
         progressDialog=new ProgressDialog(this);
         CustomerContract.ICustomerModel model=new CustomerModel();
         presenter=new CustomerPresenter(model,this);
         presenter.getAllCustomers("1");
+    }
+
+    private void initSideBar() {
+        List<CityBean> mDatas=new ArrayList<>();
+        CityBean cityBean=new CityBean("海淀区");
+        mDatas.add(cityBean);
+        cityBean=new CityBean("昌平区");
+        mDatas.add(cityBean);
+        cityBean=new CityBean("房山区");
+        mDatas.add(cityBean);
+        indexBar.setmPressedShowTextView(tvSideBarHint)//设置HintTextView
+                .setNeedRealIndex(true)//设置需要真实的索引
+                .setmLayoutManager(layoutManager)//设置RecyclerView的LayoutManager
+                .setmSourceDatas(mDatas);//设置数据源
     }
 
     private void initToolbar(){
@@ -85,7 +105,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     }
 
     public void showCustomers(List<CustomerSectionEntity> customerBeen) {
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,customerBeen);
         vwCustomer.setLayoutManager(layoutManager);
         vwCustomer.setAdapter(adapter);

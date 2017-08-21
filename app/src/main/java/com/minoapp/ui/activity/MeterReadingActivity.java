@@ -86,13 +86,23 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
             }
         }
         toolbar.setTitle(meterName + "读数");
-        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initAdapter();
         initDatePicker();
         tvHcaReadingSearch.setOnClickListener(this);
         IReadingModel model = new ReadingModel();
         presenter = new ReadingPresenter(model, this);
-        searchData();
+        //searchData();
+        if (meterType.equals("1")) {
+            presenter.getBuildMeterReadings(meterId,pageIndex, pageSize);
+        } else if (meterType.equals("3")) {
+            presenter.getTempReadings(meterId,pageIndex, pageSize);
+        }
     }
 
     private void initAdapter() {
@@ -116,13 +126,13 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     }
 
     private void initDatePicker() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        Calendar calendar = Calendar.getInstance();
-        tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
-        calendar.add(Calendar.MONTH, -1);
+//        Calendar calendar = Calendar.getInstance();
+//        tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
+//        calendar.add(Calendar.MONTH, -1);
         String now = sdf2.format(new Date());
-        tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
+        //tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
 
 
         customSDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
@@ -149,8 +159,8 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void showLoading() {
-        //progressDialog.show();
-        rotateloading.start();
+        progressDialog.show();
+        //rotateloading.start();
     }
 
     @Override
@@ -160,14 +170,19 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void dismissLoading() {
-//        if (progressDialog.isShowing())
-//            progressDialog.dismiss();
-        if(rotateloading.isStart())
-            rotateloading.stop();
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
+//        if(rotateloading.isStart())
+//            rotateloading.stop();
     }
 
     @Override
     public void showHCAReadings(PageBean<HCAReading> pageBean) {
+
+    }
+
+    @Override
+    public void showHCALastReadings(PageBean<HCAReading> pageBean) {
 
     }
 
@@ -181,7 +196,55 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     }
 
     @Override
+    public void showBLastReadings(PageBean<BuildMeterReadingBean> pageBean) {
+        if (pageBean.getTotalCount()>0){
+            tvHcaReadingEnddate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
+            tvHcaReadingStartdate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+            Calendar calendar = Calendar.getInstance();
+            tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
+            calendar.add(Calendar.MONTH, -1);
+            tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
+
+        }
+        startDate = tvHcaReadingStartdate.getText().toString();
+        endDate = tvHcaReadingEnddate.getText().toString();
+        buildMeterReadingAdapter.addData(pageBean.getDatas());
+        if (pageBean.isHasMore()) {
+            pageIndex++;
+        }
+        buildMeterReadingAdapter.setEnableLoadMore(pageBean.isHasMore());
+    }
+
+    @Override
     public void showTempReading(PageBean<ReadingBean> pageBean) {
+        tempReadingAdapter.addData(pageBean.getDatas());
+        if (pageBean.isHasMore()) {
+            pageIndex++;
+        }
+        tempReadingAdapter.setEnableLoadMore(pageBean.isHasMore());
+    }
+
+    @Override
+    public void showTempLastReading(PageBean<ReadingBean> pageBean) {
+        if (pageBean.getTotalCount()>0){
+            tvHcaReadingEnddate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
+            tvHcaReadingStartdate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+            Calendar calendar = Calendar.getInstance();
+            tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
+            calendar.add(Calendar.MONTH, -1);
+            tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
+
+        }
+        startDate = tvHcaReadingStartdate.getText().toString();
+        endDate = tvHcaReadingEnddate.getText().toString();
         tempReadingAdapter.addData(pageBean.getDatas());
         if (pageBean.isHasMore()) {
             pageIndex++;
@@ -219,11 +282,11 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
         if (meterType.equals("1")) {
             buildMeterReadingAdapter.getData().clear();
-            buildMeterReadingAdapter.notifyDataSetChanged();
+           // buildMeterReadingAdapter.notifyDataSetChanged();
             presenter.getBuildMeterReadings(meterId, startDate, endDate, pageIndex, pageSize);
         } else if (meterType.equals("3")) {
             tempReadingAdapter.getData().clear();
-            tempReadingAdapter.notifyDataSetChanged();
+           // tempReadingAdapter.notifyDataSetChanged();
             presenter.getTempReadings(meterId, startDate, endDate, pageIndex, pageSize);
         }
 

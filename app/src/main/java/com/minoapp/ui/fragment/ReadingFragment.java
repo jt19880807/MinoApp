@@ -83,18 +83,12 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
 
         ReadingModel readingModel = new ReadingModel();
         presenter = new ReadingPresenter(readingModel, this);
-        presenter.getHCAReadings(localityID, startDate, endDate, pageIndex, pageSize);
+        presenter.getHCAReadings(localityID);
     }
 
     private void initDatePicker() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-        Calendar calendar = Calendar.getInstance();
-        tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
-        calendar.add(Calendar.MONTH, -1);
         String now = sdf2.format(new Date());
-        tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
-
 
         customSDatePicker = new CustomDatePicker(getActivity(), new CustomDatePicker.ResultHandler() {
             @Override
@@ -134,7 +128,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
                 startDate = tvHcaReadingStartdate.getText().toString();
                 endDate = tvHcaReadingEnddate.getText().toString();
                 adapter.getData().clear();
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
                 presenter.getHCAReadings(localityID, startDate, endDate, pageIndex, pageSize);
             }
         });
@@ -156,12 +150,38 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     }
 
     @Override
+    public void showHCALastReadings(PageBean<HCAReading> pageBean) {
+        if (pageBean.getTotalCount()>0){
+            tvHcaReadingEnddate.setText(pageBean.getDatas().get(0).getDate());
+            tvHcaReadingStartdate.setText(pageBean.getDatas().get(0).getDate());
+        }
+        else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            Calendar calendar = Calendar.getInstance();
+            tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
+            tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
+        }
+        adapter.addData(getHCAReadingSectionEntityList(pageBean));
+        adapter.setEnableLoadMore(false);
+    }
+
+    @Override
     public void showBReadings(PageBean<BuildMeterReadingBean> pageBean) {
 
     }
 
     @Override
+    public void showBLastReadings(PageBean<BuildMeterReadingBean> pageBean) {
+
+    }
+
+    @Override
     public void showTempReading(PageBean<ReadingBean> pageBean) {
+
+    }
+
+    @Override
+    public void showTempLastReading(PageBean<ReadingBean> pageBean) {
 
     }
 
