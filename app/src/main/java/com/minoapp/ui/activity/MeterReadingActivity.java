@@ -126,14 +126,9 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     }
 
     private void initDatePicker() {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-//        Calendar calendar = Calendar.getInstance();
-//        tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
-//        calendar.add(Calendar.MONTH, -1);
-        String now = sdf2.format(new Date());
-        //tvHcaReadingStartdate.setText(sdf.format(calendar.getTime()));
 
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String now = sdf2.format(new Date());
 
         customSDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
@@ -203,7 +198,6 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
         }
         else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
             Calendar calendar = Calendar.getInstance();
             tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
             calendar.add(Calendar.MONTH, -1);

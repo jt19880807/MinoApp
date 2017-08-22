@@ -41,10 +41,9 @@ public class SearchActivity extends Activity implements CustomerContract.Custome
     Toolbar mToolbar;
     @BindView(R.id.search_customer)
     ListView searchCustomer;
-    List<CustomerBean> customers=new ArrayList<>();
-
     SearchCustomerAdapter adapter;
     private CustomerPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +51,15 @@ public class SearchActivity extends Activity implements CustomerContract.Custome
         ButterKnife.bind(this);
         CustomerContract.ICustomerModel model=new CustomerModel();
         presenter=new CustomerPresenter(model,this);
-        presenter.getAllCustomers("1");
+        presenter.getAllCustomerBeans("1");
         //initData();
-        initView();
+        //initView();
 
     }
 
 
 
-    private void initView() {
+    private void initView(List<CustomerBean> customers) {
         adapter=new SearchCustomerAdapter(SearchActivity.this,customers);
         searchCustomer.setAdapter(adapter);
         mToolbar.setNavigationIcon(
@@ -98,7 +97,14 @@ public class SearchActivity extends Activity implements CustomerContract.Custome
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length()==0){
+                    searchCustomer.setVisibility(View.GONE);
 
+                }
+                else {
+                    adapter.getFilter().filter(s);
+                    searchCustomer.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -134,6 +140,6 @@ public class SearchActivity extends Activity implements CustomerContract.Custome
 
     @Override
     public void setCustomerBeans(List<CustomerBean> customerBeen) {
-        customers=customerBeen;
+        initView(customerBeen);
     }
 }

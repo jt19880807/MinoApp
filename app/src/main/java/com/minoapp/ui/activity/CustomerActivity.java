@@ -13,22 +13,25 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.github.promeg.pinyinhelper.Pinyin;
 import com.minoapp.R;
 import com.minoapp.adapter.CustomerListAdapter;
-import com.minoapp.api.ApiService;
-import com.minoapp.api.RetrofitClient;
 import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
+import com.minoapp.common.utils.ACache;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.CustomerSectionEntity;
+import com.minoapp.data.bean.UserBean;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
 import com.minoapp.presenter.contract.CustomerContract;
-import com.minoapp.ui.widget.SideBar.BaseIndexPinyinBean;
 import com.minoapp.ui.widget.SideBar.CityBean;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,6 +51,10 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     private ProgressDialog progressDialog;
     CustomerListAdapter adapter;
     LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+    List<CustomerSectionEntity> customerBeenList;
+    List<CityBean> mDatas;
+    UserBean userBean;
+
     @Override
     protected String getTAG() {
         return CustomerActivity.class.getSimpleName();
@@ -62,25 +69,20 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolbar();
-        initSideBar();
+        init();
         progressDialog=new ProgressDialog(this);
         CustomerContract.ICustomerModel model=new CustomerModel();
         presenter=new CustomerPresenter(model,this);
-        //presenter.getAllCustomers("1");
+        presenter.getAllCustomers(userBean.getID()+"");
+        //
     }
 
     private void initSideBar() {
-        List<CityBean> mDatas=new ArrayList<>();
-        CityBean cityBean=new CityBean("海淀区");
-        mDatas.add(cityBean);
-        cityBean=new CityBean("昌平区");
-        mDatas.add(cityBean);
-        cityBean=new CityBean("房山区");
-        mDatas.add(cityBean);
         indexBar.setmPressedShowTextView(tvSideBarHint)//设置HintTextView
                 .setNeedRealIndex(true)//设置需要真实的索引
                 .setmLayoutManager(layoutManager)//设置RecyclerView的LayoutManager
-                .setmSourceDatas(mDatas);//设置数据源
+                .setmSourceDatas(mDatas)
+                .invalidate();//设置数据源
     }
 
     private void initToolbar(){
@@ -103,9 +105,10 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
         });
     }
 
-    public void showCustomers(List<CustomerSectionEntity> customerBeen) {
-
-        adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,customerBeen);
+    public void init() {
+        ACache aCache=ACache.get(this);
+        userBean= (UserBean) aCache.getAsObject(Constant.USER);
+        adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,null);
         vwCustomer.setLayoutManager(layoutManager);
         vwCustomer.setAdapter(adapter);
         vwCustomer.addOnItemTouchListener(new OnItemClickListener() {
@@ -142,7 +145,12 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
 
     @Override
     public void showData(List<Customer> customerBeen) {
-        showCustomers(getCustomerSectionEntitys(customerBeen));
+        customerBeenList=getCustomerSectionEntitys(customerBeen);
+        adapter.addData(customerBeenList);
+        //热力公司不加载侧导航
+        if (!userBean.getRoleName().equals("热力公司")) {
+            initSideBar();
+        }
     }
 
     @Override
@@ -152,19 +160,46 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
 
     private List<CustomerSectionEntity> getCustomerSectionEntitys(List<Customer> customerBeen){
         List<CustomerSectionEntity> customerSectionEntities=new ArrayList<>();
+        mDatas=new ArrayList<>();
+        CityBean cityBean;
         CustomerSectionEntity customerSectionEntity;
+        String city="";
         if (customerBeen.size()>0){
             for (Customer c :customerBeen) {
-                customerSectionEntity=new CustomerSectionEntity(true,c.getAddress());
+                city=c.getAddress().split(" ")[1];
+                customerSectionEntity=new CustomerSectionEntity(true,c.getAddress(),city);
+                cityBean=new CityBean(c.getAddress().split(" ")[1]);
+                mDatas.add(cityBean);
                 customerSectionEntities.add(customerSectionEntity);
                 if (c.getData().size()>0){
                     for (CustomerBean cb :c.getData()) {
-                        customerSectionEntity=new CustomerSectionEntity(cb);
+                        customerSectionEntity=new CustomerSectionEntity(cb,city);
                         customerSectionEntities.add(customerSectionEntity);
+                        cityBean=new CityBean(c.getAddress().split(" ")[1]);
+                        mDatas.add(cityBean);
                     }
                 }
             }
         }
+        return sortCustomer(customerSectionEntities);
+
+    }
+
+    private List<CustomerSectionEntity> sortCustomer(List<CustomerSectionEntity> customerSectionEntities) {
+        for (CustomerSectionEntity cu:customerSectionEntities) {
+            StringBuilder pySb = new StringBuilder();
+            String city=cu.getCity();
+            for (int i=0;i<city.length();i++){
+                pySb.append(Pinyin.toPinyin(city.charAt(i)));
+            }
+            cu.setPyCity(pySb.toString());
+        }
+        Collections.sort(customerSectionEntities, new Comparator<CustomerSectionEntity>() {
+            @Override
+            public int compare(CustomerSectionEntity o1, CustomerSectionEntity o2) {
+                return o1.getPyCity().compareTo(o2.getPyCity());
+            }
+        });
         return customerSectionEntities;
     }
 }

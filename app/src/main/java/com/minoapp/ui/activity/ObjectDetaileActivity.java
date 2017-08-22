@@ -61,7 +61,7 @@ public class ObjectDetaileActivity extends BaseActivity {
                 finish();
             }
         });
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         initTablayout();
     }
 

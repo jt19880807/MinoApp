@@ -34,7 +34,7 @@ public class SideBar extends View {
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#"};//数据源
     private List<String> mIndexDatas;//索引数据源
-    private boolean isNeedRealIndex=false;//是否需要根据实际的数据来生成索引数据源
+    private boolean isNeedRealIndex=true;//是否需要根据实际的数据来生成索引数据源
     private int mWidth, mHeight;//View的宽高
     private int mGapHeight;//每个index区域的高度
     private Paint mPaint;//画笔
@@ -82,6 +82,8 @@ public class SideBar extends View {
         typedArray.recycle();
         if (!isNeedRealIndex) {//不需要真实的索引数据源
             mIndexDatas = Arrays.asList(INDEX_STRING);
+        }else {
+            mIndexDatas=new ArrayList<>();
         }
         //初始化画笔
         mPaint=new Paint();
@@ -165,7 +167,7 @@ public class SideBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int t = getPaddingTop();//top的基准点(支持padding)
+        int t = getPaddingTop()+(mHeight - getPaddingTop() - getPaddingBottom()-mGapHeight*mIndexDatas.size())/2;//top的基准点(支持padding)
         Rect indexBounds = new Rect();//存放每个绘制的index的Rect区域
         String index;//每个要绘制的index内容
         for (int i = 0; i < mIndexDatas.size(); i++) {
@@ -186,7 +188,7 @@ public class SideBar extends View {
             case MotionEvent.ACTION_MOVE:
                 float y = event.getY();
                 //通过计算判断落点在哪个区域：
-                int pressI = (int) ((y - getPaddingTop()) / mGapHeight);
+                int pressI = (int) ((y - getPaddingTop()-(mHeight - getPaddingTop() - getPaddingBottom()-mGapHeight*mIndexDatas.size())/2) / mGapHeight);
                 //边界处理（在手指move时，有可能已经移出边界，防止越界）
                 if (pressI < 0) {
                     pressI = 0;
@@ -216,7 +218,15 @@ public class SideBar extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
-        mGapHeight = (mHeight - getPaddingTop() - getPaddingBottom()) / mIndexDatas.size();
+//        if (null == mIndexDatas || mIndexDatas.isEmpty()) {
+//            return;
+//        }
+        computeGapHeight();
+    }
+
+    private void computeGapHeight() {
+       // (mHeight - getPaddingTop() - getPaddingBottom()-mGapHeight*size)/2
+        mGapHeight = (mHeight - getPaddingTop() - getPaddingBottom()) / 27;
     }
 
     public interface onIndexPressedListener{
@@ -224,9 +234,11 @@ public class SideBar extends View {
         void onMotionEventEnd();//当触摸事件结束（UP CANCEL）
     }
     private onIndexPressedListener mOnIndexPressedListener;
+
     public onIndexPressedListener getmOnIndexPressedListener() {
         return mOnIndexPressedListener;
     }
+
     public void setmOnIndexPressedListener(onIndexPressedListener mOnIndexPressedListener) {
         this.mOnIndexPressedListener = mOnIndexPressedListener;
     }
@@ -256,6 +268,7 @@ public class SideBar extends View {
     public SideBar setmSourceDatas(List<? extends BaseIndexPinyinBean> mSourceDatas) {
         this.mSourceDatas = mSourceDatas;
         initSourceDatas();//对数据源进行初始化
+        //computeGapHeight();
         return this;
     }
     /**
@@ -278,20 +291,22 @@ public class SideBar extends View {
             }
             indexPinyinBean.setPyCity(pySb.toString());//设置城市名全拼音
 
-            //以下代码设置城市拼音首字母
-            String tagString = pySb.toString().substring(0, 1);
-            if (tagString.matches("[A-Z]")) {//如果是A-Z字母开头
-                indexPinyinBean.setTag(tagString);
-                if (isNeedRealIndex) {//如果需要真实的索引数据源
-                    if (!mIndexDatas.contains(tagString)) {//则判断是否已经将这个索引添加进去，若没有则添加
-                        mIndexDatas.add(tagString);
+            if (pySb.length()>0){
+                //以下代码设置城市拼音首字母
+                String tagString = pySb.toString().substring(0, 1);
+                if (tagString.matches("[A-Z]")) {//如果是A-Z字母开头
+                    indexPinyinBean.setTag(tagString);
+                    if (isNeedRealIndex) {//如果需要真实的索引数据源
+                        if (!mIndexDatas.contains(tagString)) {//则判断是否已经将这个索引添加进去，若没有则添加
+                            mIndexDatas.add(tagString);
+                        }
                     }
-                }
-            } else {//特殊字母这里统一用#处理
-                indexPinyinBean.setTag("#");
-                if (isNeedRealIndex) {//如果需要真实的索引数据源
-                    if (!mIndexDatas.contains("#")) {
-                        mIndexDatas.add("#");
+                } else {//特殊字母这里统一用#处理
+                    indexPinyinBean.setTag("#");
+                    if (isNeedRealIndex) {//如果需要真实的索引数据源
+                        if (!mIndexDatas.contains("#")) {
+                            mIndexDatas.add("#");
+                        }
                     }
                 }
             }
@@ -337,6 +352,9 @@ public class SideBar extends View {
      * @return
      */
     private int getPosByTag(String tag) {
+        if (null == mSourceDatas || mSourceDatas.isEmpty()) {
+            return -1;
+        }
         if (TextUtils.isEmpty(tag)) {
             return -1;
         }

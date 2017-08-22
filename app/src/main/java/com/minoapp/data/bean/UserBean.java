@@ -27,9 +27,17 @@ public class UserBean extends BaseEntity {
     private String Password;
     private String Objects;
     private int IsDeleted;
+    private String RoleName;
     private List<RightBean> ParentRights;
     private List<RightBean> ChildRights;
 
+    public String getRoleName() {
+        return RoleName;
+    }
+
+    public void setRoleName(String roleName) {
+        RoleName = roleName;
+    }
     public int getID() {
         return ID;
     }

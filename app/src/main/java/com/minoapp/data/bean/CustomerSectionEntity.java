@@ -9,13 +9,34 @@ import com.chad.library.adapter.base.entity.SectionEntity;
 public class CustomerSectionEntity extends SectionEntity<CustomerBean> {
     public String title;
     public CustomerBean customerBean;
-    public CustomerSectionEntity(boolean isHeader, String header) {
-        super(isHeader, header);
-        this.title=header;
+    private String city;
+
+    public String getCity() {
+        return city;
     }
 
-    public CustomerSectionEntity(CustomerBean customerBean) {
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    private String pyCity;//城市的拼音
+
+    public String getPyCity() {
+        return pyCity;
+    }
+
+    public void setPyCity(String pyCity) {
+        this.pyCity = pyCity;
+    }
+    public CustomerSectionEntity(boolean isHeader, String header,String city) {
+        super(isHeader, header);
+        this.title=header;
+        this.city=city;
+    }
+
+    public CustomerSectionEntity(CustomerBean customerBean,String city) {
         super(customerBean);
         this.customerBean=customerBean;
+        this.city=city;
     }
 }
