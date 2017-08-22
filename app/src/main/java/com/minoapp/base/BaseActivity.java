@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.minoapp.R;
+import com.minoapp.common.Constant;
+import com.minoapp.common.utils.ACache;
+import com.minoapp.data.bean.UserBean;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,11 +30,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public String mAuthorization;
 
     private Unbinder unbinder;
-
+    private UserBean userBean;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ACache aCache=ACache.get(this);
+        userBean=(UserBean)aCache.getAsObject(Constant.USER);
         setContentView(getLayoutId());
         unbinder=ButterKnife.bind(this);
         mContext=this;

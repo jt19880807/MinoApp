@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.minoapp.R;
+import com.minoapp.common.Constant;
+import com.minoapp.common.utils.ACache;
+import com.minoapp.data.bean.UserBean;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -23,13 +26,14 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment implements BaseView {
     private Unbinder mUnbinder;
     private View mRootView;
-
+    private UserBean userBean;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(getLayoutId(), container, false);
         mUnbinder=  ButterKnife.bind(this, mRootView);
-
+        ACache aCache=ACache.get(getActivity());
+        userBean=(UserBean)aCache.getAsObject(Constant.USER);
         return mRootView;
     }
 
