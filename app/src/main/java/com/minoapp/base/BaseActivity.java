@@ -30,11 +30,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public String mAuthorization;
 
     private Unbinder unbinder;
-    private UserBean userBean;
+    protected UserBean userBean;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ACache aCache=ACache.get(this);
+
         userBean=(UserBean)aCache.getAsObject(Constant.USER);
         setContentView(getLayoutId());
         unbinder=ButterKnife.bind(this);

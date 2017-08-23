@@ -34,6 +34,9 @@ import com.minoapp.R;
 import com.minoapp.api.ApiService;
 import com.minoapp.api.RetrofitClient;
 import com.minoapp.base.BaseActivity;
+import com.minoapp.common.Constant;
+import com.minoapp.common.utils.ACache;
+import com.minoapp.data.bean.UserBean;
 import com.minoapp.data.model.LoginModel;
 import com.minoapp.presenter.LoginPresenter;
 import com.minoapp.presenter.contract.LoginContract;
@@ -303,7 +306,16 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     @Override
     public void LoginSuccess() {
-        openActivity(HomeActivity.class);
+        ACache aCache=ACache.get(this);
+        UserBean userBean=(UserBean)aCache.getAsObject(Constant.USER);
+        if("住户".equals(userBean.getRoleName())){
+            Bundle bundle=new Bundle();
+            bundle.putInt(Constant.OBJECT_ID, Integer.parseInt(userBean.getObjects()));
+            openActivity(ObjectDetaileActivity.class,bundle);
+        }
+        else {
+            openActivity(HomeActivity.class);
+        }
     }
 
 

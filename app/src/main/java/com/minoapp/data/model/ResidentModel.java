@@ -21,4 +21,9 @@ public class ResidentModel implements ResidentsContract.IResidentsModel {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getResidents(objectID,pageIndex,pageSize);
     }
+
+    @Override
+    public Observable<BaseResponse<ResidentBean>> getResidents(int localityId) {
+        return null;
+    }
 }

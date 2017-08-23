@@ -11,26 +11,23 @@ import java.util.List;
  */
 
 public class UserBean extends BaseEntity {
-
-    /**
-     * ParentRights : [{"ID":1,"ParentID":0,"RightName":"热计量"},{"ID":2,"ParentID":0,"RightName":"换热站"},{"ID":3,"ParentID":0,"RightName":"煤改电"}]
-     * ChildRights : [{"ID":4,"ParentID":1,"RightName":"项目管理"},{"ID":5,"ParentID":2,"RightName":"设备管理"},{"ID":6,"ParentID":3,"RightName":"设备管理"}]
-     * ID : 1
-     * LoginName : admin
-     * Password : 123456
-     * Objects : 201,202
-     * IsDeleted : 0
-     */
-
     private int ID;
     private String LoginName;
     private String Password;
     private String Objects;
     private int IsDeleted;
     private String RoleName;
+    private int LocalityId;
     private List<RightBean> ParentRights;
     private List<RightBean> ChildRights;
 
+    public int getLocalityId() {
+        return LocalityId;
+    }
+
+    public void setLocalityId(int localityId) {
+        LocalityId = localityId;
+    }
     public String getRoleName() {
         return RoleName;
     }

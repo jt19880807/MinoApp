@@ -45,6 +45,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
     private ResidentsAdapter adapter;
     ProgressDialog progressDialog;
     int objectId = 0;
+    int localityId=0;
     public ResidentsFragment() {
         // Required empty public constructor
     }
@@ -58,8 +59,16 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
         showResidents(beanList);
         ResidentModel model=new ResidentModel();
         presenter=new ResidentsPresenter(model,this);
-        //暂时写死
-        presenter.getResidents(objectId,pageIndex,pageSize);
+        if ("住户".equals(userBean.getRoleName())){
+            //普通住户 只显示当前住户信息
+            presenter.getResidents(localityId);
+        }
+        else {
+            //管理员或者热力公司 显示所有的住户信息
+            presenter.getResidents(objectId,pageIndex,pageSize);
+
+        }
+
     }
     @Override
     public void onAttach(Context context) {
@@ -78,6 +87,11 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
             pageIndex++;
         }
         adapter.setEnableLoadMore(pageBean.isHasMore());
+    }
+
+    @Override
+    public void showData(ResidentBean residentBeen) {
+
     }
 
     @Override

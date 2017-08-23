@@ -92,7 +92,7 @@ public interface ApiService {
      * @param pageSize
      * @return
      */
-    @GET("object/getResidentByObjectID/{objectID}/{pageIndex}/{pageSize}")
+    @GET("object/getresidentbyobjectid/{objectID}/{pageIndex}/{pageSize}")
     Observable<BaseResponse<PageBean<ResidentBean>>> getResidents(@Path("objectID") int objectID,
                                                                   @Path("pageIndex") int pageIndex,
                                                                   @Path("pageSize") int pageSize);

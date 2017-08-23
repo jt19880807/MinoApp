@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment implements BaseView {
     private Unbinder mUnbinder;
     private View mRootView;
-    private UserBean userBean;
+    public UserBean userBean;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

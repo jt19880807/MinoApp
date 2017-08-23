@@ -46,23 +46,29 @@ public class HomeActivity extends BaseActivity {
 
     private void initGridView() {
         List<RightBean> rightBeanList=new ArrayList<>();
-        ACache aCache=ACache.get(this);
-        UserBean userBean=(UserBean)aCache.getAsObject(Constant.USER);
-        if(userBean!=null){
-            rightBeanList=userBean.getParentRights();
+//        ACache aCache=ACache.get(this);
+//        UserBean userBean=(UserBean)aCache.getAsObject(Constant.USER);
+//        if(userBean!=null){
+//            rightBeanList=userBean.getParentRights();
+//
+//            for (RightBean bean :rightBeanList) {
+//                if (bean.getRightName().equals("热计量")){
+//                    menuBeanList.add(new MenuBean("热计量",R.mipmap.icon_rejl));
+//                }
+//                else if(bean.getRightName().equals("换热站")){
+//                    menuBeanList.add(new MenuBean("换热站",R.mipmap.icon_heatranser));
+//                }
+//                else if(bean.getRightName().equals("煤改电")){
+//                    menuBeanList.add(new MenuBean("煤改电",R.mipmap.icon_meigaidian));
+//                }
+//            }
+//
+//        }
 
-            for (RightBean bean :rightBeanList) {
-                if (bean.getRightName().equals("热计量")){
-                    menuBeanList.add(new MenuBean("热计量",R.mipmap.icon_rejl));
-                }
-                else if(bean.getRightName().equals("换热站")){
-                    menuBeanList.add(new MenuBean("换热站",R.mipmap.icon_heatranser));
-                }
-                else if(bean.getRightName().equals("煤改电")){
-                    menuBeanList.add(new MenuBean("煤改电",R.mipmap.icon_meigaidian));
-                }
-            }
-
+        if(!"住户".equals(userBean.getRoleName())){
+            menuBeanList.add(new MenuBean("热计量",R.mipmap.icon_rejl));
+            menuBeanList.add(new MenuBean("换热站",R.mipmap.icon_heatranser));
+            menuBeanList.add(new MenuBean("煤改电",R.mipmap.icon_meigaidian));
         }
         MainGridAdapter adapter=new MainGridAdapter(menuBeanList,this);
         gridHome.setAdapter(adapter);

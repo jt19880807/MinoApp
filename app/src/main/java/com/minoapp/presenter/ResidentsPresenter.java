@@ -9,6 +9,8 @@ import com.minoapp.data.bean.PageBean;
 import com.minoapp.data.bean.ResidentBean;
 import com.minoapp.presenter.contract.ResidentsContract;
 
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 
@@ -49,5 +51,20 @@ public class ResidentsPresenter extends BasePresenter<ResidentsContract.IResiden
         model.getResidents(objectID,pageIndex,pageSize)
                 .compose(RxHttpReponseCompat.<PageBean<ResidentBean>>compatResult())
                 .subscribe(observer);
+    }
+
+    public void getResidents(int localityId)
+    {
+        Observer observer=new ProgressSubcriber<ResidentBean>(context, view) {
+
+            @Override
+            public void onNext(@NonNull ResidentBean residentBean) {
+                view.showData(residentBean);
+            }
+        };
+        model.getResidents(localityId)
+                .compose(RxHttpReponseCompat.<ResidentBean>compatResult())
+                .subscribe(observer);
+
     }
 }
