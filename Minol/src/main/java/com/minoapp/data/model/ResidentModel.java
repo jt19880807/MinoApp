@@ -7,6 +7,8 @@ import com.minoapp.data.bean.PageBean;
 import com.minoapp.data.bean.ResidentBean;
 import com.minoapp.presenter.contract.ResidentsContract;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -23,7 +25,9 @@ public class ResidentModel implements ResidentsContract.IResidentsModel {
     }
 
     @Override
-    public Observable<BaseResponse<ResidentBean>> getResidents(int localityId) {
-        return null;
+    public Observable<BaseResponse<List<ResidentBean>>> getResidents(int localityId) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getResidents(localityId);
+
     }
 }

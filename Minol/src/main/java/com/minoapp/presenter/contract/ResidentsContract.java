@@ -17,14 +17,14 @@ import io.reactivex.Observable;
 public interface ResidentsContract {
     public interface ResidentsView extends BaseView {
         void showData(PageBean<ResidentBean> pageBean);
-        void showData(ResidentBean residentBeen);
+        void showData(List<ResidentBean> residentBeen);
         void onLoadMoreComplete();
     }
 
     public interface IResidentsModel{
 
         Observable<BaseResponse<PageBean<ResidentBean>>> getResidents(int objectID, int pageIndex, int pageSize);
-        Observable<BaseResponse<ResidentBean>> getResidents(int localityId);
+        Observable<BaseResponse<List<ResidentBean>>> getResidents(int localityId);
 
     }
 }

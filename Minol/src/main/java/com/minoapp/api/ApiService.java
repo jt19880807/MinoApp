@@ -97,6 +97,13 @@ public interface ApiService {
                                                                   @Path("pageIndex") int pageIndex,
                                                                   @Path("pageSize") int pageSize);
     /**
+     * 获取指定的住户信息
+     * @param localityId
+     * @return
+     */
+    @GET("resident/getresidentbylocalityid/{localityId}")
+    Observable<BaseResponse<List<ResidentBean>>> getResidents(@Path("localityId") int localityId);
+    /**
      * 获取当前项目下的热量表信息
      * @param objectID
      * @return

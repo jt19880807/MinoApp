@@ -61,7 +61,7 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
         presenter=new ResidentsPresenter(model,this);
         if ("住户".equals(userBean.getRoleName())){
             //普通住户 只显示当前住户信息
-            presenter.getResidents(localityId);
+            presenter.getResidents(userBean.getLocalityId());
         }
         else {
             //管理员或者热力公司 显示所有的住户信息
@@ -90,8 +90,9 @@ public class ResidentsFragment extends BaseFragment implements ResidentsContract
     }
 
     @Override
-    public void showData(ResidentBean residentBeen) {
-
+    public void showData(List<ResidentBean> residentBeen) {
+        adapter.addData(residentBeen);
+        adapter.setEnableLoadMore(false);
     }
 
     @Override

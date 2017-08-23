@@ -53,17 +53,16 @@ public class ResidentsPresenter extends BasePresenter<ResidentsContract.IResiden
                 .subscribe(observer);
     }
 
-    public void getResidents(int localityId)
-    {
-        Observer observer=new ProgressSubcriber<ResidentBean>(context, view) {
+    public void getResidents(int localityId) {
+        Observer observer=new ProgressSubcriber<List<ResidentBean>>(context, view) {
 
             @Override
-            public void onNext(@NonNull ResidentBean residentBean) {
+            public void onNext(@NonNull List<ResidentBean> residentBean) {
                 view.showData(residentBean);
             }
         };
         model.getResidents(localityId)
-                .compose(RxHttpReponseCompat.<ResidentBean>compatResult())
+                .compose(RxHttpReponseCompat.<List<ResidentBean>>compatResult())
                 .subscribe(observer);
 
     }

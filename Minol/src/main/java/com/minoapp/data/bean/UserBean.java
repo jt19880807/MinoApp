@@ -18,8 +18,17 @@ public class UserBean extends BaseEntity {
     private int IsDeleted;
     private String RoleName;
     private int LocalityId;
+    private int TempCount;
     private List<RightBean> ParentRights;
     private List<RightBean> ChildRights;
+
+    public int getTempCount() {
+        return TempCount;
+    }
+
+    public void setTempCount(int tempCount) {
+        TempCount = tempCount;
+    }
 
     public int getLocalityId() {
         return LocalityId;
