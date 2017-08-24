@@ -23,11 +23,14 @@ public interface IMeterModel {
     Observable<BaseResponse<List<HeatMeterBean>>> getBuildMetersByObjectId(int objectID);
 
     /**
-     * 根据项目ID获取楼栋大表
-     * @param objectID
+     * 根据项目或者住户的获取楼栋大表
+     * @param id
+     * @param type 1:项目 2：住户
      * @return
      */
-    Observable<BaseResponse<List<MeterBean>>> getTempByObjectId(int objectID);
+    Observable<BaseResponse<List<MeterBean>>> getTemp(int id, int type);
+
+
 
     /**
      * 获取当前房间下的热分配计信息

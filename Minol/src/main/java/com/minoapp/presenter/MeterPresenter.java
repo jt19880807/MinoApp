@@ -37,14 +37,15 @@ public class MeterPresenter extends BasePresenter<IMeterModel,MeterContract.Heat
 
     }
 
-    public void getTempByObjectId(int objectId) {
+    public void getTemp(int id,int type) {
         Observer observer=new ProgressSubcriber<List<MeterBean>>(context, view) {
             @Override
             public void onNext(@NonNull List<MeterBean> beanList) {
                 view.showTemp(beanList);
             }
         };
-        model.getTempByObjectId(objectId)
+
+        model.getTemp(id,type)
                 .compose(RxHttpReponseCompat.<List<MeterBean>>compatResult())
                 .subscribe(observer);
     }

@@ -92,7 +92,7 @@ public interface ApiService {
      * @param pageSize
      * @return
      */
-    @GET("object/getresidentbyobjectid/{objectID}/{pageIndex}/{pageSize}")
+    @GET("resident/getresidentbyobjectid/{objectID}/{pageIndex}/{pageSize}")
     Observable<BaseResponse<PageBean<ResidentBean>>> getResidents(@Path("objectID") int objectID,
                                                                   @Path("pageIndex") int pageIndex,
                                                                   @Path("pageSize") int pageSize);
@@ -118,6 +118,14 @@ public interface ApiService {
      */
     @GET("meter/gettempbyobjectid/{objectID}")
     Observable<BaseResponse<List<MeterBean>>> getTempByObjectId(@Path("objectID") int objectID);
+
+    /**
+     * 获取当前住户的测温设备信息
+     * @param localityId
+     * @return
+     */
+    @GET("meter/gettempbylocalityid/{localityId}")
+    Observable<BaseResponse<List<MeterBean>>> getTempByLocalityId(@Path("localityId") int localityId);
 
     /**
      * 获取当前房间下的热分配计信息
@@ -256,4 +264,8 @@ public interface ApiService {
                                                                             @Path("pageIndex") int pageIndex,
                                                                             @Path("pageSize") int pageSize);
 
+
+    //根据用户ID获取热力公司
+    @GET("heatstation/getheatstations/{userID}")
+    Observable<BaseResponse<List<Customer>>> getAllHeatStationsByUserID(@Path("userID") int userID);
 }

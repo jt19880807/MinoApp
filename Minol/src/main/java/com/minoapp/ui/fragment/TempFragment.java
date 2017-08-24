@@ -56,8 +56,13 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
         showTemp();
         IMeterModel model=new MeterModel();
         presenter=new MeterPresenter(model,this);
-        //暂时写死
-        presenter.getTempByObjectId(objectId);
+        if (userBean.getRoleName().equals("住户")) {
+            //暂时写死
+            presenter.getTemp(userBean.getLocalityId(),2);
+        }
+        else {
+            presenter.getTemp(objectId,1);
+        }
     }
 
     @Override

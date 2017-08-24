@@ -22,5 +22,6 @@ public interface CustomerContract {
     public interface ICustomerModel{
         Observable<BaseResponse<List<Customer>>> getCustomers(String userId);
         Observable<BaseResponse<List<CustomerBean>>> getCustomerBeans(String userId);
+        Observable<BaseResponse<List<Customer>>> getHeatStations(int userId);
     }
 }

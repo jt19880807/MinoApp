@@ -81,7 +81,8 @@ public class HomeActivity extends BaseActivity {
 
                 }
                 else if(menuTitle.equals("换热站")){
-                    Toast.makeText(mContext, "换热站正在开发中...", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "换热站正在开发中...", Toast.LENGTH_SHORT).show();
+                    openActivity(HeatStationsActivity.class);
                 }
                 else if(menuTitle.equals("煤改电")){
                     Toast.makeText(mContext, "煤改电正在开发中...", Toast.LENGTH_SHORT).show();

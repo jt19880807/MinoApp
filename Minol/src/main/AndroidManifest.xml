@@ -31,7 +31,8 @@
         <activity android:name=".ui.activity.ResidentDetailActivity" />
         <activity android:name=".ui.activity.MeterReadingActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
-        <activity android:name=".ui.activity.AreaActivity"></activity>
+        <activity android:name=".ui.activity.AreaActivity" />
+        <activity android:name=".ui.activity.HeatStationsActivity"></activity>
     </application>
 
 </manifest>

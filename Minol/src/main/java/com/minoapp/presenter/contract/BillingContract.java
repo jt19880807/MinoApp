@@ -24,6 +24,6 @@ public interface BillingContract {
     interface IBillingModel{
         Observable<BaseResponse<List<BillingInfoBean>>> getBillingByLocalityId(int localityId, String date);
         Observable<BaseResponse<PageBean<BillingInfoBean>>> getBillingByObjectId(int objectId,String date,int pageIndex,int pageSize);
-        Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int id,String type);
+        Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int id,int type);
     }
 }

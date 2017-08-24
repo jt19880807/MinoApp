@@ -24,9 +24,15 @@ public class MeterModel implements IMeterModel {
     }
 
     @Override
-    public Observable<BaseResponse<List<MeterBean>>> getTempByObjectId(int objectID) {
+    public Observable<BaseResponse<List<MeterBean>>> getTemp(int id, int type) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
-        return apiservice.getTempByObjectId(objectID);
+        if (type==1) {
+            return apiservice.getTempByObjectId(id);
+        }
+        else if(type==2) {
+            return apiservice.getTempByLocalityId(id);
+        }
+        return null;
     }
 
     @Override

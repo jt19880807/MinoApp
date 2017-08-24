@@ -30,11 +30,11 @@ public class BillingInfoModel implements BillingContract.IBillingModel {
     }
 
     @Override
-    public Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int id,String type) {
+    public Observable<BaseResponse<List<HeatSeasonBean>>> getHeatSeason(int id,int type) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
-        if ("l".equals(type)) {
+        if (type==2) {
             return apiservice.getBillingSeason(id);
-        }else if ("o".equals(type)){
+        }else if (type==1){
             return apiservice.getBillingSeasonByObjectId(id);
         }
         return null;

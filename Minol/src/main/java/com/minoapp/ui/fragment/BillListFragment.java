@@ -56,7 +56,6 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     BillingPresenter presenter;
     BillingInfoAdapter billingInfoAdapter;
     ProgressDialog progressDialog;
-    int localityID = 0;
     int objectId=0;
     int pageIndex=1;
     int pageSize=10;
@@ -77,14 +76,20 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
         tvBillingSearch.setOnClickListener(this);
         BillingContract.IBillingModel model = new BillingInfoModel();
         presenter = new BillingPresenter(model, this);
-        presenter.getHeatSeason(objectId,"o");
+        if (userBean.getRoleName().equals("住户")){
+            //根据住户ID获取供暖季
+            presenter.getHeatSeason(userBean.getLocalityId(),2);
+        }
+        else {
+            //根据项目ID获取供暖季
+            presenter.getHeatSeason(objectId, 1);
+        }
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //localityID = ((ResidentDetailActivity) context).setLocalityID();
         objectId=((ObjectDetaileActivity)context).setObjectId();
     }
 
@@ -133,7 +138,7 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
     public void showLocatityBilling(List<BillingInfoBean> bean) {
         billingInfoAdapter.getData().clear();
         billingInfoAdapter.addData(bean);
-
+        billingInfoAdapter.setEnableLoadMore(false);
     }
 
     @Override
@@ -198,8 +203,11 @@ public class BillListFragment extends BaseFragment implements BillingContract.Bi
                     break;
                 }
             }
-
-            presenter.getBillingByObjectId(objectId,searDate,pageIndex,pageSize);
+            if (userBean.getRoleName().equals("住户")){
+                presenter.getBillingByLocalityId(userBean.getLocalityId(),searDate);
+            }else {
+                presenter.getBillingByObjectId(objectId, searDate, pageIndex, pageSize);
+            }
         }
         else {
 

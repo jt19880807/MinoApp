@@ -50,4 +50,16 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
                 .compose(RxHttpReponseCompat.<List<CustomerBean>>compatResult())
                 .subscribe(observer);
     }
+
+    public void getAllHeatStations(int userId){
+        Observer observer=new ProgressSubcriber<List<Customer>>(context, view) {
+            @Override
+            public void onNext(@NonNull List<Customer> beanList) {
+                view.showData(beanList);
+            }
+        };
+        model.getHeatStations(userId)
+                .compose(RxHttpReponseCompat.<List<Customer>>compatResult())
+                .subscribe(observer);
+    }
 }

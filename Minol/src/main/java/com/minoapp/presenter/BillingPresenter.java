@@ -83,7 +83,7 @@ public class BillingPresenter extends BasePresenter<BillingContract.IBillingMode
      * 根据住户获取供暖季信息
      * @param localityId
      */
-    public void getHeatSeason(int localityId,String type){
+    public void getHeatSeason(int localityId,int type){
         Observer observer=new ProgressSubcriber<List<HeatSeasonBean>>(context, view) {
             @Override
             public void onNext(@NonNull List<HeatSeasonBean> bean) {

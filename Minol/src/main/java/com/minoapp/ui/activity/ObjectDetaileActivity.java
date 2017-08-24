@@ -71,7 +71,9 @@ public class ObjectDetaileActivity extends BaseActivity {
 
         mFragments.add(new FragmentInfo("住户", ResidentsFragment.class));
         mFragments.add(new FragmentInfo("热量表", HeatMeterFragment.class));
-        mFragments.add(new FragmentInfo("测温设备", TempFragment.class));
+        if (!userBean.getRoleName().equals("住户")||(userBean.getRoleName().equals("住户")&&userBean.getTempCount()>0)) {
+            mFragments.add(new FragmentInfo("测温设备", TempFragment.class));
+        }
         mFragments.add(new FragmentInfo("账单信息", BillListFragment.class));
         if (incidentCount>0){
             mFragments.add(new FragmentInfo("报警信息", IncidentFragment.class));
