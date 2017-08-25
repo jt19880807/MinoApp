@@ -268,4 +268,8 @@ public interface ApiService {
     //根据用户ID获取热力公司
     @GET("heatstation/getheatstations/{userID}")
     Observable<BaseResponse<List<Customer>>> getAllHeatStationsByUserID(@Path("userID") int userID);
+
+    //获取当前换热站的表计
+    @GET("heatstation/getheatstationmeters/{id}/{type}")
+    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
 }

@@ -41,7 +41,6 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     Toolbar toolbar;
     @BindView(R.id.recy_heatstations)
     RecyclerView recyHeatstations;
-    ProgressDialog dialog;
     private CustomerPresenter presenter;
     private ProgressDialog progressDialog;
     CustomerListAdapter adapter;
@@ -101,7 +100,7 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     }
     @Override
     public void showLoading() {
-        dialog.show();
+        progressDialog.show();
     }
 
     @Override
@@ -112,8 +111,8 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
 
     @Override
     public void dismissLoading() {
-        if (dialog.isShowing())
-            dialog.dismiss();
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     @Override

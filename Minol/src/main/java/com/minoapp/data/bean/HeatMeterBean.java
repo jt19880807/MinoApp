@@ -25,6 +25,15 @@ public class HeatMeterBean extends MeterBean {
     private String ProductNum;
     private String ManufacturerName;
 
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    private String Description;
     public int getArticleId() {
         return ArticleId;
     }
