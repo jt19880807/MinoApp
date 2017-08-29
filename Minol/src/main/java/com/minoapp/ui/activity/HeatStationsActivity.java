@@ -91,9 +91,9 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
                 CustomerSectionEntity c=(CustomerSectionEntity)adapter.getItem(position);
                 if (!c.isHeader) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.Customer_ID, c.customerBean.getID());
-                    bundle.putString(Constant.Customer_Name, c.customerBean.getName());
-                    openActivity(AreaActivity.class, bundle);
+                    bundle.putInt(Constant.HEATSTATION_ID, c.customerBean.getID());
+                    bundle.putString(Constant.HEATSTATION_NAME, c.customerBean.getName());
+                    openActivity(HeatStationMetersActivity.class, bundle);
                 }
             }
         });

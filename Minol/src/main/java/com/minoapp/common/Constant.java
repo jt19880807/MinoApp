@@ -17,4 +17,7 @@ public class Constant {
     public static final String ISGAOZAO="IsGaiZao";
     public static final String INCIDENT_COUNT="IncidentCount";
     public static final String AREA_NAME="AreaName";
+    public static final String HEATSTATION_ID="HeatstationId";
+    public static final String HEATSTATION_NAME ="HeatStationName";
+    public static final String HEATSTATION_METER_TYPE="HeatStationMeterType";
 }

@@ -5,22 +5,7 @@ package com.minoapp.data.bean;
  */
 
 public class HeatMeterBean extends MeterBean {
-
-    /**
-     * ArticleId : 280
-     * ProductNum : DN100
-     * ManufacturerName : Engelmann
-     * ID : 132475
-     * MeterNumber : 48476106
-     * LocalityId : 0
-     * LocalityNum : null
-     * Type : 0
-     * RadiatorId : null
-     * IsDeleted : false
-     * LocalitieType : 0
-     * MeasuringPoint : 0
-     */
-
+    
     private int ArticleId;
     private String ProductNum;
     private String ManufacturerName;

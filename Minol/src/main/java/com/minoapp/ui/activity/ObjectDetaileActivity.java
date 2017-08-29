@@ -56,12 +56,10 @@ public class ObjectDetaileActivity extends BaseActivity {
         }
         toolbar.setTitle(objectName);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override            public void onClick(View v) {
                 finish();
             }
         });
-        //setSupportActionBar(toolbar);
         initTablayout();
     }
 
