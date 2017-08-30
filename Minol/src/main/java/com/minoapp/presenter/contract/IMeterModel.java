@@ -39,6 +39,14 @@ public interface IMeterModel {
      */
     Observable<BaseResponse<List<HCABean>>> getHCAByLocalityId(int localityId);
 
+    /**
+     * 获取换热站表计
+     * @param hsid 换热站ID
+     * @param type 表计类型
+     * @return
+     */
+    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(int hsid,int type);
+
 
 
 }

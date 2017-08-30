@@ -11,21 +11,6 @@ public class MeterBean extends BaseEntity implements MultiItemEntity {
     public static final int HEATMETER = 1;
     public static final int HCA = 2;
     public static final int TEMP=3;
-    /**
-     * ArticleId : 280
-     * ProductNum : DN100
-     * ManufacturerName : Engelmann
-     * ID : 132475
-     * MeterNumber : 48476106
-     * LocalityId : 0
-     * LocalityNum : null
-     * Type : 0
-     * RadiatorId : null
-     * IsDeleted : false
-     * LocalitieType : 0
-     * MeasuringPoint : 0
-     */
-
     private int ID;
     private String MeterNumber;
     private int LocalityId;

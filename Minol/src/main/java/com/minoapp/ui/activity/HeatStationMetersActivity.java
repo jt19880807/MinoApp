@@ -58,7 +58,6 @@ public class HeatStationMetersActivity extends BaseActivity {
      */
     private List<FragmentInfo> initFragments() {
         List<FragmentInfo> fragmentInfos=new ArrayList<>();
-        //fragmentInfos.add(new FragmentInfo("热量表", HSRLBFragment.class));
         fragmentInfos.add(new FragmentInfo("热量表", HSRLBFragment.class));
         fragmentInfos.add(new FragmentInfo("变频器", HSBPQFragment.class));
         fragmentInfos.add(new FragmentInfo("气候补偿器", HSQHBCQFragment.class));

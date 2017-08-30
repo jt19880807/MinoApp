@@ -41,5 +41,11 @@ public class MeterModel implements IMeterModel {
         return apiservice.getHCAByLocalityId(localityId);
     }
 
+    @Override
+    public Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(int hsid, int type) {
+        ApiService apiservice= RetrofitClient.getInstance().getApiService();
+        return apiservice.getHeatStationMeters(hsid, type);
+    }
+
 
 }

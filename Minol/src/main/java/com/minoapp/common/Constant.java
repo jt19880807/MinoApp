@@ -20,4 +20,15 @@ public class Constant {
     public static final String HEATSTATION_ID="HeatstationId";
     public static final String HEATSTATION_NAME ="HeatStationName";
     public static final String HEATSTATION_METER_TYPE="HeatStationMeterType";
+    //换热站表计
+    //热量表
+    public static final int HEATSTATION_METER_RLB=3;
+    //气候补偿器
+    public static final int HEATSTATION_METER_QHBCQ=9;
+    //变频器
+    public static final int HEATSTATION_METER_BPQ=6;
+    //电表
+    public static final int HEATSTATION_METER_DB=4;
+    //水表
+    public static final int HEATSTATION_METER_SB=1;
 }

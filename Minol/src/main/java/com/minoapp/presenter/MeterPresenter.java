@@ -61,4 +61,18 @@ public class MeterPresenter extends BasePresenter<IMeterModel,MeterContract.Heat
                 .compose(RxHttpReponseCompat.<List<HCABean>>compatResult())
                 .subscribe(observer);
     }
+
+    public void getHeatStationMeters(int hsid,int type){
+        Observer observer=new ProgressSubcriber<List<HeatMeterBean>>(context, view) {
+            @Override
+            public void onNext(@NonNull List<HeatMeterBean> beanList) {
+                view.showHeatMeter(beanList);
+            }
+        };
+
+        model.getHeatStationMeters(hsid, type)
+                .compose(RxHttpReponseCompat.<List<HeatMeterBean>>compatResult())
+                .subscribe(observer);
+    }
+
 }

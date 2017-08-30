@@ -33,7 +33,8 @@
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.AreaActivity" />
         <activity android:name=".ui.activity.HeatStationsActivity" />
-        <activity android:name=".ui.activity.HeatStationMetersActivity"></activity>
+        <activity android:name=".ui.activity.HeatStationMetersActivity" />
+        <activity android:name=".ui.activity.HSMeterReadingsActivity"></activity>
     </application>
 
 </manifest>
