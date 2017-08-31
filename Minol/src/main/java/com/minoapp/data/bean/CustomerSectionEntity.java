@@ -6,9 +6,9 @@ import com.chad.library.adapter.base.entity.SectionEntity;
  * Created by Administrator on 2017/8/13.
  */
 
-public class CustomerSectionEntity extends SectionEntity<CustomerBean> {
+public class CustomerSectionEntity<T> extends SectionEntity<T> {
     public String title;
-    public CustomerBean customerBean;
+    public T customerBean;
     private String city;
 
     public String getCity() {
@@ -34,7 +34,7 @@ public class CustomerSectionEntity extends SectionEntity<CustomerBean> {
         this.city=city;
     }
 
-    public CustomerSectionEntity(CustomerBean customerBean,String city) {
+    public CustomerSectionEntity(T customerBean,String city) {
         super(customerBean);
         this.customerBean=customerBean;
         this.city=city;

@@ -11,6 +11,7 @@ import com.minoapp.data.bean.HCABean;
 import com.minoapp.data.bean.HCAReading;
 import com.minoapp.data.bean.HeatMeterBean;
 import com.minoapp.data.bean.HeatSeasonBean;
+import com.minoapp.data.bean.HeatStation;
 import com.minoapp.data.bean.IncidentBean;
 import com.minoapp.data.bean.MeterBean;
 import com.minoapp.data.bean.ObjectBean;
@@ -265,11 +266,24 @@ public interface ApiService {
                                                                             @Path("pageSize") int pageSize);
 
 
-    //根据用户ID获取热力公司
+    //根据用户ID获取换热站
     @GET("heatstation/getheatstations/{userID}")
-    Observable<BaseResponse<List<Customer>>> getAllHeatStationsByUserID(@Path("userID") int userID);
+    Observable<BaseResponse<List<HeatStation>>> getAllHeatStationsByUserID(@Path("userID") int userID);
 
     //获取当前换热站的表计
     @GET("heatstation/getheatstationmeters/{id}/{type}")
     Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+
+    //获取换热站某个表计在某个时间段内的读数
+    @GET("heatstation/getheatstationmetereadings/{meterId}/{startDate}/{endDate}/{pageIndex}/{pageSize}/{meterType}")
+    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeterReadings(@Path("id") int id,@Path("type") int type);
+
+    //获取换热站某个表计在最新的读数
+    @GET("heatstation/getheatstationmetelastreadings/{meterId}/{meterType}")
+    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeterLastReadings(@Path("id") int id,@Path("type") int type);
+//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+
 }

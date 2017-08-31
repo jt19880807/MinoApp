@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -99,22 +100,25 @@ public class HSQHBCQFragment extends BaseFragment implements MeterContract.HeatM
 
     @Override
     public void showLoading() {
-
+        progressDialog.show();
     }
 
     @Override
     public void showError(String msg) {
-
+        dismissLoading();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void dismissLoading() {
-
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     @Override
     public void showHeatMeter(List<HeatMeterBean> beanList) {
-
+        adapter.addData(beanList);
+        adapter.setEnableLoadMore(false);
     }
 
     @Override

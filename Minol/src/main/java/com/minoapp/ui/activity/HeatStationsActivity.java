@@ -15,12 +15,15 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.minoapp.R;
 import com.minoapp.adapter.CustomerListAdapter;
+import com.minoapp.adapter.HeatStationsAdapter;
 import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
 import com.minoapp.common.utils.ACache;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.CustomerSectionEntity;
+import com.minoapp.data.bean.HeatStation;
+import com.minoapp.data.bean.HeatStationBean;
 import com.minoapp.data.bean.UserBean;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
@@ -43,9 +46,9 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     RecyclerView recyHeatstations;
     private CustomerPresenter presenter;
     private ProgressDialog progressDialog;
-    CustomerListAdapter adapter;
+    HeatStationsAdapter adapter;
     LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-    List<CustomerSectionEntity> customerBeenList;
+    List<CustomerSectionEntity<HeatStationBean>> customerBeenList;
     List<CityBean> mDatas;
     UserBean userBean;
     @Override
@@ -82,17 +85,18 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     public void init() {
         ACache aCache=ACache.get(this);
         userBean= (UserBean) aCache.getAsObject(Constant.USER);
-        adapter=new CustomerListAdapter(R.layout.customer_item,R.layout.hca_reading_header,null);
+        adapter=new HeatStationsAdapter(R.layout.customer_item,R.layout.hca_reading_header,null);
         recyHeatstations.setLayoutManager(layoutManager);
         recyHeatstations.setAdapter(adapter);
         recyHeatstations.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                CustomerSectionEntity c=(CustomerSectionEntity)adapter.getItem(position);
+                CustomerSectionEntity<HeatStationBean> c=(CustomerSectionEntity)adapter.getItem(position);
                 if (!c.isHeader) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constant.HEATSTATION_ID, c.customerBean.getID());
                     bundle.putString(Constant.HEATSTATION_NAME, c.customerBean.getName());
+                    bundle.putString(Constant.HEATSTATION_METER_COUNT,c.customerBean.getMeterCount());
                     openActivity(HeatStationMetersActivity.class, bundle);
                 }
             }
@@ -116,8 +120,13 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     }
 
     @Override
-    public void showData(List<Customer> customerBeen) {
-        customerBeenList=getCustomerSectionEntitys(customerBeen);
+    public void showCustomers(List<Customer> customerBeen) {
+
+    }
+
+    @Override
+    public void showHeatStations(List<HeatStation> heatStations) {
+        customerBeenList=getCustomerSectionEntitys(heatStations);
         adapter.addData(customerBeenList);
     }
 
@@ -125,24 +134,24 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     public void setCustomerBeans(List<CustomerBean> customerBeen) {
 
     }
-    private List<CustomerSectionEntity> getCustomerSectionEntitys(List<Customer> customerBeen){
-        List<CustomerSectionEntity> customerSectionEntities=new ArrayList<>();
+    private List<CustomerSectionEntity<HeatStationBean>> getCustomerSectionEntitys(List<HeatStation> customerBeen){
+        List<CustomerSectionEntity<HeatStationBean>> customerSectionEntities=new ArrayList<>();
         mDatas=new ArrayList<>();
         CityBean cityBean;
-        CustomerSectionEntity customerSectionEntity;
+        CustomerSectionEntity<HeatStationBean> customerSectionEntity;
         String city="";
         if (customerBeen.size()>0){
-            for (Customer c :customerBeen) {
-                city=c.getAddress().split(" ")[1];
-                customerSectionEntity=new CustomerSectionEntity(true,c.getAddress(),city);
-                cityBean=new CityBean(c.getAddress().split(" ")[1]);
+            for (HeatStation h :customerBeen) {
+                city=h.getAddress().split(" ")[1];
+                customerSectionEntity=new CustomerSectionEntity(true,h.getAddress(),city);
+                cityBean=new CityBean(h.getAddress().split(" ")[1]);
                 mDatas.add(cityBean);
                 customerSectionEntities.add(customerSectionEntity);
-                if (c.getData().size()>0){
-                    for (CustomerBean cb :c.getData()) {
+                if (h.getData().size()>0){
+                    for (HeatStationBean cb :h.getData()) {
                         customerSectionEntity=new CustomerSectionEntity(cb,city);
                         customerSectionEntities.add(customerSectionEntity);
-                        cityBean=new CityBean(c.getAddress().split(" ")[1]);
+                        cityBean=new CityBean(h.getAddress().split(" ")[1]);
                         mDatas.add(cityBean);
                     }
                 }
@@ -152,8 +161,8 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
 
     }
 
-    private List<CustomerSectionEntity> sortCustomer(List<CustomerSectionEntity> customerSectionEntities) {
-        for (CustomerSectionEntity cu:customerSectionEntities) {
+    private List<CustomerSectionEntity<HeatStationBean>> sortCustomer(List<CustomerSectionEntity<HeatStationBean>> customerSectionEntities) {
+        for (CustomerSectionEntity<HeatStationBean> cu:customerSectionEntities) {
             StringBuilder pySb = new StringBuilder();
             String city=cu.getCity();
             for (int i=0;i<city.length();i++){

@@ -19,6 +19,7 @@ import com.minoapp.R;
 import com.minoapp.adapter.SearchCustomerAdapter;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
+import com.minoapp.data.bean.HeatStation;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
 import com.minoapp.presenter.contract.CustomerContract;
@@ -134,7 +135,12 @@ public class SearchActivity extends Activity implements CustomerContract.Custome
     }
 
     @Override
-    public void showData(List<Customer> customerBeen) {
+    public void showCustomers(List<Customer> customerBeen) {
+
+    }
+
+    @Override
+    public void showHeatStations(List<HeatStation> heatStations) {
 
     }
 

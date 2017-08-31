@@ -5,6 +5,7 @@ import com.minoapp.api.RetrofitClient;
 import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
+import com.minoapp.data.bean.HeatStation;
 import com.minoapp.presenter.contract.CustomerContract;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class CustomerModel implements CustomerContract.ICustomerModel{
     }
 
     @Override
-    public Observable<BaseResponse<List<Customer>>> getHeatStations(int userId) {
+    public Observable<BaseResponse<List<HeatStation>>> getHeatStations(int userId) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getAllHeatStationsByUserID(userId);
     }

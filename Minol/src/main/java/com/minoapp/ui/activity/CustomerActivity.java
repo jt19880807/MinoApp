@@ -22,6 +22,7 @@ import com.minoapp.common.utils.ACache;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.CustomerSectionEntity;
+import com.minoapp.data.bean.HeatStation;
 import com.minoapp.data.bean.UserBean;
 import com.minoapp.data.model.CustomerModel;
 import com.minoapp.presenter.CustomerPresenter;
@@ -51,7 +52,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     private ProgressDialog progressDialog;
     CustomerListAdapter adapter;
     LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-    List<CustomerSectionEntity> customerBeenList;
+    List<CustomerSectionEntity<CustomerBean>> customerBeenList;
     List<CityBean> mDatas;
     UserBean userBean;
 
@@ -114,11 +115,12 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
         vwCustomer.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                CustomerSectionEntity c=(CustomerSectionEntity)adapter.getItem(position);
+                CustomerSectionEntity<CustomerBean> c=(CustomerSectionEntity)adapter.getItem(position);
                 if (!c.isHeader) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.Customer_ID, c.customerBean.getID());
-                    bundle.putString(Constant.Customer_Name, c.customerBean.getName());
+                    CustomerBean customerBea=(CustomerBean)c.customerBean;
+                    bundle.putInt(Constant.Customer_ID, customerBea.getID());
+                    bundle.putString(Constant.Customer_Name, customerBea.getName());
                     openActivity(AreaActivity.class, bundle);
                 }
             }
@@ -144,7 +146,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     }
 
     @Override
-    public void showData(List<Customer> customerBeen) {
+    public void showCustomers(List<Customer> customerBeen) {
         customerBeenList=getCustomerSectionEntitys(customerBeen);
         adapter.addData(customerBeenList);
         //热力公司不加载侧导航
@@ -154,20 +156,25 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
     }
 
     @Override
+    public void showHeatStations(List<HeatStation> heatStations) {
+
+    }
+
+    @Override
     public void setCustomerBeans(List<CustomerBean> customerBeen) {
 
     }
 
-    private List<CustomerSectionEntity> getCustomerSectionEntitys(List<Customer> customerBeen){
-        List<CustomerSectionEntity> customerSectionEntities=new ArrayList<>();
+    private List<CustomerSectionEntity<CustomerBean>> getCustomerSectionEntitys(List<Customer> customerBeen){
+        List<CustomerSectionEntity<CustomerBean>> customerSectionEntities=new ArrayList<>();
         mDatas=new ArrayList<>();
         CityBean cityBean;
-        CustomerSectionEntity customerSectionEntity;
+        CustomerSectionEntity<CustomerBean> customerSectionEntity;
         String city="";
         if (customerBeen.size()>0){
             for (Customer c :customerBeen) {
                 city=c.getAddress().split(" ")[1];
-                customerSectionEntity=new CustomerSectionEntity(true,c.getAddress(),city);
+                customerSectionEntity=new CustomerSectionEntity<CustomerBean>(true,c.getAddress(),city);
                 cityBean=new CityBean(c.getAddress().split(" ")[1]);
                 mDatas.add(cityBean);
                 customerSectionEntities.add(customerSectionEntity);
@@ -185,7 +192,7 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
 
     }
 
-    private List<CustomerSectionEntity> sortCustomer(List<CustomerSectionEntity> customerSectionEntities) {
+    private List<CustomerSectionEntity<CustomerBean>> sortCustomer(List<CustomerSectionEntity<CustomerBean>> customerSectionEntities) {
         for (CustomerSectionEntity cu:customerSectionEntities) {
             StringBuilder pySb = new StringBuilder();
             String city=cu.getCity();

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.common.collect.Interner;
 import com.minoapp.R;
 import com.minoapp.adapter.ViewPagerAdapter;
 import com.minoapp.base.BaseActivity;
@@ -37,6 +38,7 @@ public class HeatStationMetersActivity extends BaseActivity {
 
     int heatStationId=0;
     String heatStationName="";
+    String heatStationMeterCount="";
     @Override
     protected String getTAG() {
         return HeatStationMetersActivity.class.getSimpleName();
@@ -58,11 +60,29 @@ public class HeatStationMetersActivity extends BaseActivity {
      */
     private List<FragmentInfo> initFragments() {
         List<FragmentInfo> fragmentInfos=new ArrayList<>();
-        fragmentInfos.add(new FragmentInfo("热量表", HSRLBFragment.class));
-        fragmentInfos.add(new FragmentInfo("变频器", HSBPQFragment.class));
-        fragmentInfos.add(new FragmentInfo("气候补偿器", HSQHBCQFragment.class));
-        fragmentInfos.add(new FragmentInfo("电表", HSDBFragment.class));
-        fragmentInfos.add(new FragmentInfo("水表", HSSBFragment.class));
+        if (!"".equals(heatStationMeterCount)){
+            String[] meterCounts = heatStationMeterCount.split(",");
+            if (Integer.parseInt(meterCounts[0])>0){
+                fragmentInfos.add(new FragmentInfo("热量表", HSRLBFragment.class));
+            }
+            if (Integer.parseInt(meterCounts[2])>0){
+                fragmentInfos.add(new FragmentInfo("变频器", HSBPQFragment.class));
+            }
+            if (Integer.parseInt(meterCounts[1])>0){
+                fragmentInfos.add(new FragmentInfo("气候补偿器", HSQHBCQFragment.class));
+            }
+            if (Integer.parseInt(meterCounts[3])>0){
+                fragmentInfos.add(new FragmentInfo("电表", HSDBFragment.class));
+            }
+            if (Integer.parseInt(meterCounts[4])>0){
+                fragmentInfos.add(new FragmentInfo("水表", HSSBFragment.class));
+            }
+        }
+
+
+
+
+
 
         return fragmentInfos;
     }
@@ -85,6 +105,7 @@ public class HeatStationMetersActivity extends BaseActivity {
         if (bundle!=null){
             heatStationId=bundle.getInt(Constant.HEATSTATION_ID);
             heatStationName=bundle.getString(Constant.HEATSTATION_NAME);
+            heatStationMeterCount=bundle.getString(Constant.HEATSTATION_METER_COUNT);
         }
         toolbar.setTitle(heatStationName);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

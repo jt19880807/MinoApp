@@ -1,22 +1,17 @@
 package com.minoapp.presenter;
 
-import android.util.Log;
-
 import com.minoapp.base.BasePresenter;
-import com.minoapp.base.BaseResponse;
 import com.minoapp.common.rx.RxHttpReponseCompat;
 import com.minoapp.common.rx.subscriber.ProgressSubcriber;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
-import com.minoapp.data.bean.HeatMeterBean;
+import com.minoapp.data.bean.HeatStation;
 import com.minoapp.presenter.contract.CustomerContract;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Devin on 2017/6/27.
@@ -31,7 +26,7 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
         Observer observer=new ProgressSubcriber<List<Customer>>(context, view) {
             @Override
             public void onNext(@NonNull List<Customer> beanList) {
-                view.showData(beanList);
+                view.showCustomers(beanList);
             }
         };
         model.getCustomers(userId)
@@ -52,14 +47,14 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
     }
 
     public void getAllHeatStations(int userId){
-        Observer observer=new ProgressSubcriber<List<Customer>>(context, view) {
+        Observer observer=new ProgressSubcriber<List<HeatStation>>(context, view) {
             @Override
-            public void onNext(@NonNull List<Customer> beanList) {
-                view.showData(beanList);
+            public void onNext(@NonNull List<HeatStation> beanList) {
+                view.showHeatStations(beanList);
             }
         };
         model.getHeatStations(userId)
-                .compose(RxHttpReponseCompat.<List<Customer>>compatResult())
+                .compose(RxHttpReponseCompat.<List<HeatStation>>compatResult())
                 .subscribe(observer);
     }
 }

@@ -28,7 +28,7 @@ public class ObjectPresenter extends BasePresenter<ObjectContract.IObjectModel,O
             observer=new ProgressSubcriber<PageBean<ObjectBean>>(context, view) {
                 @Override
                 public void onNext(@NonNull PageBean<ObjectBean> pageBean) {
-                   // view.showData(pageBean);
+                   // view.showCustomers(pageBean);
                 }
             };
         }
@@ -37,7 +37,7 @@ public class ObjectPresenter extends BasePresenter<ObjectContract.IObjectModel,O
             observer= new ErrorHandlerSubscriber<PageBean<ObjectBean>>(context) {
                 @Override
                 public void onNext(@NonNull PageBean<ObjectBean> pageBean) {
-                    //view.showData(pageBean);
+                    //view.showCustomers(pageBean);
                 }
 
                 @Override
