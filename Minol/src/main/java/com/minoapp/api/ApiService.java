@@ -9,6 +9,7 @@ import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.HCABean;
 import com.minoapp.data.bean.HCAReading;
+import com.minoapp.data.bean.HSMeterReadingBean;
 import com.minoapp.data.bean.HeatMeterBean;
 import com.minoapp.data.bean.HeatSeasonBean;
 import com.minoapp.data.bean.HeatStation;
@@ -276,14 +277,16 @@ public interface ApiService {
 
     //获取换热站某个表计在某个时间段内的读数
     @GET("heatstation/getheatstationmetereadings/{meterId}/{startDate}/{endDate}/{pageIndex}/{pageSize}/{meterType}")
-    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeterReadings(@Path("id") int id,@Path("type") int type);
+    Observable<BaseResponse<PageBean<HSMeterReadingBean>>> getHeatStationMeterReadings(@Path("meterId") int meterId,
+                                                                                       @Path("startDate") String startDate,
+                                                                                       @Path("endDate") String endDate,
+                                                                                       @Path("pageIndex") int pageIndex,
+                                                                                       @Path("pageSize") int pageSize,
+                                                                                       @Path("meterType") int meterType);
 
     //获取换热站某个表计在最新的读数
     @GET("heatstation/getheatstationmetelastreadings/{meterId}/{meterType}")
-    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeterLastReadings(@Path("id") int id,@Path("type") int type);
-//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
-//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
-//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
-//    Observable<BaseResponse<List<HeatMeterBean>>> getHeatStationMeters(@Path("id") int id,@Path("type") int type);
+    Observable<BaseResponse<PageBean<HSMeterReadingBean>>> getHeatStationMeterLastReadings(@Path("meterId") int meterId,
+                                                                                           @Path("meterType") int meterType);
 
 }
