@@ -54,8 +54,7 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     int pageIndex = 1;
     int pageSize = 10;
     int meterId = 0;
-    String startDate = "";
-    String endDate = "";
+    String startDate,endDate = "";
     CustomDatePicker customSDatePicker, customEDatePicker;
     String meterName = "";
     @BindView(R.id.rotateloading)

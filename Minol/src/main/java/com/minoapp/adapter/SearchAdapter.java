@@ -10,24 +10,25 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.minoapp.R;
+import com.minoapp.base.BaseBean;
 import com.minoapp.data.bean.CustomerBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Devin on 2017/8/14.
+ * Created by Devin on 2017/9/12.
  */
 
-public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
+public class SearchAdapter<T extends BaseBean> extends BaseAdapter implements Filterable {
     private Context mContext;
-    List<CustomerBean> mDatas;
+    List<T> mDatas;
     private LayoutInflater mInflater;
     private final Object mLock = new Object();
-    private ArrayList<CustomerBean> mOriginalValues;
-    private ArrayFilter mFilter;
+    private ArrayList<T> mOriginalValues;
+    private SearchAdapter.ArrayFilter mFilter;
 
-    public SearchCustomerAdapter(Context context,List<CustomerBean> datas){
+    public SearchAdapter(Context context,List<T> datas){
         mContext=context;
         mDatas=datas;
         mInflater=LayoutInflater.from(context);
@@ -52,17 +53,17 @@ public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        SearchAdapter.ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.customer_item, parent, false);
-            holder = new ViewHolder();
+            holder = new SearchAdapter.ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.tv_customerarea);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (SearchAdapter.ViewHolder) convertView.getTag();
         }
-        CustomerBean customerBean = mDatas.get(position);
-        holder.name.setText(customerBean.getName());
+        T bean = mDatas.get(position);
+        holder.name.setText(bean.getName());
         return convertView;
     }
     public class ViewHolder {
@@ -71,7 +72,7 @@ public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
     @Override
     public Filter getFilter() {
         if (mFilter == null) {
-            mFilter = new ArrayFilter();
+            mFilter = new SearchAdapter.ArrayFilter();
         }
         return mFilter;
     }
@@ -99,7 +100,7 @@ public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
             }
             //当首字母为空时
             if (prefix == null || prefix.length() == 0) {
-                ArrayList<CustomerBean> list;
+                ArrayList<T> list;
                 synchronized (mLock) {//同步复制一个原始备份数据
                     list = new ArrayList<>(mOriginalValues);
                 }
@@ -108,15 +109,15 @@ public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
             } else {
                 String prefixString = prefix.toString().toLowerCase();//转化为小写
 
-                ArrayList<CustomerBean> values;
+                ArrayList<T> values;
                 synchronized (mLock) {//同步复制一个原始备份数据
                     values = new ArrayList<>(mOriginalValues);
                 }
                 final int count = values.size();
-                final ArrayList<CustomerBean> newValues = new ArrayList<>();
+                final ArrayList<T> newValues = new ArrayList<>();
 
                 for (int i = 0; i < count; i++) {
-                    final CustomerBean value = values.get(i);//从List<User>中拿到User对象
+                    final T value = values.get(i);//从List<User>中拿到User对象
 //                    final String valueText = value.toString().toLowerCase();
                     final String valueText = value.getName().toString().toLowerCase();//User对象的name属性作为过滤的参数
                     // First match against the whole, non-splitted value
@@ -145,7 +146,7 @@ public class SearchCustomerAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence prefix, FilterResults results) {
             //noinspection unchecked
-            mDatas = (List<CustomerBean>) results.values;//此时，Adapter数据源就是过滤后的Results
+            mDatas = (List<T>) results.values;//此时，Adapter数据源就是过滤后的Results
             if (results.count > 0) {
                 notifyDataSetChanged();//这个相当于从mDatas中删除了一些数据，只是数据的变化，故使用notifyDataSetChanged()
             } else {

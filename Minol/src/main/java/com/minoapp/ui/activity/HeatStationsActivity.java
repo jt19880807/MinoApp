@@ -75,6 +75,17 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
     private void initToolbar(){
         toolbar.setTitle("换热站");
         toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.action_search){
+                    Bundle bundle=new Bundle();
+                    bundle.putString(Constant.SEARCH_TYPE,"HeatStation");
+                    openActivity(SearchActivity.class,bundle);
+                }
+                return true;
+            }
+        });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,10 +141,6 @@ public class HeatStationsActivity extends BaseActivity implements CustomerContra
         adapter.addData(customerBeenList);
     }
 
-    @Override
-    public void setCustomerBeans(List<CustomerBean> customerBeen) {
-
-    }
     private List<CustomerSectionEntity<HeatStationBean>> getCustomerSectionEntitys(List<HeatStation> customerBeen){
         List<CustomerSectionEntity<HeatStationBean>> customerSectionEntities=new ArrayList<>();
         mDatas=new ArrayList<>();

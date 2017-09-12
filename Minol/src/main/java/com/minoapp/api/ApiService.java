@@ -13,6 +13,7 @@ import com.minoapp.data.bean.HSMeterReadingBean;
 import com.minoapp.data.bean.HeatMeterBean;
 import com.minoapp.data.bean.HeatSeasonBean;
 import com.minoapp.data.bean.HeatStation;
+import com.minoapp.data.bean.HeatStationBean;
 import com.minoapp.data.bean.IncidentBean;
 import com.minoapp.data.bean.MeterBean;
 import com.minoapp.data.bean.ObjectBean;
@@ -53,7 +54,7 @@ public interface ApiService {
     Observable<BaseResponse<List<Customer>>> getAllCustomersByUserID(@Path("userID") String userID);
     //根据用户ID获取热力公司(不分组)
     @GET("object/getcustomersbeanbyuserid/{userID}")
-    Observable<BaseResponse<List<CustomerBean>>> getAllCustomerBeanByUserID(@Path("userID") String userID);
+    Observable<BaseResponse<List<CustomerBean>>> getAllCustomerBeanByUserID(@Path("userID") int userID);
 
     /**
      * 获取当前热力公司下的小区信息
@@ -267,9 +268,13 @@ public interface ApiService {
                                                                             @Path("pageSize") int pageSize);
 
 
-    //根据用户ID获取换热站
+    //根据用户ID获取换热站(分组)
     @GET("heatstation/getheatstations/{userID}")
     Observable<BaseResponse<List<HeatStation>>> getAllHeatStationsByUserID(@Path("userID") int userID);
+
+    //根据用户ID获取换热站（不分组）
+    @GET("heatstation/getheatstationbeans/{userID}")
+    Observable<BaseResponse<List<HeatStationBean>>> getAllHeatStationBeans(@Path("userID") int userID);
 
     //获取当前换热站的表计
     @GET("heatstation/getheatstationmeters/{id}/{type}")

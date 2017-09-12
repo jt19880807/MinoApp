@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/hs_bpq_reading"
+    android:id="@+id/hs_sb_reading"
     app:cardBackgroundColor="@color/transparent_background"
     app:cardCornerRadius="5dp"
     app:cardElevation="1dp"
@@ -71,13 +71,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="频率："
+                    android:text="用水量(m³)："
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:textColor="@color/colorObjectText"
                     android:textSize="@dimen/hca_reading_itemsize" />
                 <TextView
-                    android:id="@+id/tv_hs_reading_pl"
+                    android:id="@+id/tv_hs_reading_ysl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -87,53 +87,6 @@
                     android:textSize="@dimen/hca_reading_itemsize" />
             </LinearLayout>
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="供水压力(mpa)："
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textColor="@color/colorObjectText"
-                    android:textSize="@dimen/hca_reading_itemsize" />
-                <TextView
-                    android:id="@+id/tv_hs_reading_gsyl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textColor="@color/colorObjectText"
-                    android:textSize="@dimen/hca_reading_itemsize" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="回水压力(mpa)："
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textColor="@color/colorObjectText"
-                    android:textSize="@dimen/hca_reading_itemsize" />
-                <TextView
-                    android:id="@+id/tv_hs_reading_hsyl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:textColor="@color/colorObjectText"
-                    android:textSize="@dimen/hca_reading_itemsize" />
-            </LinearLayout>
         </RelativeLayout>
 
 

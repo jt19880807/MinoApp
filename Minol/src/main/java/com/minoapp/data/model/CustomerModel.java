@@ -28,13 +28,6 @@ public class CustomerModel implements CustomerContract.ICustomerModel{
         ApiService apiservice= RetrofitClient.getInstance().getApiService();
         return apiservice.getAllCustomersByUserID(userId);
     }
-
-    @Override
-    public Observable<BaseResponse<List<CustomerBean>>> getCustomerBeans(String userId) {
-        ApiService apiservice= RetrofitClient.getInstance().getApiService();
-        return apiservice.getAllCustomerBeanByUserID(userId);
-    }
-
     @Override
     public Observable<BaseResponse<List<HeatStation>>> getHeatStations(int userId) {
         ApiService apiservice= RetrofitClient.getInstance().getApiService();

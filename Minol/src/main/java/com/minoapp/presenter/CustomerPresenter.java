@@ -34,18 +34,6 @@ public class CustomerPresenter extends BasePresenter<CustomerContract.ICustomerM
                 .subscribe(observer);
     }
 
-    public void getAllCustomerBeans(String userId){
-        Observer observer=new ProgressSubcriber<List<CustomerBean>>(context, view) {
-            @Override
-            public void onNext(@NonNull List<CustomerBean> beanList) {
-                view.setCustomerBeans(beanList);
-            }
-        };
-        model.getCustomerBeans(userId)
-                .compose(RxHttpReponseCompat.<List<CustomerBean>>compatResult())
-                .subscribe(observer);
-    }
-
     public void getAllHeatStations(int userId){
         Observer observer=new ProgressSubcriber<List<HeatStation>>(context, view) {
             @Override

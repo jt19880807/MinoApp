@@ -81,11 +81,5 @@
         android:id="@+id/recyc_reading">
 
     </android.support.v7.widget.RecyclerView>
-    <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/rotateloading"
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        app:loading_width="5dp"
-        app:loading_color="#ffffff"
-        android:layout_centerInParent="true"/>
+
 </LinearLayout>

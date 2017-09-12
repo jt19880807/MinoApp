@@ -1,10 +1,12 @@
 package com.minoapp.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -63,6 +65,19 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
 
         }
         toolbar.setTitle(customerName);
+        toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.action_search){
+                    Bundle bundle=new Bundle();
+                    bundle.putString(Constant.SEARCH_TYPE,"Area");
+                    bundle.putInt(Constant.Customer_ID,customerId);
+                    openActivity(SearchActivity.class,bundle);
+                }
+                return true;
+            }
+        });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -52,7 +52,7 @@
                     android:textColor="@color/colorObjectText"
                     android:textSize="20sp" />
                 <TextView
-                    android:id="@+id/tv_temp_reading_date"
+                    android:id="@+id/tv_hs_reading_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""

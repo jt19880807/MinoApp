@@ -32,4 +32,7 @@ public class Constant {
     public static final int HEATSTATION_METER_DB=4;
     //水表
     public static final int HEATSTATION_METER_SB=1;
+
+    public static final String SEARCH_TYPE="SearchType";
+
 }

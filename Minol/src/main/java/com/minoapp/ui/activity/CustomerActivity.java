@@ -93,7 +93,9 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.action_search){
-                    startActivity(new Intent(CustomerActivity.this,SearchActivity.class));
+                    Bundle bundle=new Bundle();
+                    bundle.putString(Constant.SEARCH_TYPE,"Customer");
+                    openActivity(SearchActivity.class,bundle);
                 }
                 return true;
             }
@@ -160,10 +162,6 @@ public class CustomerActivity extends BaseActivity implements CustomerContract.C
 
     }
 
-    @Override
-    public void setCustomerBeans(List<CustomerBean> customerBeen) {
-
-    }
 
     private List<CustomerSectionEntity<CustomerBean>> getCustomerSectionEntitys(List<Customer> customerBeen){
         List<CustomerSectionEntity<CustomerBean>> customerSectionEntities=new ArrayList<>();

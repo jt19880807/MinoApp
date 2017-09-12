@@ -1,14 +1,13 @@
 package com.minoapp.data.bean;
 
-import com.minoapp.base.BaseEntity;
+import com.minoapp.base.BaseBean;
 
 /**
  * Created by Devin on 2017/6/27.
  */
 
-public class CustomerBean extends BaseEntity {
+public class CustomerBean extends BaseBean {
     private int ID;
-    private String Name;
     private String Province;
     private String City;
     private String Area;
@@ -53,12 +52,6 @@ public class CustomerBean extends BaseEntity {
         this.ID = Id;
     }
 
-    public String getName() {
-        return Name;
-    }
 
-    public void setName(String Name) {
-        this.Name = Name;
-    }
 
 }
