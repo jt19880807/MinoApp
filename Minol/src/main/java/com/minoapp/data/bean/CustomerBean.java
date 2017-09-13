@@ -12,6 +12,10 @@ public class CustomerBean extends BaseBean {
     private String City;
     private String Area;
 
+    public CustomerBean(String name) {
+        super(name);
+    }
+
     public String getProvince() {
         return Province;
     }
@@ -36,13 +40,8 @@ public class CustomerBean extends BaseBean {
         Area = area;
     }
 
-    public CustomerBean(int id, String name, int addressId) {
-        ID = id;
-        Name = name;
-    }
 
-    public CustomerBean() {
-    }
+
 
     public int getID() {
         return ID;

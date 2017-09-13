@@ -14,10 +14,10 @@
         android:title="@string/customerBean"
         app:navigationIcon="@mipmap/back"
         />
-    <android.support.v7.widget.RecyclerView
+    <ExpandableListView
         android:id="@+id/recy_areas"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </ExpandableListView>
 </LinearLayout>

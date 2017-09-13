@@ -7,6 +7,10 @@ package com.minoapp.data.bean;
 public class HeatStationBean extends CustomerBean {
     private String MeterCount;
 
+    public HeatStationBean(String name) {
+        super(name);
+    }
+
     public String getMeterCount() {
         return MeterCount;
     }

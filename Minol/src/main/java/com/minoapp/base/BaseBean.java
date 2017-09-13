@@ -7,6 +7,11 @@ import java.io.Serializable;
  */
 
 public class BaseBean implements Serializable {
+
+    public BaseBean(String name) {
+        Name = name;
+    }
+
     protected String Name;
     public String getName() {
         return Name;

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,8 +31,10 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+//    @BindView(R.id.recy_areas)
+//    RecyclerView recyAreas;
     @BindView(R.id.recy_areas)
-    RecyclerView recyAreas;
+    ExpandableListView recyAreas;
 
     AreaPresenter presenter;
     AreaAdapter areaAdapter;
@@ -87,15 +90,25 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         areaAdapter=new AreaAdapter(R.layout.area_item);
-        recyAreas.setLayoutManager(layoutManager);
+        //recyAreas.setLayoutManager(layoutManager);
         recyAreas.setAdapter(areaAdapter);
-        recyAreas.addOnItemTouchListener(new OnItemClickListener() {
+//        recyAreas.addOnItemTouchListener(new OnItemClickListener() {
+//            @Override
+//            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                AreaBean areaBean=(AreaBean)adapter.getItem(position);
+//                Bundle bundle=new Bundle();
+//                bundle.putString(Constant.AREA_NAME,areaBean.getName());
+//                openActivity(ObjectActivity.class,bundle);
+//            }
+//        });
+        recyAreas.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AreaBean areaBean=(AreaBean)adapter.getItem(position);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                AreaBean areaBean=(AreaBean)adapter.getItem(groupPosition);
                 Bundle bundle=new Bundle();
                 bundle.putString(Constant.AREA_NAME,areaBean.getName());
                 openActivity(ObjectActivity.class,bundle);
+                return false;
             }
         });
         AreaContract.IAreaModel model=new AreaModel();

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.activity.TestActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,8 @@
         <activity android:name=".ui.activity.AreaActivity" />
         <activity android:name=".ui.activity.HeatStationsActivity" />
         <activity android:name=".ui.activity.HeatStationMetersActivity" />
-        <activity android:name=".ui.activity.HSMeterReadingsActivity"></activity>
+        <activity android:name=".ui.activity.HSMeterReadingsActivity" />
+        <!--<activity android:name=".ui.activity.TestActivity"></activity>-->
     </application>
 
 </manifest>

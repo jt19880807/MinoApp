@@ -123,12 +123,12 @@ public class SearchActivity extends BaseActivity implements SearchContact.Search
             searchTextView.setHint("热力公司");
             presenter.getCustomerBeans(userBean.getID());
         }
-        else if (searchType=="Area"){
+        else if (searchType.equals("Area")){
             searchTextView.setHint("小区名称");
             customerId=bundle.getInt(Constant.Customer_ID);
             presenter.getAreaBeans(customerId);
         }
-        else if (searchType.equals("HearStation")){
+        else if (searchType.equals("HeatStation")){
             searchTextView.setHint("换热站名称");
             presenter.getHeatStationBeans(userBean.getID());
         }
