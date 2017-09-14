@@ -65,6 +65,14 @@ public interface ApiService {
     Observable<BaseResponse<List<AreaBean>>> getAreasByCustomerId(@Path("customerId") int customerId);
 
     /**
+     * 获取当前热力公司下的小区信息
+     * @param customerId
+     * @return
+     */
+    @GET("object/getareadetailsbycustomerid/{customerId}")
+    Observable<BaseResponse<List<AreaBean>>> getAreaDetailByCustomerId(@Path("customerId") int customerId);
+
+    /**
      * 根据用户ID和热力公司ID获取当前热力公司下面的项目信息
      * @param userID 用户ID
      * @param customerID 热力公司ID

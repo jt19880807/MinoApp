@@ -18,7 +18,7 @@ public class AreaAdapter extends BaseQuickAdapter<AreaBean,BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, AreaBean item) {
-        helper.setText(R.id.tv_area_name,item.getName())
-                .setText(R.id.tv_build_count,"（"+item.getBuildingCount()+"）");
+//        helper.setText(R.id.tv_area_name,item.getName())
+//                .setText(R.id.tv_build_count,"（"+item.getBuildingCount()+"）");
     }
 }

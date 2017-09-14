@@ -33,7 +33,7 @@ public class AreaExpandableAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return areaBeen.size();
+        return 1;
     }
 
     @Override
@@ -94,7 +94,13 @@ public class AreaExpandableAdapter extends BaseExpandableListAdapter{
         if(view == null){
             holder = new ChildHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.area_item, null);
-            holder.childName = (TextView)view.findViewById(R.id.tv_build_count);
+            holder.buildingcount = (TextView)view.findViewById(R.id.tv_area_buildingcount);
+            holder.totaluser = (TextView)view.findViewById(R.id.tv_area_totaluser);
+            holder.gzuser = (TextView)view.findViewById(R.id.tv_area_gzuser);
+            holder.heatmeter = (TextView)view.findViewById(R.id.tv_area_heatmeter);
+            holder.hca = (TextView)view.findViewById(R.id.tv_area_hca);
+            holder.temp = (TextView)view.findViewById(R.id.tv_area_temp);
+            holder.incidents = (TextView)view.findViewById(R.id.tv_area_incidents);
             view.setTag(holder);
         }else{
             holder = (ChildHolder)view.getTag();
@@ -105,7 +111,13 @@ public class AreaExpandableAdapter extends BaseExpandableListAdapter{
 //        }
 
         //holder.sound.setBackgroundResource(R.drawable.sound);
-        holder.childName.setText(areaBeen.get(groupPosition).getBuildingCount()+"");
+        holder.buildingcount.setText("楼栋数量："+areaBeen.get(groupPosition).getBuildingCount());
+        holder.totaluser.setText(areaBeen.get(groupPosition).getResidentsCount()+"");
+        holder.gzuser.setText(areaBeen.get(groupPosition).getTransResidentsCount()+"");
+        holder.heatmeter.setText(areaBeen.get(groupPosition).getHeatMeterCount()+"");
+        holder.hca.setText(areaBeen.get(groupPosition).getHCACount()+"");
+        holder.temp.setText(areaBeen.get(groupPosition).getTempMeterCount()+"");
+        holder.incidents.setText(areaBeen.get(groupPosition).getIncedentsCount()+"");
 
         return view;
     }
@@ -121,6 +133,12 @@ public class AreaExpandableAdapter extends BaseExpandableListAdapter{
     }
 
     class ChildHolder{
-        public TextView childName;
+        public TextView buildingcount;
+        public TextView totaluser;
+        public TextView gzuser;
+        public TextView heatmeter;
+        public TextView hca;
+        public TextView temp;
+        public TextView incidents;
     }
 }

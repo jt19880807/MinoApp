@@ -15,13 +15,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.minoapp.R;
 import com.minoapp.adapter.AreaAdapter;
+import com.minoapp.adapter.AreaExpandableAdapter;
 import com.minoapp.base.BaseActivity;
 import com.minoapp.common.Constant;
 import com.minoapp.data.bean.AreaBean;
+import com.minoapp.data.bean.PageBean;
 import com.minoapp.data.model.AreaModel;
 import com.minoapp.presenter.AreaPresenter;
 import com.minoapp.presenter.contract.AreaContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,10 +40,11 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
     ExpandableListView recyAreas;
 
     AreaPresenter presenter;
-    AreaAdapter areaAdapter;
+    AreaExpandableAdapter areaAdapter;
     ProgressDialog dialog;
     int customerId=0;
     String customerName="";
+    List<AreaBean> areas=new ArrayList<>();
     @Override
     protected String getTAG() {
         return AreaActivity.class.getSimpleName();
@@ -54,8 +58,6 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // setContentView();
         init();
     }
 
@@ -87,9 +89,28 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
                 finish();
             }
         });
+        recyAreas.setGroupIndicator(null);
+        recyAreas.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                AreaBean areaBean=areas.get(groupPosition);
+                Bundle bundle=new Bundle();
+                bundle.putString(Constant.AREA_NAME,areaBean.getName());
+                openActivity(ObjectActivity.class,bundle);
+                return false;
+            }
+        });
 
+
+        AreaContract.IAreaModel model=new AreaModel();
+        presenter=new AreaPresenter(model,this);
+        presenter.getAreasByCustomerId(customerId);
+
+    }
+
+    private void initView(List<AreaBean> areaBeanList){
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        areaAdapter=new AreaAdapter(R.layout.area_item);
+        areaAdapter=new AreaExpandableAdapter(areaBeanList,AreaActivity.this);
         //recyAreas.setLayoutManager(layoutManager);
         recyAreas.setAdapter(areaAdapter);
 //        recyAreas.addOnItemTouchListener(new OnItemClickListener() {
@@ -101,19 +122,6 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
 //                openActivity(ObjectActivity.class,bundle);
 //            }
 //        });
-        recyAreas.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                AreaBean areaBean=(AreaBean)adapter.getItem(groupPosition);
-                Bundle bundle=new Bundle();
-                bundle.putString(Constant.AREA_NAME,areaBean.getName());
-                openActivity(ObjectActivity.class,bundle);
-                return false;
-            }
-        });
-        AreaContract.IAreaModel model=new AreaModel();
-        presenter=new AreaPresenter(model,this);
-        presenter.getAreasByCustomerId(customerId);
 
     }
 
@@ -136,6 +144,17 @@ public class AreaActivity extends BaseActivity implements AreaContract.AreaView 
 
     @Override
     public void showAreas(List<AreaBean> areaBeanList) {
-        areaAdapter.addData(areaBeanList);
+        areas=areaBeanList;
+        initView(areaBeanList);
     }
+
+
+//    @Override
+//    public void showAreas(PageBean<AreaBean> areaBeanList) {
+//        areaAdapter.addData(areaBeanList.getDatas());
+//        if (areaBeanList.isHasMore())
+//            pageIndex++;
+//        areaAdapter.setEnableLoadMore(areaBeanList.isHasMore());
+    //}
+
 }
