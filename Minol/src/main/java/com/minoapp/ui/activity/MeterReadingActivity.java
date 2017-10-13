@@ -2,6 +2,7 @@ package com.minoapp.ui.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -35,9 +36,7 @@ import butterknife.BindView;
 
 public class MeterReadingActivity extends BaseActivity implements ReadingContract.ReadingView, View.OnClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
-    String meterType = "";
-    BuildMeterReadingAdapter buildMeterReadingAdapter;
-    TempReadingAdapter tempReadingAdapter;
+
     @BindView(R.id.tv_hca_reading_search)
     TextView tvHcaReadingSearch;
     @BindView(R.id.tv_hca_reading_startdate)
@@ -46,20 +45,23 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     TextView tvHcaReadingEnddate;
     @BindView(R.id.recyc_reading)
     RecyclerView recycReading;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fab_chart)
+    FloatingActionButton fab_chart;
 
     ProgressDialog progressDialog;
     ReadingPresenter presenter;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    String meterType = "";
+    BuildMeterReadingAdapter buildMeterReadingAdapter;
+    TempReadingAdapter tempReadingAdapter;
     int pageIndex = 1;
     int pageSize = 10;
     int meterId = 0;
-    String startDate,endDate = "";
+    String startDate, endDate = "";
     CustomDatePicker customSDatePicker, customEDatePicker;
     String meterName = "";
-    @BindView(R.id.rotateloading)
-    RotateLoading rotateloading;
-
+    int objectId=0;
     @Override
     protected String getTAG() {
         return MeterReadingActivity.class.getSimpleName();
@@ -78,6 +80,7 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
         if (bundle != null) {
             meterType = bundle.getString(Constant.METER_TYPE);
             meterId = bundle.getInt(Constant.METER_ID);
+            objectId=bundle.getInt(Constant.OBJECT_ID);
             if (meterType.equals("1")) {
                 meterName = "热量表";
             } else if (meterType.equals("3")) {
@@ -94,13 +97,13 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
         initAdapter();
         initDatePicker();
         tvHcaReadingSearch.setOnClickListener(this);
+        fab_chart.setOnClickListener(this);
         IReadingModel model = new ReadingModel();
         presenter = new ReadingPresenter(model, this);
-        //searchData();
         if (meterType.equals("1")) {
-            presenter.getBuildMeterReadings(meterId,pageIndex, pageSize);
+            presenter.getBuildMeterReadings(meterId, pageIndex, pageSize);
         } else if (meterType.equals("3")) {
-            presenter.getTempReadings(meterId,pageIndex, pageSize);
+            presenter.getTempReadings(meterId, pageIndex, pageSize);
         }
     }
 
@@ -154,7 +157,6 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     @Override
     public void showLoading() {
         progressDialog.show();
-        //rotateloading.start();
     }
 
     @Override
@@ -165,9 +167,7 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
     @Override
     public void dismissLoading() {
         if (progressDialog.isShowing())
-            progressDialog.dismiss();
-//        if(rotateloading.isStart())
-//            rotateloading.stop();
+            progressDialog.dismiss();//        if(rotateloading.isStart())
     }
 
     @Override
@@ -191,11 +191,10 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void showBLastReadings(PageBean<BuildMeterReadingBean> pageBean) {
-        if (pageBean.getTotalCount()>0){
+        if (pageBean.getTotalCount() > 0) {
             tvHcaReadingEnddate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
             tvHcaReadingStartdate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
-        }
-        else {
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
             Calendar calendar = Calendar.getInstance();
             tvHcaReadingEnddate.setText(sdf.format(calendar.getTime()));
@@ -223,11 +222,10 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
     @Override
     public void showTempLastReading(PageBean<ReadingBean> pageBean) {
-        if (pageBean.getTotalCount()>0){
+        if (pageBean.getTotalCount() > 0) {
             tvHcaReadingEnddate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
             tvHcaReadingStartdate.setText(pageBean.getDatas().get(0).getDate().split("T")[0]);
-        }
-        else {
+        } else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
             Calendar calendar = Calendar.getInstance();
@@ -263,6 +261,13 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
             case R.id.tv_hca_reading_search:
                 searchData();
                 break;
+            case R.id.fab_chart:
+                Bundle bundle=new Bundle();
+                bundle.putInt(Constant.OBJECT_ID,objectId);
+                bundle.putInt(Constant.METER_ID,meterId);
+                bundle.putString(Constant.ENDATE,tvHcaReadingEnddate.getText().toString());
+                openActivity(DataChartActivity.class,bundle);
+                break;
 
         }
     }
@@ -275,11 +280,11 @@ public class MeterReadingActivity extends BaseActivity implements ReadingContrac
 
         if (meterType.equals("1")) {
             buildMeterReadingAdapter.getData().clear();
-           // buildMeterReadingAdapter.notifyDataSetChanged();
+            // buildMeterReadingAdapter.notifyDataSetChanged();
             presenter.getBuildMeterReadings(meterId, startDate, endDate, pageIndex, pageSize);
         } else if (meterType.equals("3")) {
             tempReadingAdapter.getData().clear();
-           // tempReadingAdapter.notifyDataSetChanged();
+            // tempReadingAdapter.notifyDataSetChanged();
             presenter.getTempReadings(meterId, startDate, endDate, pageIndex, pageSize);
         }
 

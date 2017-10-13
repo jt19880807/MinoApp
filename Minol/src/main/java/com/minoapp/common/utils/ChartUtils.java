@@ -2,182 +2,35 @@ package com.minoapp.common.utils;
 
 import android.graphics.Color;
 
-
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-
-import java.util.Calendar;
-import java.util.List;
-
 /**
- * Created by Devin on 2017/9/15.
+ * Created by Devin on 2017/9/26.
  */
 
 public class ChartUtils {
 
-    public static int dayValue = 0;
-    public static int weekValue = 1;
-    public static int monthValue = 2;
-
-    public static LineChart initChart(LineChart chart) {
-        // 不显示数据描述
-        chart.getDescription().setEnabled(false);
-        // 没有数据的时候，显示“暂无数据”
-        chart.setNoDataText("暂无数据");
-        // 不显示表格颜色
-        chart.setDrawGridBackground(false);
-        // 不可以缩放
-        chart.setScaleEnabled(false);
-        // 不显示y轴右边的值
-        chart.getAxisRight().setEnabled(false);
-        // 不显示图例
-        Legend legend = chart.getLegend();
-        legend.setEnabled(false);
-        // 向左偏移15dp，抵消y轴向右偏移的30dp
-        chart.setExtraLeftOffset(-15);
-
-        XAxis xAxis = chart.getXAxis();
-        // 不显示x轴
-        xAxis.setDrawAxisLine(false);
-        // 设置x轴数据的位置
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setTextSize(12);
-        xAxis.setGridColor(Color.parseColor("#30FFFFFF"));
-        // 设置x轴数据偏移量
-        xAxis.setYOffset(-12);
-
-        YAxis yAxis = chart.getAxisLeft();
-        // 不显示y轴
-        yAxis.setDrawAxisLine(false);
-        // 设置y轴数据的位置
-        yAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        // 不从y轴发出横向直线
-        yAxis.setDrawGridLines(false);
-        yAxis.setTextColor(Color.WHITE);
-        yAxis.setTextSize(12);
-        // 设置y轴数据偏移量
-        yAxis.setXOffset(30);
-        yAxis.setYOffset(-3);
-        yAxis.setAxisMinimum(0);
-
-        //Matrix matrix = new Matrix();
-        // x轴缩放1.5倍
-        //matrix.postScale(1.5f, 1f);
-        // 在图表动画显示之前进行缩放
-        //chart.getViewPortHandler().refresh(matrix, chart, false);
-        // x轴执行动画
-        //chart.animateX(2000);
-        chart.invalidate();
-        return chart;
-
-    }
-
-    /**
-     * 设置图表数据
-     *
-     * @param chart  图表
-     * @param values 数据
-     */
-    public static void setChartData(LineChart chart, List<Entry> values) {
-        LineDataSet lineDataSet;
-
-        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
-            lineDataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
-            lineDataSet.setValues(values);
-            chart.getData().notifyDataChanged();
-            chart.notifyDataSetChanged();
-        } else {
-            lineDataSet = new LineDataSet(values, "");
-            // 设置曲线颜色
-            lineDataSet.setColor(Color.parseColor("#FFFFFF"));
-            // 设置平滑曲线
-            lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-            // 不显示坐标点的小圆点
-            lineDataSet.setDrawCircles(false);
-            // 不显示坐标点的数据
-            lineDataSet.setDrawValues(false);
-            // 不显示定位线
-            lineDataSet.setHighlightEnabled(false);
-
-            LineData data = new LineData(lineDataSet);
-            chart.setData(data);
-            chart.invalidate();
-        }
-    }
-
-    /**
-     * 更新图表
-     *
-     * @param chart     图表
-     * @param values    数据
-     * @param valueType 数据类型
-     */
-    public static void notifyDataSetChanged(LineChart chart, List<Entry> values,final String[] xdatas,
-                                            final int valueType) {
-        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                if (valueType==weekValue) {
-                    return xValuesProcess(valueType)[(int) value];
-                }
-                return xdatas[(int) value];
-            }
-        });
-
-        chart.invalidate();
-        setChartData(chart, values);
-    }
-
-    /**
-     * x轴数据处理
-     *
-     * @param valueType 数据类型
-     * @return x轴数据
-     */
-    private static String[] xValuesProcess(int valueType) {
-        String[] week = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
-
-        if (valueType == dayValue) { // 今日
-            String[] dayValues = new String[7];
-            long currentTime = System.currentTimeMillis();
-            for (int i = 6; i >= 0; i--) {
-                dayValues[i] = TimeUtils.dateToString(currentTime, TimeUtils.dateFormat_day);
-                currentTime -= (3 * 60 * 60 * 1000);
-            }
-            return dayValues;
-
-        } else if (valueType == weekValue) { // 本周
-            String[] weekValues = new String[7];
-            Calendar calendar = Calendar.getInstance();
-            int currentWeek = calendar.get(Calendar.DAY_OF_WEEK);
-
-            for (int i = 6; i >= 0; i--) {
-                weekValues[i] = week[currentWeek - 1];
-                if (currentWeek == 1) {
-                    currentWeek = 7;
-                } else {
-                    currentWeek -= 1;
-                }
-            }
-            return weekValues;
-
-        } else if (valueType == monthValue) { // 本月
-            String[] monthValues = new String[7];
-            long currentTime = System.currentTimeMillis();
-            for (int i = 6; i >= 0; i--) {
-                monthValues[i] = TimeUtils.dateToString(currentTime, TimeUtils.dateFormat_month);
-                currentTime -= (4 * 24 * 60 * 60 * 1000);
-            }
-            return monthValues;
-        }
-        return new String[]{};
+    public static final int COLOR_1 = Color.parseColor("#d50000");
+    public static final int COLOR_2 = Color.parseColor("#f50057");
+    public static final int COLOR_3 = Color.parseColor("#aa00ff");
+    public static final int COLOR_4 = Color.parseColor("#6200ea");
+    public static final int COLOR_5 = Color.parseColor("#304ffe");
+    public static final int COLOR_6 = Color.parseColor("#2962ff");
+    public static final int COLOR_7 = Color.parseColor("#0091ea");
+    public static final int COLOR_8 = Color.parseColor("#00b8d4");
+    public static final int COLOR_9 = Color.parseColor("#00bfa5");
+    public static final int COLOR_10 = Color.parseColor("#00c853");
+    public static final int COLOR_11 = Color.parseColor("#64dd17");
+    public static final int COLOR_12 = Color.parseColor("#827717");
+    public static final int COLOR_13 = Color.parseColor("#f57f17");
+    public static final int COLOR_14 = Color.parseColor("#ff6f00");
+    public static final int COLOR_15 = Color.parseColor("#ff6d00");
+    public static final int COLOR_16 = Color.parseColor("#bf360c");
+    public static final int COLOR_17 = Color.parseColor("#4e342e");
+    public static final int COLOR_18 = Color.parseColor("#424242");
+    public static final int COLOR_19 = Color.parseColor("#37474f");
+    public static final int[] COLORS;
+    static {
+        COLORS = new int[]{COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5,COLOR_6,COLOR_7,COLOR_8,COLOR_9,COLOR_10,COLOR_11,
+                            COLOR_12,COLOR_13,COLOR_14,COLOR_15,COLOR_16,COLOR_17,COLOR_18,COLOR_19};
     }
 }
+

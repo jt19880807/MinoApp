@@ -30,7 +30,7 @@ public class TempReadingAdapter extends BaseQuickAdapter<ReadingBean,BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, ReadingBean item) {
         helper.setText(R.id.tv_temp_reading_bh,item.getMeterNumber())
-                .setText(R.id.tv_temp_reading_date,item.getDate())
+                .setText(R.id.tv_temp_reading_date,item.getDate().replace("T"," "))
                 .setText(R.id.tv_temp_reading_snwd,item.getValue()+"℃")
                 .setText(R.id.tv_temp_reading_pjwd,item.getValue()+"℃");
 

@@ -1,1 +1,1 @@
-include ':Minol'
+include ':Minol', ':HelloChartsDemo'

@@ -5,6 +5,7 @@ import com.minoapp.base.BaseResponse;
 import com.minoapp.data.bean.AreaBean;
 import com.minoapp.data.bean.BillingInfoBean;
 import com.minoapp.data.bean.BuildMeterReadingBean;
+import com.minoapp.data.bean.ChartDataBean;
 import com.minoapp.data.bean.Customer;
 import com.minoapp.data.bean.CustomerBean;
 import com.minoapp.data.bean.HCABean;
@@ -301,5 +302,12 @@ public interface ApiService {
     @GET("heatstation/getheatstationmetelastreadings/{meterId}/{meterType}")
     Observable<BaseResponse<PageBean<HSMeterReadingBean>>> getHeatStationMeterLastReadings(@Path("meterId") int meterId,
                                                                                            @Path("meterType") int meterType);
+
+
+//    图表展示
+    @GET("chartdata/getchartdatafortempdaytype/{meterIds}/{startDate}/{endDate}")
+    Observable<BaseResponse<List<ChartDataBean>>> getChartData(@Path("meterIds") String meterIds,
+                                                               @Path("startDate") String startDate,
+                                                               @Path("endDate") String endDate);
 
 }

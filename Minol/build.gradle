@@ -49,5 +49,6 @@ dependencies {
     compile 'com.mikepenz:iconics-core:2.8.1@aar'
     compile 'com.mikepenz:ionicons-typeface:2.0.1.2@aar'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
     testCompile 'junit:junit:4.12'
 }

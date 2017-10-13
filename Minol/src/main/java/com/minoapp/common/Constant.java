@@ -21,6 +21,7 @@ public class Constant {
     public static final String HEATSTATION_NAME ="HeatStationName";
     public static final String HEATSTATION_METER_TYPE="HeatStationMeterType";
     public static final String HEATSTATION_METER_COUNT="HeatStationMeterCount";
+    public static final String ENDATE="EndDate";
     //换热站表计
     //热量表
     public static final int HEATSTATION_METER_RLB=3;

@@ -18,7 +18,7 @@ public class MeterBean extends BaseEntity implements MultiItemEntity {
     private int Type;
     private int RadiatorId;
     private boolean IsDeleted;
-    private int LocalitieType;
+    private int LocalityType;
     private int MeasuringPoint;
     private int MeterType;
     private String Position;
@@ -87,12 +87,12 @@ public class MeterBean extends BaseEntity implements MultiItemEntity {
         this.IsDeleted = IsDeleted;
     }
 
-    public int getLocalitieType() {
-        return LocalitieType;
+    public int getLocalityType() {
+        return LocalityType;
     }
 
-    public void setLocalitieType(int LocalitieType) {
-        this.LocalitieType = LocalitieType;
+    public void setLocalityType(int LocalitieType) {
+        this.LocalityType = LocalitieType;
     }
 
     public int getMeasuringPoint() {

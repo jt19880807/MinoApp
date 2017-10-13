@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/HelloChartsDemo/HelloChartsDemo.iml" filepath="$PROJECT_DIR$/HelloChartsDemo/HelloChartsDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/MinoApp.iml" filepath="$PROJECT_DIR$/MinoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Minol/Minol.iml" filepath="$PROJECT_DIR$/Minol/Minol.iml" />
     </modules>

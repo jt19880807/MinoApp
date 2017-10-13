@@ -17,6 +17,7 @@ import com.minoapp.R;
 import com.minoapp.adapter.MeterListAdapter;
 import com.minoapp.base.BaseFragment;
 import com.minoapp.common.Constant;
+import com.minoapp.common.utils.ACache;
 import com.minoapp.data.bean.HCABean;
 import com.minoapp.data.bean.HeatMeterBean;
 import com.minoapp.data.bean.MeterBean;
@@ -27,6 +28,7 @@ import com.minoapp.presenter.contract.IMeterModel;
 import com.minoapp.ui.activity.MeterReadingActivity;
 import com.minoapp.ui.activity.ObjectDetaileActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,7 +59,6 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
         IMeterModel model=new MeterModel();
         presenter=new MeterPresenter(model,this);
         if (userBean.getRoleName().equals("住户")) {
-            //暂时写死
             presenter.getTemp(userBean.getLocalityId(),2);
         }
         else {
@@ -83,6 +84,10 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
 
     @Override
     public void showTemp(List<MeterBean> beanList) {
+        ACache aCache=ACache.get(getActivity());
+
+        aCache.remove("temps-"+objectId);
+        aCache.put("temps-"+objectId,(ArrayList<MeterBean>)beanList);
         adapter.addData(beanList);
     }
 
@@ -108,6 +113,7 @@ public class TempFragment extends BaseFragment implements MeterContract.HeatMete
                 Bundle bundle=new Bundle();
                 bundle.putString(Constant.METER_TYPE,"3");
                 bundle.putInt(Constant.METER_ID,meterBean.getID());
+                bundle.putInt(Constant.OBJECT_ID,objectId);
                 openActivity(MeterReadingActivity.class,bundle);
             }
         });

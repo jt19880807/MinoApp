@@ -5,20 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_chart"
     tools:context="com.minoapp.ui.activity.DataChartActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+            android:id="@id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:title="@string/customerBean"
+            app:navigationIcon="@mipmap/back">
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:orientation="vertical">
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_chart">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="40dp">
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="按日"
+                android:text="按时"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:paddingBottom="2dp"
@@ -33,6 +48,7 @@
                 android:clickable="true"
                 android:padding="10dp"
                 android:src="@mipmap/ic_collapse" />
+
             <TextView
                 android:id="@+id/tv_unit"
                 android:layout_width="wrap_content"
@@ -45,6 +61,69 @@
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/tv_hour_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017-10-11"
+                android:textSize="18sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+            <TextView
+                android:id="@+id/tv_hour_date_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前一天"
+                android:textSize="14sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_toLeftOf="@+id/tv_hour_date"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_hour_date_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="后一天"
+                android:textSize="14sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_toRightOf="@+id/tv_hour_date"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_day_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017-10-11"
+                android:textSize="18sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tv_day_date_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前一月"
+                android:textSize="14sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_toLeftOf="@+id/tv_day_date"
+                android:visibility="gone"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_day_date_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="后一月"
+                android:textSize="14sp"
+                android:textColor="@color/colorObjectText"
+                android:layout_toRightOf="@+id/tv_day_date"
+                android:visibility="gone"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -53,13 +132,11 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <View
                 android:layout_width="32dp"
                 android:layout_height="match_parent"
                 android:alpha="0.3"
                 android:background="#FFFFFF" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
@@ -68,11 +145,75 @@
                 android:layout_marginLeft="32dp"
                 android:background="#FFFFFF" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/hellochart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginBottom="10dp"/>
 
         </FrameLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#607d8b">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:id="@+id/tv_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="#fff"
+                android:text="请选择住户"
+                android:textSize="15sp" />
+
+            <CheckBox
+                android:id="@+id/select_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_prompt"
+                android:layout_alignBottom="@+id/tv_prompt"
+                android:layout_toLeftOf="@+id/tv_search"
+                android:textColor="#fff"
+                android:button="@drawable/checkbox_allselect"
+                android:text="全选"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignBaseline="@+id/tv_prompt"
+                android:layout_alignBottom="@+id/tv_prompt"
+                android:textSize="15sp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#fff"/>
+            <View
+                android:id="@+id/view_linerr"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="45dp"
+                android:background="#e1e1e1" />
+            <GridView
+                android:id="@+id/gridview_residents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/view_linerr"
+                android:numColumns="4" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

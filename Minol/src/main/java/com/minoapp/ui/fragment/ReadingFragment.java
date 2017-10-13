@@ -64,8 +64,6 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     String lastDate = "";
     String startDate = "";
     String endDate = "";
-    @BindView(R.id.rotateloading)
-    RotateLoading rotateloading;
     private CustomDatePicker customSDatePicker, customEDatePicker;
     ProgressDialog progressDialog;
 
@@ -257,8 +255,7 @@ public class ReadingFragment extends BaseFragment implements ReadingContract.Rea
     public void dismissLoading() {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
-//        if (rotateloading.isStart())
-//            rotateloading.stop();
+
     }
 
 
